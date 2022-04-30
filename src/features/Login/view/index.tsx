@@ -9,26 +9,30 @@ import {
 import { useNavigation } from "@react-navigation/native";
 
 import { images } from "@app/assets";
-import CustomButton from "@app/components/atoms/Button";
-import Card from "@app/components/atoms/Card";
 import DismissKeyboard from "@app/components/atoms/DismissKeyboard";
 import Divide from "@app/components/atoms/Divide";
-import Input from "@app/components/atoms/Input";
 import { Caption } from "@app/components/atoms/Text";
-import { colors, dimens } from "@app/configs/Theme";
+import { colors } from "@app/configs/Theme";
+import loginService from "@app/services/login";
 
 import styles from "./styles";
+import useLoginRepository from "../data/loginRepository";
+import { TLoginViewModel, useLoginViewModel } from "./loginViewModel";
+import LoginForm from "./Form";
 
 const Login = () => {
   const navigation = useNavigation();
   const theme = colors();
 
+  const loginRepository = useLoginRepository(loginService);
+  const { isLoading, tryLogin } = useLoginViewModel(loginRepository);
+
   const handleNavigateCreateAccount = () => {
     navigation.navigate("CreateAccount");
   };
 
-  const handleLogin = () => {
-    navigation.navigate("Home");
+  const handleLogin = (data: TLoginViewModel) => {
+    tryLogin({ email: data.email, password: data.password });
   };
 
   return (
@@ -36,32 +40,16 @@ const Login = () => {
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles(theme).container}>
-        <View style={{}}>
+        <View>
           <Image source={images.brandLettering} style={styles(theme).image} />
-          <Card style={{ padding: dimens.base }}>
-            <Input
-              icon="mail"
-              label="Email"
-              placeholder="Digite seu email"
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-            <View style={{ marginTop: dimens.small }}>
-              <Input
-                icon="key"
-                label="Senha"
-                placeholder="Digite sua senha"
-                secureTextEntry
-              />
-            </View>
-          </Card>
-          <CustomButton
-            title="Entrar"
-            onPress={handleLogin}
-            styleButton={{ marginTop: dimens.xlarge }}
-          />
+          <LoginForm onValidateSuccess={handleLogin} loading={isLoading} />
         </View>
         <Divide />
+        <TouchableOpacity onPress={handleNavigateCreateAccount}>
+          <Caption align="center" color="primary">
+            Esqueci minha senha
+          </Caption>
+        </TouchableOpacity>
         <TouchableOpacity onPress={handleNavigateCreateAccount}>
           <Caption align="center" color="black">
             É novo por aqui? Crie sua conta agora.

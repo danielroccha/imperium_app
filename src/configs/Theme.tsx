@@ -7,6 +7,7 @@ const commomColors = {
   warning: "#F4A540",
   green: "#7AC735",
   transparent: "transparent",
+  blackTransparent: "rgba(0, 0, 0, 0.5)",
   white: "#FFF",
   black: "#000",
   grey: "#b0b0b0",

@@ -18,9 +18,9 @@ const getRefreshToken = () => AsyncStorage.getItem(KEYS.REFRESH_TOKEN);
 
 const removeAllKeys = () => {
   try {
-    return AsyncStorage.multiRemove(Object.values(KEYS));
+    AsyncStorage.multiRemove(Object.values(KEYS));
   } catch (err) {
-    return null;
+    console.log(err);
   }
 };
 

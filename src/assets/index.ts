@@ -1,5 +1,6 @@
 const lotties = {
   loading: require("./lotties/loading.json"),
+  empty: require("./lotties/empty.json"),
 };
 
 const images = {

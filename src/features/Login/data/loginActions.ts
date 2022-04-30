@@ -1,6 +1,6 @@
-import Storage from "@app/configs/Storage";
+import Storage from "@app/configs/storage";
 import { dispatchStore } from "@app/configs/store";
-import { AuthenticationFlow } from "./login-types";
+import { AuthenticationFlow } from "./loginTypes";
 import { Action, Dispatch } from "redux";
 
 export const changeAuthenticationFlow =

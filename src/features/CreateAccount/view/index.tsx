@@ -6,26 +6,41 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-import { images } from "@app/assets";
-import CustomButton from "@app/components/atoms/Button";
-import Card from "@app/components/atoms/Card";
 import DismissKeyboard from "@app/components/atoms/DismissKeyboard";
 import Divide from "@app/components/atoms/Divide";
-import Input from "@app/components/atoms/Input";
 import { Caption } from "@app/components/atoms/Text";
-import { colors, dimens } from "@app/configs/Theme";
+
+import CreateAccountForm from "@app/features/CreateAccount/view/Form";
+import {
+  TCreateAccountViewModel,
+  useCreateAccountViewModel,
+} from "@app/features/CreateAccount/view/createAccountViewModel";
+import useCreateAccountRepository from "@app/features/CreateAccount/data/createAccountRepository";
+import signUpService from "@app/services/createAccout";
+
+import { images } from "@app/assets";
+import { colors } from "@app/configs/Theme";
 
 import styles from "./styles";
-import { useNavigation } from "@react-navigation/native";
 
 const CreateAccount = () => {
   const navigation = useNavigation();
   const theme = colors();
 
+  const createAccountRepository = useCreateAccountRepository(signUpService);
+
+  const { createAccount, isLoading } = useCreateAccountViewModel(
+    createAccountRepository,
+  );
+
   const handleNavigateCreateAccount = () => {
-    console.log("teste");
     navigation.goBack();
+  };
+
+  const handleSuccessFormCreateAccount = (data: TCreateAccountViewModel) => {
+    createAccount(data);
   };
 
   return (
@@ -33,46 +48,11 @@ const CreateAccount = () => {
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles(theme).container}>
-        <View style={{}}>
+        <View>
           <Image source={images.brandLettering} style={styles(theme).image} />
-          <Card style={{ padding: dimens.base }}>
-            <Input
-              icon="user"
-              label="Nome Completo"
-              placeholder="Digite seu email"
-              keyboardType="name-phone-pad"
-              autoCorrect={false}
-              autoCapitalize="none"
-            />
-            <View style={{ marginTop: dimens.small }}>
-              <Input
-                icon="mail"
-                label="Email"
-                placeholder="Digite sua senha"
-                secureTextEntry
-              />
-            </View>
-            <View style={{ marginTop: dimens.small }}>
-              <Input
-                icon="key"
-                label="Senha"
-                placeholder="Digite sua senha"
-                secureTextEntry
-              />
-            </View>
-            <View style={{ marginTop: dimens.small }}>
-              <Input
-                icon="key"
-                label="Confirmar senha"
-                placeholder="Digite sua senha"
-                secureTextEntry
-              />
-            </View>
-          </Card>
-          <CustomButton
-            title="Entrar"
-            onPress={handleNavigateCreateAccount}
-            styleButton={{ marginTop: dimens.xlarge }}
+          <CreateAccountForm
+            loading={isLoading}
+            onValidateSuccess={handleSuccessFormCreateAccount}
           />
         </View>
         <Divide />

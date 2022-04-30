@@ -1,17 +1,5 @@
 {
-  "javascript.format.enable": false,
-  "javascript.validate.enable": false,
-  "editor.formatOnPaste": true,
-  "[typescript]": {
     "editor.formatOnSave": true,
-    "editor.formatOnPaste": true
-  },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": false,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
-  // "eslint.autoFixOnSave": true,
-  "editor.rulers": [120],
-  "eslint.validate": ["javascript", "typescript"]
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true
 }

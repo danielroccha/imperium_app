@@ -16,7 +16,7 @@ import { fontSize, colors } from "@app/configs/Theme";
 
 export type TextAlign = "center" | "auto" | "left" | "right" | "justify";
 
-type Props = {
+export type BaseProps = {
   children: ReactNode;
   color?: ColorsPropType;
   size?: FontSizePropType;
@@ -26,7 +26,7 @@ type Props = {
   align?: TextAlign;
 };
 
-const Base: FC<Props> = ({
+const Base: FC<BaseProps> = ({
   children,
   color = "contrast",
   size = "regular",
@@ -35,7 +35,7 @@ const Base: FC<Props> = ({
   capitalize,
   align = "auto",
   ...props
-}: Props) => {
+}: BaseProps) => {
   const text = capitalize ? textCapitalize(children) : children;
   const getFontFamily = (bold: FontWeightPropType): string => {
     switch (bold) {

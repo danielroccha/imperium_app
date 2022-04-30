@@ -2,7 +2,7 @@ import {
   IAuthenticationFlowState,
   AuthenticationFlowActionsTypes,
   AUTHENTICATION_FLOW,
-} from "./login-types";
+} from "./loginTypes";
 
 const INITIAL_STATE: IAuthenticationFlowState = {
   authenticationFlow: null,

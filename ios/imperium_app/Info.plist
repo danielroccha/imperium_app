@@ -41,6 +41,7 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>MaterialCommunityIcons.ttf</string>
 		<string>Feather.ttf</string>
 		<string>Montserrat-Bold.ttf</string>
 		<string>Montserrat-ExtraBold.ttf</string>

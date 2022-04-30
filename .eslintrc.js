@@ -1,8 +1,13 @@
 module.exports = {
   root: true,
-  extends: "@react-native-community",
+  extends: [
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "prettier",
+  ],
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
+  plugins: ["react", "react-hooks", "@typescript-eslint", "prettier"],
   overrides: [
     {
       files: ["*.ts", "*.tsx"],
@@ -12,6 +17,8 @@ module.exports = {
         "no-undef": "off",
         quotes: ["error", "double", { allowTemplateLiterals: true }],
         indent: "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "error",
       },
     },
   ],

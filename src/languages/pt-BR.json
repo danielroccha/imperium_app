@@ -1,0 +1,119 @@
+{
+  "common": {
+    "welcome": "Bem vindo",
+    "ooops": "Ooops!",
+    "success":"Sucesso",
+    "example": "Exemplo",
+    "congratulations": "Parabéns",
+    "version": "Versão",
+    "attention": "Atenção",
+    "something_went_wrong":"Alguma coisa deu errado",
+    "days": {
+      "sunday": "Domingo",
+      "monday": "Segunda-feira",
+      "tuesday": "Terça-feira",
+      "wednesday": "Quarta-feira",
+      "thursday": "Quinta-feira",
+      "friday": "Sexta-feira",
+      "saturday": "Sabádo"
+    },
+    "come_back_later_or_contact_the_person_responsible_for_the_class": "Volte mais tarde ou entre em contato com o responsável pela turma.",
+    "learn":"Aprender",
+    "are_you_enjoying_our_app":"Está gostando do nosso app?",
+    "help_us_by_leaving_your_review":"Nos ajude deixando sua avaliação.",
+    "tell_us_about_your_experience":"Conte-nos sobre sua experiência",
+    "your_feedback_is_very_important_for_future_improvements":"Seu feedback é muito importante para próximas melhorias."
+  },
+  "home": {
+    "update_version": "Nosso app tem uma nova versão.É só apertar aqui e atualizar.",
+    "see_your_progress": "Veja seu progresso",
+    "lets_practice": "Vamos praticar?"
+  },
+  "profile": {
+    "profile": "Perfil",
+    "hi": "Olá, {{name}}",
+    "dark_mode": "Modo escuro",
+    "you_need_to_give_camera_permission_to_use_this_functionality": "Você precisa dar permissão de câmera para usar essa funcionalidade",
+    "notifications_duke": "Notificações do DuKe",
+    "notifications_classe": "Notificações da turma",
+    "notifications": "Notificações",
+    "allow_notifications": "Permitir notificações",
+    "if_you_disable_duke_notifications_you_will_not_receive_notification_from_any_class": "Se você desativar as notificações do DuKe você não receberá notificação de nenhuma turma ",
+    "notifications_type": {
+      "NOTICES": "Avisos",
+      "NEW_CONTENT": "Novos conteúdos"
+    },
+    "change_password": "Alterar senha",
+    "you_are_logged_in_with_your_account": "Você está logado com a sua conta {{login}}",
+    "change_profile": "Alterar perfil",
+    "fullname": "Nome completo",
+    "edit_photo": "Editar foto",
+    "edit_profile": "Editar perfil",
+    "tutorial": "Tutorial",
+    "appearance": "Aparência",
+    "rate_our_app_in_the_store": "Avalie nosso app na loja",
+    "logout": "Finalizar sessão",
+    "permission_to_use_camera": "Permissão para usar câmera",
+    "permission_to_use_audio_recording": "Permissão para usar gravação de áudio"
+  },
+  "dashboard": {
+  },
+  "deprecated_version": {
+    "old_version": "Esta versão do aplicativo está muito antiga.",
+    "update_to_new_features": "Atualize para ter em mãos novas funcionalidades e melhorias."
+  },
+  "connection": {
+    "no_connection": "Sem Conexão com a internet.",
+    "check_your_connection": "Verifique sua conexão!"
+  },
+  "auth": {
+    "account_created_do_login": "Se você já tem uma conta é só fazer seu login :)",
+    "create_account": "É novo por aqui? Crie uma conta!",
+    "show_password": "Exibir senha",
+    "forgot_password": "Esqueci minha senha",
+    "or_make_login": "ou faça login com",
+    "forgot_your_password": "Você esqueceu sua senha? Não se preocupe nós temos uma nova senha para você.",
+    "new_password_sent_your_email": "Uma nova senha foi enviada para o seu email."
+  },
+  "languages": {
+    "en": "Inglês",
+    "es": "Espanhol",
+    "fr": "Francês"
+  },
+  "fields": {
+    "name_and_lastname": "Nome e sobrenome",
+    "email": "E-mail",
+    "password": "Senha",
+    "confirm_password": "Confirmar senha",
+    "new_password": "Nova senha",
+    "date_birth": "Data nascimento",
+    "nickname": "Nickname"
+  },
+  "buttons": {
+    "create_account": "Criar conta",
+    "enter": "Entrar",
+    "back": "Voltar",
+    "reset_password": "Redefinir senha",
+    "continue": "Continuar",
+    "ok": "Ok",
+    "cancel": "Cancelar",
+    "finish": "Finalizar",
+    "try_again": "Tentar Novamente",
+    "lets_go": "Vamos lá?",
+    "next": "Próximo",
+    "skip": "Pular",
+    "yes": "Sim",
+    "no": "Não",
+    "save": "Salvar",
+    "update": "Atualizar"
+  },
+  "placeholders": {
+  },
+  "notification_messages": {
+  },
+  "messages_loading": {
+  },
+  "error_messages": {
+    "ERROR_LOGIN_0000": "Email ou senha inválidos."
+  }
+}

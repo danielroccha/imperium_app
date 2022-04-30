@@ -17,7 +17,7 @@ type CustomButtonProps = {
   title: string;
   styleButton?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
-  onPress?: () => void | undefined;
+  onPress?: () => void;
   backgroundColor?: ColorsPropType;
   disabled?: boolean;
   loading?: boolean;
