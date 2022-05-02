@@ -5,7 +5,7 @@ import { lotties } from "@app/assets";
 import LottieView from "lottie-react-native";
 import styles from "./styles";
 
-const Loading = () => {
+const LoadingPage = () => {
   const theme = colors();
   return (
     <View style={styles(theme).container}>
@@ -16,4 +16,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default LoadingPage;

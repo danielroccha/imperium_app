@@ -1,4 +1,5 @@
 import { TRANSACTION_TYPE } from "@app/constants";
+import { ICategoryEntity } from "@app/features/Category/data/ICategoryEntity";
 
 export default interface IBalanceResumeEntity {
   balanceResume: IBalance;
@@ -12,7 +13,7 @@ interface IBalance {
 }
 
 interface ITransactionSectionDate {
-  section: string;
+  section: { date: string; value: number };
   data: ITransaction[];
 }
 
@@ -25,12 +26,4 @@ interface ITransaction {
   userId: string;
   categoryId: string;
   category: ICategoryEntity;
-}
-
-export interface ICategoryEntity {
-  id?: string;
-  name: string;
-  icon: string;
-  color: string;
-  userId: string;
 }

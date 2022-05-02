@@ -1,17 +1,20 @@
+import { StyleSheet } from "react-native";
+
 import { dimens, getShadow } from "@app/configs/Theme";
 import { AvailableColors } from "@app/types/ThemeType";
-import { StyleSheet } from "react-native";
 
 export default (theme: AvailableColors) =>
   StyleSheet.create({
     container: {
       flexDirection: "row",
-      justifyContent: "space-between",
+      margin: dimens.xtiny,
       alignItems: "center",
-      paddingHorizontal: dimens.small,
-      height: 50,
-      ...getShadow(4),
+      justifyContent: "center",
+      borderWidth: 2,
+      padding: dimens.xtiny,
+      borderRadius: 10,
+      borderColor: theme.white,
+      ...getShadow(2),
       backgroundColor: theme.white,
-      zIndex: 999,
     },
   });

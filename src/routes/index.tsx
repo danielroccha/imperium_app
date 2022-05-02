@@ -9,7 +9,7 @@ import { RootState } from "@app/configs/store";
 import { changeAuthenticationFlow } from "@app/features/Login/data/loginActions";
 
 import storage from "@app/configs/storage";
-import Loading from "@app/components/pages/Loading";
+import LoadingPage from "@app/components/pages/LoadingPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -57,7 +57,7 @@ const RootStack = () => {
   }, [token, checkTokenExists, autheticationFlow]);
 
   if (loading) {
-    return <Loading />;
+    return <LoadingPage />;
   }
 
   return (

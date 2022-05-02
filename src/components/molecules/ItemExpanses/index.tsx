@@ -8,6 +8,7 @@ import { colors } from "@app/configs/Theme";
 import styles from "./styles";
 import TextMoney from "@app/components/atoms/TextMoney";
 import { TRANSACTION_TYPE } from "@app/constants";
+import CategoryIcon from "../CategoryIcon";
 
 type ItemExpansesProps = {
   title: string;
@@ -30,10 +31,7 @@ const ItemExpanses = ({
 
   return (
     <View style={styles(theme).container}>
-      <View
-        style={[styles(theme).categoryContainer, { backgroundColor: color }]}>
-        <Icon name={icon} size={22} color={theme.mode} />
-      </View>
+      <CategoryIcon icon={icon} color={color} />
       <View style={styles(theme).content}>
         <View>
           <Body>{title}</Body>

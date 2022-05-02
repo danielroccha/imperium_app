@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity, Platform } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
 import { images } from "@app/assets";
@@ -7,6 +7,7 @@ import { Regular } from "@app/components/atoms/Text";
 import { colors } from "@app/configs/Theme";
 
 import styles from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
 type NavBarProps = {
   iconRight?: string;
@@ -16,6 +17,7 @@ type NavBarProps = {
   imageCentral?: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   imageProfile?: any;
+  backAction?: boolean;
   onClickActionRight?: () => void;
   onClickActionLeft?: () => void;
 };
@@ -27,8 +29,11 @@ const NavBar = ({
   onClickActionLeft,
   onClickActionRight,
   title,
+  backAction,
 }: NavBarProps) => {
   const theme = colors();
+
+  const navigation = useNavigation();
 
   const handleClickRightAction = () => {
     if (onClickActionRight) {
@@ -38,10 +43,28 @@ const NavBar = ({
     }
   };
 
+  const handleClickLeftAction = () => {
+    if (backAction) {
+      navigation.goBack();
+    } else {
+      if (onClickActionLeft) onClickActionLeft();
+    }
+  };
+
+  const getIcon = () => {
+    if (Platform.OS === "ios") {
+      return "chevron-left";
+    }
+    return "arrow-left";
+  };
+
   return (
     <View style={styles(theme).container}>
-      <TouchableOpacity style={{ width: 40 }} onPress={onClickActionLeft}>
-        {iconLeft && <Icon name={iconLeft} size={22} color={theme.primary} />}
+      <TouchableOpacity style={{ width: 40 }} onPress={handleClickLeftAction}>
+        {iconLeft && <Icon name={iconLeft} size={25} color={theme.primary} />}
+        {backAction && (
+          <Icon name={getIcon()} size={25} color={theme.primary} />
+        )}
       </TouchableOpacity>
       <View>
         {imageCentral ? (
@@ -55,10 +78,15 @@ const NavBar = ({
         )}
       </View>
       <TouchableOpacity
-        style={{ width: 40, height: 40 }}
+        style={{
+          width: 40,
+          height: 40,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
         onPress={handleClickRightAction}>
         {iconRight ? (
-          <Icon name={iconRight} size={22} color={theme.primary} />
+          <Icon name={iconRight} size={25} color={theme.primary} />
         ) : (
           <Image
             source={{

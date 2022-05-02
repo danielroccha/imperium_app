@@ -10,13 +10,6 @@ export default (theme: AvailableColors) =>
       padding: 10,
       alignItems: "center",
     },
-    categoryContainer: {
-      justifyContent: "center",
-      alignItems: "center",
-      width: 42,
-      height: 42,
-      borderRadius: 25,
-    },
     content: {
       flex: 1,
       flexDirection: "row",

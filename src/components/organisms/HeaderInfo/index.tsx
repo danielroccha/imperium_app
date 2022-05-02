@@ -8,6 +8,7 @@ import { colors } from "@app/configs/Theme";
 import SectionOptions from "@app/components/organisms/SectionOptions";
 import styles from "./styles";
 import TextMoney from "@app/components/atoms/TextMoney";
+import { useNavigation } from "@react-navigation/native";
 
 type HeaderInfoProps = {
   onFilterDate: (monthIndex: number) => void;
@@ -23,6 +24,11 @@ const HeaderInfo = ({
   incomesBalance,
 }: HeaderInfoProps) => {
   const theme = colors();
+  const navigation = useNavigation();
+
+  const handleAddCategory = () => {
+    navigation.navigate("CategoryStack");
+  };
 
   return (
     <View style={styles(theme).container}>
@@ -85,7 +91,7 @@ const HeaderInfo = ({
         </View>
       </View>
       <SectionOptions
-        onTapAddCategory={() => null}
+        onTapAddCategory={handleAddCategory}
         onTapAddTransaction={() => null}
       />
     </View>

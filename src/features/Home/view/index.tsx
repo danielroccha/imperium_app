@@ -68,8 +68,11 @@ const Home = () => {
             </Caption>
           </View>
         }
-        renderSectionHeader={({ section }) => (
-          <SectionHeader date={section.section} value={236.98} />
+        renderSectionHeader={({ section: dataSection }) => (
+          <SectionHeader
+            date={dataSection.section.date}
+            value={dataSection.section.value}
+          />
         )}
       />
     </View>

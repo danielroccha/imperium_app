@@ -18,7 +18,7 @@ import { Small } from "../Text";
 type InputProps = {
   defaultValue?: string;
   label: string;
-  icon: string;
+  icon?: string;
   name: string;
   control: Control<any> | undefined;
   error: boolean;

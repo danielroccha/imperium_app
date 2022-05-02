@@ -1,4 +1,5 @@
 import { TRANSACTION_TYPE } from "@app/constants";
+import { ICategoryModel } from "@app/features/Category/domain/models/ICategoryModel";
 
 export default interface IBalanceResumeModel {
   balanceResume: IBalanceModel;
@@ -12,7 +13,7 @@ interface IBalanceModel {
 }
 
 export interface ITransactionSectionDateModel {
-  section: string;
+  section: { date: string; value: number };
   data: ITransactionModel[];
 }
 
@@ -25,12 +26,4 @@ export interface ITransactionModel {
   userId: string;
   categoryId: string;
   category: ICategoryModel;
-}
-
-export interface ICategoryModel {
-  id?: string;
-  name: string;
-  icon: string;
-  color: string;
-  userId: string;
 }

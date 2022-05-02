@@ -28,14 +28,25 @@ const SectionOptions = ({
       <View style={styles(theme).container}>
         <TouchableOpacity
           style={styles(theme).button}
+          onPress={onTapAddCategory}>
+          <View style={styles(theme).containerIcon}>
+            <Icon name="repeat" size={18} color={theme.white} />
+          </View>
+          <Small color="primary" align="center">
+            Recorrências
+          </Small>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles(theme).button}
           onPress={onTapAddTransaction}>
           <View style={styles(theme).containerIcon}>
             <Icon name="dollar-sign" size={18} color={theme.white} />
           </View>
           <Small color="primary" align="center">
-            Adicionar transação
+            Fazer lançamento
           </Small>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles(theme).button}
           onPress={onTapAddCategory}>
@@ -43,7 +54,7 @@ const SectionOptions = ({
             <Icon name="grid" size={18} color={theme.white} />
           </View>
           <Small color="primary" align="center">
-            Criar categoria
+            Categorias
           </Small>
         </TouchableOpacity>
       </View>
