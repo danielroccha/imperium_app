@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -11,29 +11,47 @@ type ImagesSugestionProps = {
   onChange: (value: string) => void;
   color: string;
   error?: boolean;
+  value?: string;
 };
 
-const ImagesSugestion = ({ onChange, color, error }: ImagesSugestionProps) => {
+const ImagesSugestion = ({
+  onChange,
+  color,
+  error,
+  value,
+}: ImagesSugestionProps) => {
   const theme = colors();
 
-  const [selectedIcon, setSelectedIcon] = useState("");
+  const [selectedIcon, setSelectedIcon] = useState(value);
 
-  const handlePressIcon = (index: number) => {
-    if (iconsSugestion[index] === selectedIcon) {
-      setSelectedIcon("");
-    } else {
-      onChange(iconsSugestion[index]);
-      setSelectedIcon(iconsSugestion[index]);
-    }
-  };
+  const handlePressIcon = useCallback(
+    (index: number) => {
+      if (iconsSugestion[index] === selectedIcon) {
+        setSelectedIcon("");
+      } else {
+        onChange(iconsSugestion[index]);
+        setSelectedIcon(iconsSugestion[index]);
+      }
+    },
+    [onChange, selectedIcon],
+  );
 
-  const getColor = (index: number) => {
-    if (iconsSugestion[index] !== selectedIcon) {
-      return theme.grey;
-    } else {
-      return color ? color : theme.primary;
+  const getColor = useCallback(
+    (index: number) => {
+      if (iconsSugestion[index] !== selectedIcon) {
+        return theme.grey;
+      } else {
+        return color ? color : theme.primary;
+      }
+    },
+    [color, theme.primary, theme.grey, selectedIcon],
+  );
+
+  useEffect(() => {
+    if (value) {
+      setSelectedIcon(value);
     }
-  };
+  }, [value]);
 
   return (
     <>

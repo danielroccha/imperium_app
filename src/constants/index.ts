@@ -20,9 +20,14 @@ export enum TRANSACTION_TYPE {
   INCOME = "income",
 }
 
+export enum TRANSACTION_OPTIONS {
+  RECURRENCE = "recurrence",
+  INSTALLMENT = "installment",
+}
+
 export const expensesCategorySugestion = [
   {
-    name: "Alimenção",
+    name: "Alimentação",
     color: "#FF0000",
     icon: "food-drumstick",
     type: TRANSACTION_TYPE.EXPENSE,

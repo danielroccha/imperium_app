@@ -19,9 +19,10 @@ import styles from "./styles";
 import useLoginRepository from "../data/loginRepository";
 import { TLoginViewModel, useLoginViewModel } from "./loginViewModel";
 import LoginForm from "./Form";
+import RootStackNavigation from "@app/types/RootStackParams";
 
 const Login = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootStackNavigation>();
   const theme = colors();
 
   const loginRepository = useLoginRepository(loginService);

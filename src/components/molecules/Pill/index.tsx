@@ -23,13 +23,12 @@ const Pill = ({ color, text, onTap }: PillProps) => {
     <TouchableOpacity
       onPress={handleTap}
       style={{
-        padding: dimens.tiny,
+        paddingHorizontal: dimens.small,
         backgroundColor: theme[color],
         height: 40,
-        marginHorizontal: dimens.tiny,
+        marginHorizontal: dimens.xtiny,
         borderRadius: 100,
         justifyContent: "center",
-        width: 120,
       }}>
       <Caption color="white" align="center">
         {text}

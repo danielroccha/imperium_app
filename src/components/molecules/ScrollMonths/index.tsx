@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Feather";
@@ -8,10 +8,16 @@ import Util from "@app/util";
 import { colors, SCREEN_WIDTH } from "@app/configs/Theme";
 
 type ScrollMonthsProps = {
+  onTapDate: () => void;
   onSelect: (month: number) => void;
+  dateFilter?: Date;
 };
 
-const ScrollMonths = ({ onSelect }: ScrollMonthsProps) => {
+const ScrollMonths = ({
+  onSelect,
+  onTapDate,
+  dateFilter,
+}: ScrollMonthsProps) => {
   const theme = colors();
 
   const [date, setDate] = useState(new Date());
@@ -31,6 +37,12 @@ const ScrollMonths = ({ onSelect }: ScrollMonthsProps) => {
     setDate(new Date(date));
   };
 
+  useEffect(() => {
+    if (dateFilter) {
+      setDate(dateFilter);
+    }
+  }, [dateFilter]);
+
   return (
     <View
       style={{
@@ -45,6 +57,7 @@ const ScrollMonths = ({ onSelect }: ScrollMonthsProps) => {
         <Icon name={"chevron-left"} size={25} color={theme.mode} />
       </TouchableOpacity>
       <Pill
+        onTap={onTapDate}
         text={`${months[date.getMonth()]} ${currentYear}`}
         color="blackTransparent"
       />

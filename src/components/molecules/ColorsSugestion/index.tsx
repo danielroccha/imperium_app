@@ -1,19 +1,18 @@
-import React, { useState } from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { TouchableOpacity, View } from "react-native";
 
 import { Body, Caption } from "@app/components/atoms/Text";
-import { colors, dimens } from "@app/configs/Theme";
+import { dimens } from "@app/configs/Theme";
 import { colorsSugestion } from "@app/constants";
 
 type ColorsSugestionProps = {
   onChange: (value: string) => void;
   error?: boolean;
+  value?: string;
 };
 
-const ColorsSugestion = ({ onChange, error }: ColorsSugestionProps) => {
-  const theme = colors();
-
-  const [colorSelected, setColorSelected] = useState("");
+const ColorsSugestion = ({ onChange, error, value }: ColorsSugestionProps) => {
+  const [colorSelected, setColorSelected] = useState(value);
 
   const handleChange = (index: number) => {
     if (colorsSugestion[index] === colorSelected) {
@@ -24,15 +23,24 @@ const ColorsSugestion = ({ onChange, error }: ColorsSugestionProps) => {
     onChange(colorsSugestion[index]);
   };
 
-  const getColor = (color: string, index: number) => {
-    if (colorSelected == "") {
-      return color;
-    } else if (colorsSugestion[index] === colorSelected) {
-      return colorsSugestion[index];
-    } else {
-      return theme.grey;
+  const getOpacity = useCallback(
+    (color: string, index: number) => {
+      if (colorSelected == "" || colorSelected == undefined) {
+        return 2;
+      } else if (colorsSugestion[index] === colorSelected) {
+        return 2;
+      } else {
+        return 0.2;
+      }
+    },
+    [colorSelected],
+  );
+
+  useEffect(() => {
+    if (value) {
+      setColorSelected(value);
     }
-  };
+  }, [value]);
 
   return (
     <>
@@ -44,21 +52,34 @@ const ColorsSugestion = ({ onChange, error }: ColorsSugestionProps) => {
           </Caption>
         )}
       </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <View
+        style={{
+          flexWrap: "wrap",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}>
         {colorsSugestion.map((color, index) => (
           <TouchableOpacity
             key={color}
             onPress={() => handleChange(index)}
             style={{
-              width: 50,
-              height: 50,
-              backgroundColor: getColor(color, index),
-              borderRadius: 10,
-              marginHorizontal: dimens.tiny,
-            }}
-          />
+              width: 35,
+              height: 35,
+              margin: dimens.xtiny,
+            }}>
+            <View
+              style={{
+                opacity: getOpacity(color, index),
+                width: 35,
+                height: 35,
+                backgroundColor: color,
+                borderRadius: 10,
+              }}
+            />
+          </TouchableOpacity>
         ))}
-      </ScrollView>
+      </View>
     </>
   );
 };

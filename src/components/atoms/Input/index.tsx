@@ -9,21 +9,28 @@ import {
 
 import Icon from "react-native-vector-icons/Feather";
 
-import { colors, dimens } from "@app/configs/Theme";
-import Base from "../Text/Base";
+import { colors, dimens, fontSize } from "@app/configs/Theme";
+import Base, { TextAlign } from "../Text/Base";
 import styles from "./styles";
 import { Control, useController } from "react-hook-form";
 import { Small } from "../Text";
+import { ColorsPropType, FontSizePropType } from "@app/types/ThemeType";
+import Util from "@app/util";
 
 type InputProps = {
   defaultValue?: string;
-  label: string;
+  label?: string;
   icon?: string;
   name: string;
   control: Control<any> | undefined;
-  error: boolean;
-  errorMessage: string | undefined;
+  error?: boolean;
+  errorMessage?: string | undefined;
+  size?: FontSizePropType;
   onChangeValue?: (value: string) => void;
+  alignError?: TextAlign;
+  color?: ColorsPropType;
+  borderColor?: ColorsPropType;
+  formatToMoney?: boolean;
 } & TextInputProps;
 
 const Input = ({
@@ -34,7 +41,12 @@ const Input = ({
   name,
   error,
   errorMessage,
+  size = "body",
   onChangeValue,
+  alignError,
+  color,
+  formatToMoney,
+  borderColor = "primary",
   ...props
 }: InputProps) => {
   const { field } = useController({
@@ -47,6 +59,10 @@ const Input = ({
 
   const dimissKeyboard = () => {
     Keyboard.dismiss();
+  };
+
+  const getValueWhenIsMoney = () => {
+    return Util.formatToMoney(Number(field.value.replace(/[^0-9.-]+/g, "")));
   };
 
   useEffect(() => {
@@ -66,12 +82,14 @@ const Input = ({
             color={theme.primary}
           />
         )}
-        <Base style={{ marginBottom: dimens.tiny }} size="caption">
-          {label}
-        </Base>
+        {label && (
+          <Base style={{ marginBottom: dimens.tiny }} size="caption">
+            {label}
+          </Base>
+        )}
       </View>
       <TouchableWithoutFeedback onPress={dimissKeyboard}>
-        <>
+        <View>
           <TextInput
             {...props}
             ref={input}
@@ -81,11 +99,19 @@ const Input = ({
             underlineColorAndroid="transparent"
             style={[
               styles(theme).input,
-              { borderColor: error ? theme.danger : theme.primary },
+              {
+                borderColor: error ? theme.danger : theme[borderColor],
+                fontSize: size ? fontSize[size] : fontSize.body,
+                color: color ? color : theme.black,
+              },
             ]}
           />
-          {errorMessage && <Small color="danger">{errorMessage}</Small>}
-        </>
+          {errorMessage && (
+            <Small align={alignError ?? "left"} color="danger">
+              {errorMessage}
+            </Small>
+          )}
+        </View>
       </TouchableWithoutFeedback>
     </>
   );

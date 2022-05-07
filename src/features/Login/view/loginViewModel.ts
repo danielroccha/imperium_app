@@ -19,7 +19,6 @@ const useLoginViewModel = (repository: IUseLoginRepository) => {
         await loginUseCase({ login: repository.login }, data);
         setLoading(false);
       } catch (error) {
-        console.log(error);
         setLoading(false);
         handleError(error);
       }

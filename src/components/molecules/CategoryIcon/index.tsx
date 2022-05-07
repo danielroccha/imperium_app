@@ -14,7 +14,7 @@ const CategoryIcon = ({ color, icon }: CategoryIconProps) => {
   const theme = colors();
   return (
     <View style={[styles(theme).categoryContainer, { backgroundColor: color }]}>
-      <Icon name={icon} size={22} color={theme.mode} />
+      <Icon name={icon} size={20} color={theme.mode} />
     </View>
   );
 };

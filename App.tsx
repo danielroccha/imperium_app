@@ -1,16 +1,18 @@
 import React, { useRef, useState } from "react";
-import { SafeAreaView, StatusBar, useColorScheme } from "react-native";
+import { SafeAreaView, StatusBar, useColorScheme, LogBox } from "react-native";
 import {
   NavigationContainer,
   useNavigationContainerRef,
 } from "@react-navigation/native";
 import { Provider } from "react-redux";
-import { NotifierWrapper, Notifier, Easing } from "react-native-notifier";
+import { NotifierWrapper } from "react-native-notifier";
 
 import Routes from "@app/routes";
 import { store } from "@app/configs/store";
 import { colors } from "@app/configs/Theme";
 import { Axios } from "@app/configs/api";
+LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 Axios.interceptors.request();
 Axios.interceptors.response();

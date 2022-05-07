@@ -3,11 +3,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Category from "@app/features/Category/view/List";
 import CreateCategory from "@app/features/Category/view/Create";
+import EditCategory from "@app/features/Category/view/Edit";
 import CategorySugestion from "@app/features/Category/view/CategorySugestion";
 
 const Stack = createNativeStackNavigator();
 
-const HomeStack = () => {
+const CategoryStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -17,6 +18,11 @@ const HomeStack = () => {
         options={{ headerShown: false }}
         name="ListCategory"
         component={Category}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="EditCategory"
+        component={EditCategory}
       />
       <Stack.Screen
         options={{ headerShown: false }}
@@ -32,4 +38,4 @@ const HomeStack = () => {
   );
 };
 
-export default HomeStack;
+export default CategoryStack;

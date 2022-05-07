@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -30,9 +30,16 @@ export type TCategoryFullForm = TCategoryFormYup & TCategoryForm;
 type CategoryFormProps = {
   loading: boolean;
   onValidateSuccess: (data: TCategoryFullForm) => void;
+  data?: TCategoryFullForm;
+  disableSwitchTypeTransaction?: boolean;
 };
 
-const CategoryForm = ({ onValidateSuccess, loading }: CategoryFormProps) => {
+const CategoryForm = ({
+  onValidateSuccess,
+  loading,
+  data,
+  disableSwitchTypeTransaction,
+}: CategoryFormProps) => {
   const [transactionTypeSelected, setTransactionTypeSelected] = useState("");
   const [colorSelected, setColorSelected] = useState("");
   const [imageSelected, setImageSelected] = useState("");
@@ -44,6 +51,7 @@ const CategoryForm = ({ onValidateSuccess, loading }: CategoryFormProps) => {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<TCategoryFormYup>({
     resolver: yupResolver(
       yup.object().shape({
@@ -52,26 +60,26 @@ const CategoryForm = ({ onValidateSuccess, loading }: CategoryFormProps) => {
     ),
   });
 
-  const handlePickColor = (value: string) => {
+  const handlePickColor = useCallback((value: string) => {
     setColorSelected(value);
     setColorError(false);
-  };
+  }, []);
 
-  const handlePickImage = (value: string) => {
+  const handlePickImage = useCallback((value: string) => {
     setImageSelected(value);
     setImageError(false);
-  };
+  }, []);
 
-  const handleChangeTransactionType = (value: string) => {
+  const handleChangeTransactionType = useCallback((value: string) => {
     setTransactionTypeSelected(
       value === TRANSACTION_TYPE.EXPENSE
         ? TRANSACTION_TYPE.EXPENSE
         : TRANSACTION_TYPE.INCOME,
     );
     setTransactionTypeError(false);
-  };
+  }, []);
 
-  const getColorButton = (): ColorsPropType => {
+  const getColorButton = useCallback((): ColorsPropType => {
     if (transactionTypeSelected === TRANSACTION_TYPE.EXPENSE) {
       return "danger";
     } else if (transactionTypeSelected === TRANSACTION_TYPE.INCOME) {
@@ -79,33 +87,51 @@ const CategoryForm = ({ onValidateSuccess, loading }: CategoryFormProps) => {
     } else {
       return "primary";
     }
-  };
+  }, [transactionTypeSelected]);
 
-  const onSubmit = (data: TCategoryFormYup) => {
-    if (transactionTypeSelected === "") {
-      setTransactionTypeError(true);
-    } else if (colorSelected === "") {
-      setColorError(true);
-    } else if (imageSelected === "") {
-      setImageError(true);
-    } else {
-      onValidateSuccess({
-        ...data,
-        color: colorSelected,
-        icon: imageSelected,
-        type:
-          transactionTypeSelected === TRANSACTION_TYPE.EXPENSE
-            ? TRANSACTION_TYPE.EXPENSE
-            : TRANSACTION_TYPE.INCOME,
-      });
+  const onSubmit = useCallback(
+    (dataForm: TCategoryFormYup) => {
+      if (transactionTypeSelected === "") {
+        setTransactionTypeError(true);
+      } else if (colorSelected === "") {
+        setColorError(true);
+      } else if (imageSelected === "") {
+        setImageError(true);
+      } else {
+        onValidateSuccess({
+          ...dataForm,
+          color: colorSelected,
+          icon: imageSelected,
+          type:
+            transactionTypeSelected === TRANSACTION_TYPE.EXPENSE
+              ? TRANSACTION_TYPE.EXPENSE
+              : TRANSACTION_TYPE.INCOME,
+        });
+      }
+    },
+    [onValidateSuccess, colorSelected, imageSelected, transactionTypeSelected],
+  );
+
+  useEffect(() => {
+    if (data?.icon && data?.color && data?.type) {
+      setTransactionTypeSelected(data?.type);
+      setColorSelected(data?.color);
+      setImageSelected(data?.icon);
     }
-  };
-  console.log("abacate");
+  }, [data?.icon, data?.color, data?.type]);
+
+  useEffect(() => {
+    reset(data);
+  }, [data, reset]);
+
   return (
     <>
       <SwitchTransactionType
+        showLabel
+        value={data?.type}
         error={transactionTypeError}
         onChange={handleChangeTransactionType}
+        disableSwitchTypeTransaction={disableSwitchTypeTransaction}
       />
 
       <View style={{ marginTop: dimens.base, paddingHorizontal: dimens.small }}>
@@ -121,10 +147,15 @@ const CategoryForm = ({ onValidateSuccess, loading }: CategoryFormProps) => {
       </View>
 
       <Divide stylesDivide={{ marginTop: dimens.base }} />
-      <ColorsSugestion error={colorError} onChange={handlePickColor} />
+      <ColorsSugestion
+        value={data?.color}
+        error={colorError}
+        onChange={handlePickColor}
+      />
       <Divide stylesDivide={{ marginTop: dimens.base }} />
       <View style={{ paddingHorizontal: dimens.small }}>
         <ImagesSugestion
+          value={data?.icon}
           error={imageError}
           onChange={handlePickImage}
           color={colorSelected}
@@ -132,7 +163,7 @@ const CategoryForm = ({ onValidateSuccess, loading }: CategoryFormProps) => {
 
         <CustomButton
           loading={loading}
-          title="Criar Categoria"
+          title="Salvar"
           onPress={handleSubmit(onSubmit)}
           backgroundColor={getColorButton()}
           styleButton={{ marginTop: dimens.base }}

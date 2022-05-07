@@ -9,9 +9,12 @@ import SectionOptions from "@app/components/organisms/SectionOptions";
 import styles from "./styles";
 import TextMoney from "@app/components/atoms/TextMoney";
 import { useNavigation } from "@react-navigation/native";
+import RootStackNavigation from "@app/types/RootStackParams";
 
 type HeaderInfoProps = {
   onFilterDate: (monthIndex: number) => void;
+  onTapDate: () => void;
+  dateFilter?: Date;
   currentBalance: number;
   expensesBalance: number;
   incomesBalance: number;
@@ -19,21 +22,31 @@ type HeaderInfoProps = {
 
 const HeaderInfo = ({
   onFilterDate,
+  onTapDate,
+  dateFilter,
   currentBalance,
   expensesBalance,
   incomesBalance,
 }: HeaderInfoProps) => {
   const theme = colors();
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootStackNavigation>();
 
   const handleAddCategory = () => {
     navigation.navigate("CategoryStack");
   };
 
+  const handleAddTransaction = () => {
+    navigation.navigate("CreateTransaction");
+  };
+
   return (
     <View style={styles(theme).container}>
       <View style={styles().containerScrollView}>
-        <ScrollMonths onSelect={onFilterDate} />
+        <ScrollMonths
+          dateFilter={dateFilter}
+          onTapDate={onTapDate}
+          onSelect={onFilterDate}
+        />
       </View>
       <View>
         <Regular color="white" align="center">
@@ -92,7 +105,7 @@ const HeaderInfo = ({
       </View>
       <SectionOptions
         onTapAddCategory={handleAddCategory}
-        onTapAddTransaction={() => null}
+        onTapAddTransaction={handleAddTransaction}
       />
     </View>
   );

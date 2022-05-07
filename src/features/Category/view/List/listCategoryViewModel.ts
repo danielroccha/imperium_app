@@ -8,23 +8,27 @@ import { ICategoryModel } from "@app/features/Category/domain/models/ICategoryMo
 import { handleError } from "@app/configs/api";
 
 const useListCategoryViewModel = (repository: ICategoryRepository) => {
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [listCategoriesData, setListCategoriesData] =
     useState<ICategoryModel[]>();
 
-  const getCategories = useCallback(async () => {
-    try {
-      setLoading(true);
-      const listCategories = await listCategoriesUseCase({
-        listCategories: repository.listCategories,
-      });
-      setListCategoriesData(listCategories);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      handleError(error);
-    }
-  }, [repository.listCategories]);
+  const getCategories = useCallback(
+    async (refresh?: boolean) => {
+      try {
+        refresh ? setIsRefreshing(true) : setLoading(true);
+        const listCategories = await listCategoriesUseCase({
+          listCategories: repository.listCategories,
+        });
+        setListCategoriesData(listCategories);
+        refresh ? setIsRefreshing(false) : setLoading(false);
+      } catch (error) {
+        refresh ? setIsRefreshing(false) : setLoading(false);
+        handleError(error);
+      }
+    },
+    [repository.listCategories],
+  );
 
   const deleteCategory = useCallback(
     async (categoryId: string) => {
@@ -44,7 +48,13 @@ const useListCategoryViewModel = (repository: ICategoryRepository) => {
     [repository.deleteCategory, getCategories],
   );
 
-  return { getCategories, deleteCategory, isLoading, listCategoriesData };
+  return {
+    getCategories,
+    deleteCategory,
+    isLoading,
+    listCategoriesData,
+    isRefreshing,
+  };
 };
 
 export { useListCategoryViewModel };

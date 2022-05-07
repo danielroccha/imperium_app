@@ -7,8 +7,8 @@ export default (theme: AvailableColors) =>
     categoryContainer: {
       justifyContent: "center",
       alignItems: "center",
-      width: 42,
-      height: 42,
+      width: 35,
+      height: 35,
       borderRadius: 25,
     },
   });

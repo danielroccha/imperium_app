@@ -1,5 +1,11 @@
 import React, { useCallback, useEffect } from "react";
-import { View, FlatList, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  FlatList,
+  TouchableOpacity,
+  Alert,
+  RefreshControl,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Icon from "react-native-vector-icons/Feather";
@@ -15,14 +21,20 @@ import Loading from "@app/components/molecules/Loading";
 
 import { Body, Caption } from "@app/components/atoms/Text";
 import { colors, dimens, getShadow } from "@app/configs/Theme";
+import RootStackNavigation from "@app/types/RootStackParams";
 
 const ListCategory = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootStackNavigation>();
   const theme = colors();
 
   const categoryRespository = useCategoryRepository(categoryService);
-  const { getCategories, isLoading, listCategoriesData, deleteCategory } =
-    useListCategoryViewModel(categoryRespository);
+  const {
+    getCategories,
+    isLoading,
+    listCategoriesData,
+    isRefreshing,
+    deleteCategory,
+  } = useListCategoryViewModel(categoryRespository);
 
   const handlePressRightAction = () => {
     navigation.navigate("CreateCategory");
@@ -32,11 +44,16 @@ const ListCategory = () => {
     navigation.navigate("CategorySugestion");
   };
 
-  const getData = useCallback(() => {
-    navigation.addListener("focus", () => {
-      getCategories();
-    });
-  }, [getCategories, navigation]);
+  const handleEditCategory = (categoryId: string) => {
+    navigation.navigate("EditCategory", { categoryId });
+  };
+
+  const getData = useCallback(
+    (refresh?: boolean) => {
+      getCategories(refresh);
+    },
+    [getCategories],
+  );
 
   const handleDelelete = (categoryId: string) => {
     Alert.alert(
@@ -55,7 +72,7 @@ const ListCategory = () => {
 
   const handleRenderItem = ({ item }: { item: ICategoryModel }) => {
     return (
-      <View
+      <TouchableOpacity
         style={{
           flexDirection: "row",
           alignItems: "center",
@@ -65,7 +82,8 @@ const ListCategory = () => {
           backgroundColor: theme.white,
           borderRadius: 10,
           marginBottom: dimens.small,
-        }}>
+        }}
+        onPress={() => handleEditCategory(item.id)}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <CategoryIcon color={item.color} icon={item.icon} />
           <Body style={{ marginLeft: dimens.small }}>{item.name}</Body>
@@ -75,13 +93,21 @@ const ListCategory = () => {
           hitSlop={{ bottom: 40, left: 40, right: 40, top: 40 }}>
           <Icon name="trash" size={22} color={theme.primary} />
         </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
     );
   };
 
+  const handleRefresh = () => {
+    getCategories(true);
+  };
+
   useEffect(() => {
-    getData();
-  }, [getData]);
+    const unsubscribe = navigation.addListener("focus", () => {
+      getData();
+    });
+
+    return unsubscribe;
+  }, [getData, navigation]);
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.mode }}>
@@ -100,6 +126,13 @@ const ListCategory = () => {
             data={listCategoriesData}
             renderItem={handleRenderItem}
             keyExtractor={item => item.id}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={handleRefresh}
+                tintColor={theme.primary}
+              />
+            }
             ListHeaderComponent={
               <TouchableOpacity
                 onPress={handlePressSugestionCategories}
