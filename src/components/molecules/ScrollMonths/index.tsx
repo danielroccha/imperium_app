@@ -4,12 +4,11 @@ import moment from "moment";
 import Icon from "react-native-vector-icons/Feather";
 
 import Pill from "@app/components/molecules/Pill";
-import Util from "@app/util";
 import { colors, SCREEN_WIDTH } from "@app/configs/Theme";
 
 type ScrollMonthsProps = {
   onTapDate: () => void;
-  onSelect: (month: number) => void;
+  onSelect: (date: Date) => void;
   dateFilter?: Date;
 };
 
@@ -27,13 +26,13 @@ const ScrollMonths = ({
 
   const handlePressLeft = () => {
     date.setMonth(date.getMonth() - 1);
-    onSelect(Util.getMonthIndex(date));
+    onSelect(date);
     setDate(new Date(date));
   };
 
   const handlePressRight = () => {
     date.setMonth(date.getMonth() + 1);
-    onSelect(Util.getMonthIndex(date));
+    onSelect(date);
     setDate(new Date(date));
   };
 

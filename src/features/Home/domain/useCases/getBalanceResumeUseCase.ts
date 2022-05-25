@@ -8,8 +8,9 @@ import IBalanceResumeModel, {
 const getBalanceResumeUseCase = async (
   repository: Pick<IBalanceResumeRepository, "getBalanceResume">,
   monthId: number,
+  year: number,
 ) => {
-  const result = await repository.getBalanceResume(monthId);
+  const result = await repository.getBalanceResume(monthId, year);
 
   const dataDomain = mapBalanceResumeToDomain(result);
 

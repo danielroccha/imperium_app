@@ -5,7 +5,7 @@ import { dimens, SCREEN_WIDTH } from "@app/configs/Theme";
 export default (theme?: AvailableColors) =>
   StyleSheet.create({
     container: {
-      height: 340,
+      height: 330,
       justifyContent: "space-between",
       alignItems: "center",
       paddingTop: dimens.medium,

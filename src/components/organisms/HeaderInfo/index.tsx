@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import RootStackNavigation from "@app/types/RootStackParams";
 
 type HeaderInfoProps = {
-  onFilterDate: (monthIndex: number) => void;
+  onFilterDate: (date: Date) => void;
   onTapDate: () => void;
   dateFilter?: Date;
   currentBalance: number;
@@ -37,6 +37,10 @@ const HeaderInfo = ({
 
   const handleAddTransaction = () => {
     navigation.navigate("CreateTransaction");
+  };
+
+  const handleAddRecurrence = () => {
+    navigation.navigate("RecurrenceStack");
   };
 
   return (
@@ -91,7 +95,7 @@ const HeaderInfo = ({
               ]}>
               <Icon name="arrow-down-left" size={18} color={theme.mode} />
             </View>
-            <Body color="white">Gastos</Body>
+            <Body color="white">Despesas</Body>
           </View>
           <TextMoney
             size="body"
@@ -104,6 +108,7 @@ const HeaderInfo = ({
         </View>
       </View>
       <SectionOptions
+        onTapAddRecurrence={handleAddRecurrence}
         onTapAddCategory={handleAddCategory}
         onTapAddTransaction={handleAddTransaction}
       />

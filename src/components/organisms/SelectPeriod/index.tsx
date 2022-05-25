@@ -1,16 +1,10 @@
-import { Body, Regular, Subtitle } from "@app/components/atoms/Text";
+import { Regular } from "@app/components/atoms/Text";
 import Pill from "@app/components/molecules/Pill";
 import { colors, dimens } from "@app/configs/Theme";
-import React, { useState } from "react";
+import { OPTIONS_PERIOD } from "@app/constants";
+import React, { useEffect, useState } from "react";
 import { View, ScrollView, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
-
-enum OPTIONS_PERIOD {
-  DAILY = "diariamente",
-  WEEKLY = "semanalmente",
-  MONTHLY = "mensalmente",
-  YEARLY = "anualmente",
-}
 
 const options = [
   {
@@ -27,17 +21,27 @@ const options = [
   },
 ];
 
-const SelectPeriod = () => {
+type SelectPeriodProps = {
+  onSelectRepeatType: (value: OPTIONS_PERIOD) => void;
+  onChangeRepeat: (value: number) => void;
+};
+
+const SelectPeriod = ({
+  onSelectRepeatType,
+  onChangeRepeat,
+}: SelectPeriodProps) => {
   const [times, setTimes] = useState(2);
   const [period, setPeriod] = useState<OPTIONS_PERIOD>(OPTIONS_PERIOD.MONTHLY);
   const theme = colors();
 
   const handleIncreaseTimes = () => {
-    setTimes(times + 1);
+    const newValue = times + 1;
+    setTimes(newValue);
   };
 
   const handleDecreaseTimes = () => {
-    setTimes(times - 1);
+    const newValue = times - 1;
+    setTimes(newValue);
   };
 
   const handleTapPeriod = (item: { text: OPTIONS_PERIOD }) => {
@@ -57,6 +61,24 @@ const SelectPeriod = () => {
     }
   };
 
+  const getText = (value: OPTIONS_PERIOD) => {
+    switch (value) {
+      case OPTIONS_PERIOD.DAILY:
+        return "Diariamente";
+      case OPTIONS_PERIOD.MONTHLY:
+        return "Mensalmente";
+      case OPTIONS_PERIOD.WEEKLY:
+        return "Semanalmente";
+      default:
+        return "Anualmente";
+    }
+  };
+
+  useEffect(() => {
+    onChangeRepeat(times);
+    onSelectRepeatType(period);
+  }, [onChangeRepeat, onSelectRepeatType, period, times]);
+
   return (
     <View style={{ marginVertical: dimens.base }}>
       <View style={{ marginBottom: dimens.base }}>
@@ -64,7 +86,7 @@ const SelectPeriod = () => {
           {options.map(item => (
             <View key={item.text}>
               <Pill
-                text={item.text}
+                text={getText(item.text)}
                 color={period === item.text ? "primary" : "secondary"}
                 onTap={() => handleTapPeriod(item)}
               />

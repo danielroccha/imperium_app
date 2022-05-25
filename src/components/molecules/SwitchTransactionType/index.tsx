@@ -98,7 +98,7 @@ const SwitchTransactionType = ({
             color={
               transactionType === TRANSACTION_TYPE.EXPENSE ? "white" : "black"
             }>
-            Gasto
+            Despesa
           </Body>
         </TouchableOpacity>
         <TouchableOpacity

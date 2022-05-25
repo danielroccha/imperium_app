@@ -15,12 +15,13 @@ const useHomeViewModel = (repository: IBalanceResumeRepository) => {
   const [data, setData] = useState<IBalanceResumeModel>();
 
   const getData = useCallback(
-    async (monthId: number) => {
+    async (monthId: number, year: number) => {
       try {
         setLoading(true);
         const balanceResumeData = await getBalanceResumeUseCase(
           { getBalanceResume: repository.getBalanceResume },
           monthId,
+          year,
         );
         setData(balanceResumeData);
         setLoading(false);

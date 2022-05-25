@@ -14,6 +14,7 @@ import ImagesSugestion from "@app/components/molecules/ImagesSugestion";
 import ColorsSugestion from "@app/components/molecules/ColorsSugestion";
 import { TRANSACTION_TYPE } from "@app/constants";
 import { ColorsPropType } from "@app/types/ThemeType";
+import Util from "@app/util";
 
 type TCategoryFormYup = {
   name: string;
@@ -44,9 +45,6 @@ const CategoryForm = ({
   const [colorSelected, setColorSelected] = useState("");
   const [imageSelected, setImageSelected] = useState("");
 
-  const [transactionTypeError, setTransactionTypeError] = useState(false);
-  const [colorError, setColorError] = useState(false);
-  const [imageError, setImageError] = useState(false);
   const {
     control,
     handleSubmit,
@@ -62,12 +60,10 @@ const CategoryForm = ({
 
   const handlePickColor = useCallback((value: string) => {
     setColorSelected(value);
-    setColorError(false);
   }, []);
 
   const handlePickImage = useCallback((value: string) => {
     setImageSelected(value);
-    setImageError(false);
   }, []);
 
   const handleChangeTransactionType = useCallback((value: string) => {
@@ -76,7 +72,6 @@ const CategoryForm = ({
         ? TRANSACTION_TYPE.EXPENSE
         : TRANSACTION_TYPE.INCOME,
     );
-    setTransactionTypeError(false);
   }, []);
 
   const getColorButton = useCallback((): ColorsPropType => {
@@ -92,11 +87,14 @@ const CategoryForm = ({
   const onSubmit = useCallback(
     (dataForm: TCategoryFormYup) => {
       if (transactionTypeSelected === "") {
-        setTransactionTypeError(true);
+        Util.showAlertError(
+          "Preencha os campos",
+          "Escolha o tipo da categoria",
+        );
       } else if (colorSelected === "") {
-        setColorError(true);
+        Util.showAlertError("Preencha os campos", "Escolha uma cor");
       } else if (imageSelected === "") {
-        setImageError(true);
+        Util.showAlertError("Preencha os campos", "Escolha uma imagem");
       } else {
         onValidateSuccess({
           ...dataForm,
@@ -129,7 +127,6 @@ const CategoryForm = ({
       <SwitchTransactionType
         showLabel
         value={data?.type}
-        error={transactionTypeError}
         onChange={handleChangeTransactionType}
         disableSwitchTypeTransaction={disableSwitchTypeTransaction}
       />
@@ -147,16 +144,11 @@ const CategoryForm = ({
       </View>
 
       <Divide stylesDivide={{ marginTop: dimens.base }} />
-      <ColorsSugestion
-        value={data?.color}
-        error={colorError}
-        onChange={handlePickColor}
-      />
+      <ColorsSugestion value={data?.color} onChange={handlePickColor} />
       <Divide stylesDivide={{ marginTop: dimens.base }} />
       <View style={{ paddingHorizontal: dimens.small }}>
         <ImagesSugestion
           value={data?.icon}
-          error={imageError}
           onChange={handlePickImage}
           color={colorSelected}
         />

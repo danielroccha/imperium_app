@@ -59,7 +59,7 @@ const RootStack = () => {
   if (loading) {
     return <LoadingPage />;
   }
-
+  // storage.removeAllKeys();
   return (
     <Stack.Navigator>
       {token ? (

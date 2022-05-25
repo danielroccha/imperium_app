@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import {
   TextInput,
   TextInputProps,
@@ -15,7 +15,6 @@ import styles from "./styles";
 import { Control, useController } from "react-hook-form";
 import { Small } from "../Text";
 import { ColorsPropType, FontSizePropType } from "@app/types/ThemeType";
-import Util from "@app/util";
 
 type InputProps = {
   defaultValue?: string;
@@ -30,7 +29,6 @@ type InputProps = {
   alignError?: TextAlign;
   color?: ColorsPropType;
   borderColor?: ColorsPropType;
-  formatToMoney?: boolean;
 } & TextInputProps;
 
 const Input = ({
@@ -45,7 +43,6 @@ const Input = ({
   onChangeValue,
   alignError,
   color,
-  formatToMoney,
   borderColor = "primary",
   ...props
 }: InputProps) => {
@@ -55,14 +52,9 @@ const Input = ({
     name,
   });
   const theme = colors();
-  const input = useRef<TextInput>(null);
 
   const dimissKeyboard = () => {
     Keyboard.dismiss();
-  };
-
-  const getValueWhenIsMoney = () => {
-    return Util.formatToMoney(Number(field.value.replace(/[^0-9.-]+/g, "")));
   };
 
   useEffect(() => {
@@ -92,7 +84,6 @@ const Input = ({
         <View>
           <TextInput
             {...props}
-            ref={input}
             value={field.value}
             onChangeText={field.onChange}
             placeholderTextColor={theme.grey}

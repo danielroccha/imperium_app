@@ -10,11 +10,13 @@ import styles from "./styles";
 type SectionOptionsProps = {
   onTapAddTransaction: () => void;
   onTapAddCategory: () => void;
+  onTapAddRecurrence: () => void;
 };
 
 const SectionOptions = ({
   onTapAddCategory,
   onTapAddTransaction,
+  onTapAddRecurrence,
 }: SectionOptionsProps) => {
   const theme = colors();
   return (
@@ -28,7 +30,7 @@ const SectionOptions = ({
       <View style={styles(theme).container}>
         <TouchableOpacity
           style={styles(theme).button}
-          onPress={onTapAddCategory}>
+          onPress={onTapAddRecurrence}>
           <View style={styles(theme).containerIcon}>
             <Icon name="repeat" size={18} color={theme.white} />
           </View>

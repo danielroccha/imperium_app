@@ -1,3 +1,5 @@
+import { Alert } from "react-native";
+
 export const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1).toLocaleLowerCase();
 
@@ -10,6 +12,7 @@ const formatToMoney = (value: number): string => {
 
     return result.toString();
   } catch (error) {
+    console.log(error);
     return "";
   }
 };
@@ -18,9 +21,17 @@ const getMonthIndex = (date: Date): number => {
   return date.getMonth() + 1;
 };
 
+const showAlertError = (title: string, message: string) => {
+  Alert.alert(title, message, [
+    { text: "OK", onPress: () => console.log("OK Pressed") },
+  ]);
+};
+
 const Util = {
   formatToMoney,
   getMonthIndex,
+  capitalize,
+  showAlertError,
 };
 
 export default Util;

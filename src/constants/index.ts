@@ -16,8 +16,15 @@ export const NOTIFICATION_TYPE = {
 };
 
 export enum TRANSACTION_TYPE {
-  EXPENSE = "expense",
-  INCOME = "income",
+  EXPENSE = "EXPENSE",
+  INCOME = "INCOME",
+}
+
+export enum OPTIONS_PERIOD {
+  DAILY = "DAILY",
+  WEEKLY = "WEEKLY",
+  MONTHLY = "MONTHLY",
+  YEARLY = "YEARLY",
 }
 
 export enum TRANSACTION_OPTIONS {

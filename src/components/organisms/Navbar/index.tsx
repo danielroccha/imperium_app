@@ -8,6 +8,7 @@ import { colors } from "@app/configs/Theme";
 
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
+import RootStackNavigation from "@app/types/RootStackParams";
 
 type NavBarProps = {
   iconRight?: string;
@@ -33,14 +34,18 @@ const NavBar = ({
 }: NavBarProps) => {
   const theme = colors();
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootStackNavigation>();
 
   const handleClickRightAction = () => {
     if (onClickActionRight) {
       onClickActionRight();
     } else {
-      //open profile
+      openProfile();
     }
+  };
+
+  const openProfile = () => {
+    navigation.navigate("Profile");
   };
 
   const handleClickLeftAction = () => {

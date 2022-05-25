@@ -8,7 +8,7 @@ import {
   FontWeightPropType,
 } from "@app/types/ThemeType";
 import { StyleProp, TextStyle } from "react-native";
-import { TextAlign } from "../Text";
+import { TextAlign } from "../Text/Base";
 
 type TextMoneyProps = {
   value: number;
@@ -44,7 +44,7 @@ const TextMoney = ({
           initial={value * 0.9}
           value={value}
           formatter={(val: string) => `${Util.formatToMoney(Number(val))}`}
-          timing="easeOut"
+          timing="linear"
         />
       ) : (
         Util.formatToMoney(Number(value))

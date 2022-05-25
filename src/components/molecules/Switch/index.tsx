@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, TouchableOpacity } from "react-native";
 
 import { Body } from "@app/components/atoms/Text";
 import styles from "./styles";
 import { colors, dimens } from "@app/configs/Theme";
-import { TRANSACTION_TYPE } from "@app/constants";
 import { ColorsPropType } from "@app/types/ThemeType";
 
 type OptionSwitch = {

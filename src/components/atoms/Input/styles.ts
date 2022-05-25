@@ -6,7 +6,6 @@ export default (theme: AvailableColors) =>
   StyleSheet.create({
     input: {
       borderBottomWidth: 1.5,
-
       padding: dimens.xtiny,
       fontSize: fontSize.body,
       fontFamily: "Montserrat-Regular",

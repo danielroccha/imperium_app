@@ -1,7 +1,5 @@
-import React from "react";
-import { View } from "react-native";
-
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import React, { useCallback } from "react";
+import { View, TouchableOpacity } from "react-native";
 
 import { Body, Small } from "@app/components/atoms/Text";
 import { colors } from "@app/configs/Theme";
@@ -17,6 +15,8 @@ type ItemExpansesProps = {
   color: string;
   icon: string;
   type: string;
+  onPress: () => void;
+  onLongPress: () => void;
 };
 
 const ItemExpanses = ({
@@ -26,25 +26,37 @@ const ItemExpanses = ({
   icon,
   value,
   type,
+  onPress,
+  onLongPress,
 }: ItemExpansesProps) => {
+  const handleSelectItem = useCallback(() => {
+    onPress();
+  }, [onPress]);
+
+  const handleLongPress = () => {
+    onLongPress();
+  };
+
   const theme = colors();
 
   return (
-    <View style={styles(theme).container}>
-      <CategoryIcon icon={icon} color={color} />
-      <View style={styles(theme).content}>
-        <View>
-          <Body>{title}</Body>
-          <Small>{category}</Small>
+    <TouchableOpacity onPress={handleSelectItem} onLongPress={handleLongPress}>
+      <View style={styles(theme).container}>
+        <CategoryIcon icon={icon} color={color} />
+        <View style={styles(theme).content}>
+          <View>
+            <Body>{title}</Body>
+            <Small>{category}</Small>
+          </View>
+          <TextMoney
+            color={type === TRANSACTION_TYPE.EXPENSE ? "danger" : "green"}
+            size="body"
+            weight="bold"
+            value={value}
+          />
         </View>
-        <TextMoney
-          color={type === TRANSACTION_TYPE.EXPENSE ? "danger" : "green"}
-          size="body"
-          weight="bold"
-          value={value}
-        />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -6,7 +6,7 @@ import {
   Alert,
   RefreshControl,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import Icon from "react-native-vector-icons/Feather";
 
@@ -101,13 +101,11 @@ const ListCategory = () => {
     getCategories(true);
   };
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
+  useFocusEffect(
+    useCallback(() => {
       getData();
-    });
-
-    return unsubscribe;
-  }, [getData, navigation]);
+    }, [getData]),
+  );
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.mode }}>

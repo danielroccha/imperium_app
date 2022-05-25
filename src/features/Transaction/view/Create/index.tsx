@@ -3,10 +3,13 @@ import { View } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 
-import TransactionForm from "@app/features/Transaction/view/Form";
-import useCategoryRepository from "@app/features/Category/data/categoryRepository";
-import { useCreateCategoryViewModel } from "@app/features/Category/view/Create/createCategoryViewModel";
-import categoryService from "@app/services/category";
+import TransactionForm, {
+  TTransactionForm,
+} from "@app/features/Transaction/view/Form";
+import { useCreateTransactionViewModel } from "@app/features/Transaction/view/Create/createTransactionViewModel";
+import useTransactionRepository from "@app/features/Transaction/data/transactionRepository";
+
+import transactionService from "@app/services/transaction";
 
 import NavBar from "@app/components/organisms/Navbar";
 import { colors } from "@app/configs/Theme";
@@ -15,17 +18,42 @@ const CreateTransaction = () => {
   const navigation = useNavigation();
   const theme = colors();
 
-  const categoryRespository = useCategoryRepository(categoryService);
-  const { createCategory, isLoading } =
-    useCreateCategoryViewModel(categoryRespository);
+  const transactionRespository = useTransactionRepository(transactionService);
+  const { createTransaction, isLoading } = useCreateTransactionViewModel(
+    transactionRespository,
+  );
 
   const handleClose = () => {
     navigation.goBack();
   };
 
-  const handleValidateSuccess = (data: TCategoryFullForm) => {
-    const { color, icon, name, type } = data;
-    createCategory({ color, icon, name, type });
+  const handleValidateSuccess = (data: TTransactionForm) => {
+    const {
+      category,
+      date,
+      description,
+      transactionType,
+      value,
+      repeat,
+      repeatType,
+    } = data;
+
+    let isInstallment = false;
+
+    if (repeat && repeatType) {
+      isInstallment = true;
+    }
+
+    createTransaction({
+      categoryId: category.id,
+      date,
+      isInstallment,
+      name: description,
+      type: transactionType,
+      value,
+      repeat,
+      repeatType,
+    });
   };
 
   return (
@@ -36,7 +64,10 @@ const CreateTransaction = () => {
           flex: 1,
         }}>
         <NavBar iconRight="x" onClickActionRight={handleClose} />
-        <TransactionForm />
+        <TransactionForm
+          onValidateSuccess={handleValidateSuccess}
+          loading={isLoading}
+        />
       </View>
     </>
   );
