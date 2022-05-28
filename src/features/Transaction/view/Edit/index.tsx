@@ -13,6 +13,7 @@ import transactionService from "@app/services/transaction";
 import NavBar from "@app/components/organisms/Navbar";
 import { colors } from "@app/configs/Theme";
 import { useEditTransactionViewModel } from "./editTransactionViewModel";
+import Loading from "@app/components/molecules/Loading";
 
 type EditTransactionParamList = {
   Detail: {
@@ -36,8 +37,6 @@ const EditTransaction = () => {
 
   const handleValidateSuccess = (data: TTransactionForm) => {
     const { category, date, description, transactionType, value } = data;
-
-    console.log();
   };
 
   useEffect(() => {
@@ -56,10 +55,27 @@ const EditTransaction = () => {
           iconLeft="trash"
           onClickActionRight={handleClose}
         />
-        <TransactionForm
-          onValidateSuccess={handleValidateSuccess}
-          loading={isLoading}
-        />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            {transactionData && (
+              <TransactionForm
+                dataForm={{
+                  value: transactionData.value,
+                  date: transactionData.date,
+                  transactionType: transactionData.type,
+                  description: transactionData.name,
+                  category: transactionData.category,
+                }}
+                edit
+                showAdvancedOptions={false}
+                onValidateSuccess={handleValidateSuccess}
+                loading={isLoading}
+              />
+            )}
+          </>
+        )}
       </View>
     </>
   );

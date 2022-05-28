@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, TextInput, TextInputProps } from "react-native";
 
 import { colors } from "@app/configs/Theme";
@@ -25,7 +25,7 @@ const InputMoney = ({
     setValue(text);
   };
 
-  const handleBlur = () => {
+  const handleBlur = useCallback(() => {
     if (Number.isNaN(Number(value.replace(",", ".")))) {
       setValue("0.00");
     } else {
@@ -39,11 +39,21 @@ const InputMoney = ({
 
       if (onChangeText) onChangeText(String(textAsNumber));
     }
-  };
+  }, [onChangeText, value]);
 
   const handleFocus = () => {
     setValue("");
   };
+
+  useEffect(() => {
+    if (defaultValue) {
+      setValue(
+        Number(defaultValue)
+          .toFixed(2)
+          .replace(/\d(?=(\d{3})+\.)/g, "$&."),
+      );
+    }
+  }, [defaultValue]);
 
   return (
     <View>

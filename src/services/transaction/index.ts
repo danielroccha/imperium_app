@@ -28,7 +28,7 @@ const createTransaction = (data: TCreateTransactionRemote): Promise<void> =>
 
 const getTransaction = (transactionId: string): Promise<ITransactionEntity> =>
   api
-    .post(API_SERVICES.TRANSACTION_SERVICES.GET_TRANSACTION(transactionId))
+    .get(API_SERVICES.TRANSACTION_SERVICES.GET_TRANSACTION(transactionId))
     .then(res => res.data);
 
 const transactionService: ITransactionService = {

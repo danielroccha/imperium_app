@@ -1,4 +1,5 @@
 import { TRANSACTION_TYPE } from "@app/constants";
+import { ICategoryEntity } from "@app/features/Category/data/ICategoryEntity";
 
 export default interface IRecurrenceEntity {
   id: string;
@@ -8,4 +9,5 @@ export default interface IRecurrenceEntity {
   type: TRANSACTION_TYPE;
   userId: string;
   categoryId: string;
+  category?: ICategoryEntity;
 }

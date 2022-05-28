@@ -3,9 +3,10 @@ import { TCreateCategoryRemote } from "@app/services/Category/remoteTypes/Create
 import { ICategoryService } from "@app/services/category";
 import { ICategoryEntity } from "./ICategoryEntity";
 import { TEditCategoryRemote } from "@app/services/category/remoteTypes/EditCategoryRemote";
+import { TRANSACTION_TYPE } from "@app/constants";
 
 export interface ICategoryRepository {
-  listCategories(): Promise<ICategoryEntity[]>;
+  listCategories(type?: TRANSACTION_TYPE): Promise<ICategoryEntity[]>;
   createCategory(data: TCreateCategoryRemote): Promise<void>;
   editCategory(data: TEditCategoryRemote): Promise<void>;
   getCategory(categoryId: string): Promise<ICategoryEntity>;
@@ -15,10 +16,13 @@ export interface ICategoryRepository {
 const useCategoryRepository = (
   service: ICategoryService,
 ): ICategoryRepository => {
-  const listCategories = useCallback(async () => {
-    const response = await service.listCategoriesService();
-    return response;
-  }, [service]);
+  const listCategories = useCallback(
+    async (type?: TRANSACTION_TYPE) => {
+      const response = await service.listCategoriesService(type);
+      return response;
+    },
+    [service],
+  );
 
   const createCategory = useCallback(
     async (data: TCreateCategoryRemote) => {

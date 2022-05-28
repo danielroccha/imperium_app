@@ -35,7 +35,7 @@ export type TTransactionForm = {
   transactionType: TRANSACTION_TYPE;
   value: number;
   date: Date;
-  category: ICategoryModel;
+  category?: ICategoryModel;
   repeat?: number;
   repeatType?: OPTIONS_PERIOD;
 } & TTransactionFormYup;
@@ -45,6 +45,7 @@ type TransactionFormProps = {
   loading: boolean;
   showAdvancedOptions: boolean;
   dataForm?: TTransactionForm;
+  edit?: boolean;
 };
 
 const TransactionForm = ({
@@ -52,6 +53,7 @@ const TransactionForm = ({
   loading,
   showAdvancedOptions = true,
   dataForm,
+  edit = false,
 }: TransactionFormProps) => {
   const theme = colors();
   const navigation = useNavigation<RootStackNavigation>();
@@ -59,7 +61,7 @@ const TransactionForm = ({
   const [transactionType, setTransactionType] = useState<TRANSACTION_TYPE>(
     TRANSACTION_TYPE.EXPENSE,
   );
-  const [transactionValue, setTransactionValue] = useState("");
+  const [transactionValue, setTransactionValue] = useState<string>();
 
   const [date, setDate] = useState<Date>();
 
@@ -129,6 +131,7 @@ const TransactionForm = ({
     } else {
       navigation.navigate("SelectCategory", {
         onSelectCategory: handleSelectCategory,
+        type: transactionType,
       });
     }
   };
@@ -150,16 +153,11 @@ const TransactionForm = ({
   };
 
   useEffect(() => {
-    if (
-      dataForm?.category &&
-      dataForm.date &&
-      dataForm.description &&
-      dataForm.transactionType
-    ) {
+    if (dataForm) {
       setTransactionType(dataForm.transactionType);
-      setCategory(dataForm.category);
-      setDate(dataForm.date);
       setTransactionValue(String(dataForm.value));
+      setDate(dataForm.date);
+      setCategory(dataForm.category);
     }
   }, [dataForm]);
 
@@ -184,6 +182,7 @@ const TransactionForm = ({
             }}>
             <SwitchTransactionType
               showLabel
+              disableSwitchTypeTransaction={edit}
               value={transactionType}
               colorLabel="white"
               onChange={handleChangeTransactionType}
@@ -193,6 +192,7 @@ const TransactionForm = ({
                 Valor
               </Caption>
               <InputMoney
+                defaultValue={transactionValue}
                 keyboardType="decimal-pad"
                 color="white"
                 onChangeText={handleChangeValue}
@@ -212,7 +212,7 @@ const TransactionForm = ({
               />
             </View>
             <Divide stylesDivide={{ marginVertical: dimens.base }} />
-            <SelectDate onChangeDate={handleSetDate} />
+            <SelectDate onChangeDate={handleSetDate} initialDate={date} />
             <Divide stylesDivide={{ marginVertical: dimens.base }} />
             <TouchableOpacity
               style={{

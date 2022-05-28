@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import {
   View,
   FlatList,
@@ -22,6 +22,8 @@ import Loading from "@app/components/molecules/Loading";
 import { Body, Caption } from "@app/components/atoms/Text";
 import { colors, dimens, getShadow } from "@app/configs/Theme";
 import RootStackNavigation from "@app/types/RootStackParams";
+import EmptyStateList from "@app/components/organisms/EmptyStateList";
+import { lotties } from "@app/assets";
 
 const ListCategory = () => {
   const navigation = useNavigation<RootStackNavigation>();
@@ -123,6 +125,12 @@ const ListCategory = () => {
             contentContainerStyle={{ padding: dimens.small }}
             data={listCategoriesData}
             renderItem={handleRenderItem}
+            ListEmptyComponent={
+              <EmptyStateList
+                lottie={lotties.emptyBox}
+                text="Nenhuma categoria encontrada, pressione o + para criar uma nova categoria ou veja alguma de nossas sugestões."
+              />
+            }
             keyExtractor={item => item.id}
             refreshControl={
               <RefreshControl

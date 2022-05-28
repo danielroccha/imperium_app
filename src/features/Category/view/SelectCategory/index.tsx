@@ -11,10 +11,12 @@ import useCategoryRepository from "../../data/categoryRepository";
 import categoryService from "@app/services/category";
 import { useSelectCategoryViewModel } from "./selectCategoryViewModel";
 import Loading from "@app/components/molecules/Loading";
+import { TRANSACTION_TYPE } from "@app/constants";
 
 type SelectCategoryParamList = {
   Detail: {
     onSelectCategory: (data: ICategoryModel) => void;
+    type: TRANSACTION_TYPE;
   };
 };
 
@@ -22,7 +24,7 @@ const SelectCategory = () => {
   const theme = colors();
   const navigation = useNavigation();
   const route = useRoute<RouteProp<SelectCategoryParamList>>();
-  const { onSelectCategory } = route.params;
+  const { onSelectCategory, type } = route.params;
 
   const categoryRepository = useCategoryRepository(categoryService);
   const { getCategories, isLoading, listCategoriesData } =
@@ -38,8 +40,8 @@ const SelectCategory = () => {
   };
 
   useEffect(() => {
-    getCategories();
-  }, [getCategories]);
+    getCategories(type);
+  }, [getCategories, type]);
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.blackTransparent }}>

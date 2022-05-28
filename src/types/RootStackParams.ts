@@ -1,3 +1,4 @@
+import { TRANSACTION_TYPE } from "@app/constants";
 import { ICategoryModel } from "@app/features/Category/domain/models/ICategoryModel";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -6,13 +7,17 @@ type RootStackParamList = {
   CreateAccount: undefined;
 
   HomeStack: undefined;
+  BalanceInfo: undefined;
 
   CategoryStack: undefined;
   Category: undefined;
   EditCategory: { categoryId: string };
   CreateCategory: undefined;
   CategorySugestion: undefined;
-  SelectCategory: { onSelectCategory: (category: ICategoryModel) => void };
+  SelectCategory: {
+    onSelectCategory: (category: ICategoryModel) => void;
+    type: TRANSACTION_TYPE;
+  };
 
   CreateTransaction: undefined;
   EditTransaction: { transactionId: string };

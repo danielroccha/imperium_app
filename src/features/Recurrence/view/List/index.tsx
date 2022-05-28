@@ -19,6 +19,11 @@ import recurrenceService from "@app/services/recurrence";
 import { useListRecurrenceViewModel } from "./listRecurrenceViewModel";
 import IRecurrenceModel from "../../domain/models/IRecurrenceModel";
 import Loading from "@app/components/molecules/Loading";
+import Pill from "@app/components/molecules/Pill";
+import { TRANSACTION_TYPE } from "@app/constants";
+import Util from "@app/util";
+import EmptyStateList from "@app/components/organisms/EmptyStateList";
+import { lotties } from "@app/assets";
 
 const ListRecurrence = () => {
   const theme = colors();
@@ -53,8 +58,8 @@ const ListRecurrence = () => {
 
     const handleDelete = () => {
       Alert.alert(
-        "Remover essa categoria?",
-        "Tem certeza que deseja remover essa catergoria?",
+        "Remover essa recorrência?",
+        "Tem certeza que deseja remover essa recorrência?",
         [
           {
             text: "Cancelar",
@@ -83,23 +88,54 @@ const ListRecurrence = () => {
           marginBottom: dimens.small,
         }}
         onPress={handleEditRecurrence}>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <CategoryIcon
-            color={item.category?.color ?? theme.primary}
-            icon={item.category?.icon ?? ""}
-          />
-          <View>
-            <Body style={{ marginLeft: dimens.small }}>{item.name}</Body>
-            <Small style={{ marginLeft: dimens.small }}>
-              {`Lançado todo dia ${date.getDate()}`}
-            </Small>
+        <View style={{ flex: 1 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}>
+            <View style={{ flexDirection: "row" }}>
+              <CategoryIcon
+                color={item.category?.color ?? theme.primary}
+                icon={item.category?.icon ?? ""}
+              />
+              <View style={{ marginLeft: dimens.small }}>
+                <Body>{item.name}</Body>
+                <Small>{`Lançado todo dia ${date.getDate()}`}</Small>
+              </View>
+            </View>
+            <TouchableOpacity
+              onPress={handleDelete}
+              hitSlop={{ bottom: 40, left: 40, right: 40, top: 40 }}>
+              <Icon name="trash" size={22} color={theme.primary} />
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              marginTop: dimens.base,
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}>
+            <Pill
+              text={
+                item.type === TRANSACTION_TYPE.EXPENSE ? "Despesa" : "Receita"
+              }
+              color={
+                item.type === TRANSACTION_TYPE.EXPENSE ? "danger" : "green"
+              }
+            />
+            <View style={{ marginLeft: dimens.small }}>
+              <Body align="right">Valor</Body>
+              <Body
+                color={
+                  item.type === TRANSACTION_TYPE.EXPENSE ? "danger" : "green"
+                }>
+                {Util.formatToMoney(item.value)}
+              </Body>
+            </View>
           </View>
         </View>
-        <TouchableOpacity
-          onPress={handleDelete}
-          hitSlop={{ bottom: 40, left: 40, right: 40, top: 40 }}>
-          <Icon name="trash" size={22} color={theme.primary} />
-        </TouchableOpacity>
       </TouchableOpacity>
     );
   };
@@ -122,6 +158,12 @@ const ListRecurrence = () => {
               refreshing={isRefreshing}
               onRefresh={handleRefresh}
               tintColor={theme.primary}
+            />
+          }
+          ListEmptyComponent={
+            <EmptyStateList
+              lottie={lotties.emptyBox}
+              text="Nenhuma recorrência encontrada, pressione o + para criar uma nova recorrência"
             />
           }
           renderItem={renderItem}

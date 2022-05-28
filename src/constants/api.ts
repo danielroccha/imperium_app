@@ -1,3 +1,5 @@
+import { TRANSACTION_TYPE } from ".";
+
 const AUTHENTICATION_SERVICES = {
   LOGIN: "/authentication",
   REFRESH_TOKEN: "/authentication/refresh-token",
@@ -16,7 +18,7 @@ const TRANSACTION_SERVICES = {
 };
 
 const CATEGORY_SERVICES = {
-  LIST_CATEGORIES: "/category/list",
+  LIST_CATEGORIES: (type?: TRANSACTION_TYPE) => `/category/list?type=${type}`,
   CREATE_CATEGORY: "/category",
   EDIT_CATEGORY: (categoryId: string) => `/category/${categoryId}`,
   DELETE_CATEGORY: (categoryId: string) => `/category/${categoryId}`,

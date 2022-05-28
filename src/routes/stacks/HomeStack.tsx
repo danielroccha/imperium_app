@@ -7,6 +7,7 @@ import RecurrenceStack from "@app/routes/stacks/RecurrenceStack";
 import Home from "@app/features/Home/view";
 import CreateTransaction from "@app/features/Transaction/view/Create";
 import EditTransaction from "@app/features/Transaction/view/Edit";
+import BalanceInfo from "@app/components/pages/BalanceInfo";
 
 import Profile from "@app/features/Profile/view";
 
@@ -58,6 +59,14 @@ const HomeStack = () => {
         }}
         name="Profile"
         component={Profile}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          presentation: "modal",
+        }}
+        name="BalanceInfo"
+        component={BalanceInfo}
       />
       <Stack.Screen
         options={{

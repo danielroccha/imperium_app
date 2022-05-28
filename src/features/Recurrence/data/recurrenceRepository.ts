@@ -1,13 +1,13 @@
 import { useCallback } from "react";
-import { TEditCategoryRemote } from "@app/services/category/remoteTypes/EditCategoryRemote";
 import { IRecurrenceService } from "@app/services/recurrence";
-import IRecurrenceEntity from "./IRecurrenceEntity";
+import IRecurrenceEntity from "@app/features/Recurrence/data/IRecurrenceEntity";
 import { TCreateRecurrenceRemote } from "@app/services/recurrence/remoteTypes/CreateRecurrenceRemote";
+import { TEditRecurrenceRemote } from "@app/services/recurrence/remoteTypes/EditRecurrenceRemote";
 
 export interface IRecurrenceRepository {
   listRecurrences(): Promise<IRecurrenceEntity[]>;
   createRecurrence(data: TCreateRecurrenceRemote): Promise<void>;
-  editCategory(data: TEditCategoryRemote): Promise<void>;
+  editRecurrence(data: TEditRecurrenceRemote): Promise<void>;
   getRecurrence(recurrenceId: string): Promise<IRecurrenceEntity>;
   deleteRecurrence(recurrenceId: string): Promise<void>;
 }
@@ -28,8 +28,8 @@ const useRecurrenceRepository = (
     [service],
   );
 
-  const editCategory = useCallback(
-    async (data: TEditCategoryRemote) => {
+  const editRecurrence = useCallback(
+    async (data: TEditRecurrenceRemote) => {
       const response = await service.editCategoryService(data);
       return response;
     },
@@ -55,7 +55,7 @@ const useRecurrenceRepository = (
   return {
     listRecurrences,
     createRecurrence,
-    editCategory,
+    editRecurrence,
     getRecurrence,
     deleteRecurrence,
   };

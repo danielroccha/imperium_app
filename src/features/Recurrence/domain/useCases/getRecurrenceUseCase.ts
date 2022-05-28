@@ -21,5 +21,6 @@ const mapRecurrenceToDomain = (
   type: recurrence.type,
   userId: recurrence.userId,
   value: recurrence.value,
+  category: recurrence.category,
 });
 export { getRecurrenceUseCase };

@@ -41,6 +41,7 @@ const Home = () => {
   );
 
   const handleFilterDate = (date: Date) => {
+    setDateFilter(date);
     getData(Util.getMonthIndex(date), date.getFullYear());
   };
 
@@ -50,10 +51,6 @@ const Home = () => {
 
   const hideDatePicker = () => {
     setStateDatePicker(false);
-  };
-
-  const handleOpenProfile = () => {
-    navigation.navigate("Profile");
   };
 
   const renderItem = ({ item }: { item: ITransactionModel }) => {

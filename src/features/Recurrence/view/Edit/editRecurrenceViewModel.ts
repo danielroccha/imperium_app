@@ -2,12 +2,13 @@ import { useCallback, useState } from "react";
 
 import { useNavigation } from "@react-navigation/native";
 
-import { createRecurrenceUseCase } from "@app/features/Recurrence/domain/useCases/createRecurrenceUseCase";
 import { getRecurrenceUseCase } from "@app/features/Recurrence/domain/useCases/getRecurrenceUseCase";
 import { IRecurrenceRepository } from "@app/features/Recurrence/data/recurrenceRepository";
+import { editRecurrenceUseCase } from "@app/features/Recurrence/domain/useCases/editRecurrenceUseCase";
 
 import { handleError } from "@app/configs/api";
 import { TRANSACTION_TYPE } from "@app/constants";
+import { ICategoryModel } from "@app/features/Category/domain/models/ICategoryModel";
 
 export type EditRecurrenceViewModel = {
   name: string;
@@ -15,6 +16,8 @@ export type EditRecurrenceViewModel = {
   date: Date;
   type: TRANSACTION_TYPE;
   categoryId: string;
+  category?: ICategoryModel;
+  id: string;
 };
 
 const useEditRecurrenceViewModel = (repository: IRecurrenceRepository) => {
@@ -26,8 +29,8 @@ const useEditRecurrenceViewModel = (repository: IRecurrenceRepository) => {
     async (data: EditRecurrenceViewModel) => {
       try {
         setLoading(true);
-        await createRecurrenceUseCase(
-          { createRecurrence: repository.createRecurrence },
+        await editRecurrenceUseCase(
+          { editRecurrence: repository.editRecurrence },
           data,
         );
         navigation.goBack();
@@ -37,7 +40,7 @@ const useEditRecurrenceViewModel = (repository: IRecurrenceRepository) => {
         handleError(error);
       }
     },
-    [repository.createRecurrence, navigation],
+    [repository.editRecurrence, navigation],
   );
 
   const getRecurrence = useCallback(

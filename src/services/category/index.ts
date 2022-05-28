@@ -1,19 +1,26 @@
 import api from "@app/configs/api";
+import { TRANSACTION_TYPE } from "@app/constants";
 import API_SERVICES from "@app/constants/api";
 import { ICategoryEntity } from "@app/features/Category/data/ICategoryEntity";
 import { TCreateCategoryRemote } from "@app/services/Category/remoteTypes/CreateCategoryRemote";
 import { TEditCategoryRemote } from "./remoteTypes/EditCategoryRemote";
 
 export interface ICategoryService {
-  listCategoriesService: () => Promise<ICategoryEntity[]>;
+  listCategoriesService: (
+    type?: TRANSACTION_TYPE,
+  ) => Promise<ICategoryEntity[]>;
   createCategoryService: (data: TCreateCategoryRemote) => Promise<void>;
   editCategoryService: (data: TEditCategoryRemote) => Promise<void>;
   getCategoryService: (categoryId: string) => Promise<ICategoryEntity>;
   deleteCategoryService: (categoryId: string) => Promise<void>;
 }
 
-const listCategoriesService = async (): Promise<ICategoryEntity[]> =>
-  api.get(API_SERVICES.CATEGORY_SERVICES.LIST_CATEGORIES).then(res => res.data);
+const listCategoriesService = async (
+  type?: TRANSACTION_TYPE,
+): Promise<ICategoryEntity[]> =>
+  api
+    .get(API_SERVICES.CATEGORY_SERVICES.LIST_CATEGORIES(type))
+    .then(res => res.data);
 
 const createCategoryService = async (
   data: TCreateCategoryRemote,

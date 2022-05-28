@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { View, TouchableOpacity, ScrollView } from "react-native";
 import DatePicker from "react-native-date-picker";
 import Icon from "react-native-vector-icons/Feather";
@@ -16,47 +16,54 @@ enum DATES_OPTIONS {
 
 type SelectDateProps = {
   onChangeDate: (date: Date) => void;
+  initialDate?: Date;
 };
 
-const SelectDate = ({ onChangeDate }: SelectDateProps) => {
+const SelectDate = ({ onChangeDate, initialDate }: SelectDateProps) => {
   const theme = colors();
-  const date = new Date();
-  const [seletedDate, setSelectedDate] = useState(date);
+  const date = useMemo(() => new Date(), []);
+
+  const [selectedDate, setSelectedDate] = useState(date);
   const [otherDate, setOtherDate] = useState<Date | null>();
   const [showDatePicker, setShowDatePicker] = useState(false);
 
-  const dates: { dayText: string; date: () => Date }[] = [
-    {
-      dayText: DATES_OPTIONS.TODAY,
-      date: () => date,
-    },
-    {
-      dayText: DATES_OPTIONS.TOMORROW,
-      date: () => {
-        const newDate = new Date();
-        newDate.setDate(newDate.getDate() + 1);
-        return newDate;
+  const dates: { dayText: string; date: () => Date }[] = useMemo(
+    () => [
+      {
+        dayText: DATES_OPTIONS.TODAY,
+        date: () => date,
       },
-    },
-    {
-      dayText: DATES_OPTIONS.YESTERDAY,
-      date: () => {
-        const newDate = new Date();
-        newDate.setDate(newDate.getDate() - 1);
-        return newDate;
+      {
+        dayText: DATES_OPTIONS.TOMORROW,
+        date: () => {
+          const newDate = new Date();
+          newDate.setDate(newDate.getDate() + 1);
+          return newDate;
+        },
       },
-    },
-  ];
+      {
+        dayText: DATES_OPTIONS.YESTERDAY,
+        date: () => {
+          const newDate = new Date();
+          newDate.setDate(newDate.getDate() - 1);
+          return newDate;
+        },
+      },
+    ],
+    [date],
+  );
 
   const handleTapDate = (index: number) => {
     const itemDate = dates[index];
     setSelectedDate(itemDate.date());
+    onChangeDate(itemDate.date());
   };
 
   const handleConfirmDatePicker = (value: Date) => {
     setSelectedDate(value);
     setOtherDate(value);
     hideDatePicker();
+    onChangeDate(value);
   };
 
   const handleResetDatePicker = () => {
@@ -73,8 +80,22 @@ const SelectDate = ({ onChangeDate }: SelectDateProps) => {
   };
 
   useEffect(() => {
-    onChangeDate(seletedDate);
-  }, [seletedDate, onChangeDate]);
+    if (initialDate) {
+      const dateValue = new Date(initialDate);
+      setSelectedDate(dateValue);
+
+      const [today, tomorrow, yesterday] = dates;
+
+      if (
+        dateValue.toLocaleDateString() !== today.date().toLocaleDateString() &&
+        dateValue.toLocaleDateString() !==
+          tomorrow.date().toLocaleDateString() &&
+        dateValue.toLocaleDateString() !== yesterday.date().toLocaleDateString()
+      ) {
+        setOtherDate(dateValue);
+      }
+    }
+  }, [initialDate, dates]);
 
   return (
     <>
@@ -100,7 +121,7 @@ const SelectDate = ({ onChangeDate }: SelectDateProps) => {
                 key={item.dayText}
                 text={item.dayText}
                 color={
-                  seletedDate.toLocaleDateString() ===
+                  selectedDate.toLocaleDateString() ===
                     item.date().toLocaleDateString() && !showDatePicker
                     ? "primary"
                     : "secondary"

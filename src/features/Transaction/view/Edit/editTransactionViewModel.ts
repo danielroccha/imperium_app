@@ -7,6 +7,7 @@ import { handleError } from "@app/configs/api";
 import { ITransactionRepository } from "@app/features/Transaction/data/transactionRepository";
 import RootStackNavigation from "@app/types/RootStackParams";
 import { getTransactionUseCase } from "../../domain/useCases/getTransactionUseCase";
+import { ICategoryModel } from "@app/features/Category/domain/models/ICategoryModel";
 
 export type TEditTransactionViewModel = {
   name: string;
@@ -15,11 +16,12 @@ export type TEditTransactionViewModel = {
   isInstallment: boolean;
   type: TRANSACTION_TYPE;
   categoryId: string;
+  category: ICategoryModel;
 };
 
 const useEditTransactionViewModel = (repository: ITransactionRepository) => {
   const [isLoading, setLoading] = useState(false);
-  const [transactionData, setTransactionDatea] =
+  const [transactionData, setTransactionData] =
     useState<TEditTransactionViewModel>();
   const navigation = useNavigation<RootStackNavigation>();
 
@@ -32,14 +34,16 @@ const useEditTransactionViewModel = (repository: ITransactionRepository) => {
           transactionId,
         );
 
-        setTransactionDatea({
+        setTransactionData({
           categoryId: result.categoryId,
           date: result.date,
           isInstallment: false,
           name: result.name,
           type: result.type,
           value: result.value,
+          category: result.category,
         });
+        setLoading(false);
       } catch (error) {
         handleError(error);
         setLoading(false);

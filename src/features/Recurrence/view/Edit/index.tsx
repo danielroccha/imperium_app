@@ -13,6 +13,7 @@ import recurrenceService from "@app/services/recurrence";
 import NavBar from "@app/components/organisms/Navbar";
 
 import { colors } from "@app/configs/Theme";
+import Loading from "@app/components/molecules/Loading";
 
 type EditRecurrenceParamList = {
   Detail: {
@@ -33,6 +34,15 @@ const EditRecurrence = () => {
 
   const handleValidateSuccess = (data: TTransactionForm) => {
     const { category, date, description, transactionType, value } = data;
+
+    editRecurrence({
+      categoryId: category?.id ?? "",
+      date,
+      name: description,
+      type: transactionType,
+      value,
+      id: recurrence?.id ?? "",
+    });
   };
 
   const handleClose = () => {
@@ -46,17 +56,30 @@ const EditRecurrence = () => {
   return (
     <View style={{ flex: 1, backgroundColor: theme.mode }}>
       <NavBar
-        title="Cadastrar Recorrencia"
+        title="Editar Recorrencia"
         iconRight="x"
         onClickActionRight={handleClose}
       />
-      <View style={{ backgroundColor: theme.mode }}>
-        <TransactionForm
-          loading={isLoading}
-          showAdvancedOptions={false}
-          onValidateSuccess={handleValidateSuccess}
-        />
-      </View>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <View style={{ backgroundColor: theme.mode }}>
+          {recurrence && (
+            <TransactionForm
+              dataForm={{
+                date: recurrence.date,
+                category: recurrence.category,
+                description: recurrence.name,
+                transactionType: recurrence.type,
+                value: recurrence.value,
+              }}
+              loading={isLoading}
+              showAdvancedOptions={false}
+              onValidateSuccess={handleValidateSuccess}
+            />
+          )}
+        </View>
+      )}
     </View>
   );
 };

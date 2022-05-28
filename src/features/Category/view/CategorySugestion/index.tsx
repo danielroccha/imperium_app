@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 const CategorySugestion = () => {
   const navigation = useNavigation();
   const [categoriesSugestion, setCategoriesSugestion] = useState(
-    incomesCategorySugestion,
+    expensesCategorySugestion,
   );
 
   const theme = colors();
@@ -46,6 +46,7 @@ const CategorySugestion = () => {
         <View style={{ marginBottom: dimens.small }}>
           <SwitchTransactionType
             text="Filtrar Categorias:"
+            value={TRANSACTION_TYPE.EXPENSE}
             onChange={handleChangeTransactionType}
           />
         </View>
