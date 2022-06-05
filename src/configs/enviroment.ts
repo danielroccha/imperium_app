@@ -1,5 +1,5 @@
 const enviroment = {
-  baseURL: "http://192.168.100.33:3333/api",
+  baseURL: "http://api-imperium.imperiumwallet.com/api",
 };
 
 export default enviroment;

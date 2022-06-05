@@ -3,7 +3,7 @@ import { TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
 import ScrollMonths from "@app/components/molecules/ScrollMonths";
-import { Regular, Body, Small } from "@app/components/atoms/Text";
+import { Regular, Body } from "@app/components/atoms/Text";
 import { colors, dimens, SCREEN_WIDTH } from "@app/configs/Theme";
 import SectionOptions from "@app/components/organisms/SectionOptions";
 import styles from "./styles";
@@ -11,6 +11,7 @@ import TextMoney from "@app/components/atoms/TextMoney";
 import { useNavigation } from "@react-navigation/native";
 import RootStackNavigation from "@app/types/RootStackParams";
 import Util from "@app/util";
+import { TRANSACTION_TYPE } from "@app/constants";
 
 type HeaderInfoProps = {
   onFilterDate: (date: Date) => void;
@@ -48,11 +49,30 @@ const HeaderInfo = ({
     navigation.navigate("BalanceInfo");
   };
 
+  const handlePressExpenses = () => {
+    if (dateFilter) {
+      navigation.navigate("TransactionGroupByCategory", {
+        transactionType: TRANSACTION_TYPE.EXPENSE,
+        monthId: Util.getMonthIndex(dateFilter),
+        year: dateFilter.getFullYear(),
+      });
+    }
+  };
+  const handlePressIncomes = () => {
+    if (dateFilter) {
+      navigation.navigate("TransactionGroupByCategory", {
+        transactionType: TRANSACTION_TYPE.INCOME,
+        monthId: Util.getMonthIndex(dateFilter),
+        year: dateFilter.getFullYear(),
+      });
+    }
+  };
+
   const getLabelBalance = useCallback(() => {
     const label = "Saldo atual";
     if (dateFilter) {
       const currentMonthId = Util.getMonthIndex(new Date());
-      const monthId = Util.getMonthIndex(new Date(dateFilter));
+      const monthId = Util.getMonthIndex(dateFilter);
       if (monthId < currentMonthId) {
         return "Balanço do mês";
       } else if (monthId > currentMonthId) {
@@ -105,13 +125,10 @@ const HeaderInfo = ({
             color="white"
             animation
           />
-          {/* <Small color="white" align="center">
-            Receita - despesa
-          </Small> */}
         </View>
       </View>
       <View style={styles(theme).containerTransactionType}>
-        <View>
+        <TouchableOpacity onPress={handlePressIncomes}>
           <View style={styles(theme).transactionTypeContainerTitle}>
             <View
               style={[
@@ -120,7 +137,7 @@ const HeaderInfo = ({
               ]}>
               <Icon name="dollar-sign" size={18} color={theme.mode} />
             </View>
-            <Body color="white">Receita</Body>
+            <Body color="white">Receitas</Body>
           </View>
           <TextMoney
             size="body"
@@ -130,8 +147,8 @@ const HeaderInfo = ({
             color="white"
             animation
           />
-        </View>
-        <View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handlePressExpenses}>
           <View style={styles(theme).transactionTypeContainerTitle}>
             <View
               style={[
@@ -150,7 +167,7 @@ const HeaderInfo = ({
             color="white"
             animation
           />
-        </View>
+        </TouchableOpacity>
       </View>
       <SectionOptions
         onTapAddRecurrence={handleAddRecurrence}

@@ -41,7 +41,7 @@ const TextMoney = ({
       weight={weight}>
       {animation ? (
         <AnimateNumber
-          initial={value * 0.9}
+          initial={value * 0.95}
           value={value}
           formatter={(val: string) => `${Util.formatToMoney(Number(val))}`}
           timing="linear"

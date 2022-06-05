@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -124,43 +124,46 @@ const CategoryForm = ({
 
   return (
     <>
-      <SwitchTransactionType
-        showLabel
-        value={data?.type}
-        onChange={handleChangeTransactionType}
-        disableSwitchTypeTransaction={disableSwitchTypeTransaction}
-      />
-
-      <View style={{ marginTop: dimens.base, paddingHorizontal: dimens.small }}>
-        <Input
-          error={!!errors.name}
-          name="name"
-          control={control}
-          autoFocus
-          label="Nome da categoria"
-          placeholder={"Escreva o nome da nova categoria"}
-          errorMessage={errors.name?.message}
-        />
-      </View>
-
-      <Divide stylesDivide={{ marginTop: dimens.base }} />
-      <ColorsSugestion value={data?.color} onChange={handlePickColor} />
-      <Divide stylesDivide={{ marginTop: dimens.base }} />
-      <View style={{ paddingHorizontal: dimens.small }}>
-        <ImagesSugestion
-          value={data?.icon}
-          onChange={handlePickImage}
-          color={colorSelected}
+      <ScrollView contentContainerStyle={{ paddingBottom: dimens.xlarge }}>
+        <SwitchTransactionType
+          showLabel
+          value={data?.type}
+          onChange={handleChangeTransactionType}
+          disableSwitchTypeTransaction={disableSwitchTypeTransaction}
         />
 
-        <CustomButton
-          loading={loading}
-          title="Salvar"
-          onPress={handleSubmit(onSubmit)}
-          backgroundColor={getColorButton()}
-          styleButton={{ marginTop: dimens.base }}
-        />
-      </View>
+        <View
+          style={{ marginTop: dimens.base, paddingHorizontal: dimens.small }}>
+          <Input
+            error={!!errors.name}
+            name="name"
+            control={control}
+            autoFocus
+            label="Nome da categoria"
+            placeholder={"Escreva o nome da nova categoria"}
+            errorMessage={errors.name?.message}
+          />
+        </View>
+
+        <Divide stylesDivide={{ marginTop: dimens.base }} />
+        <ColorsSugestion value={data?.color} onChange={handlePickColor} />
+        <Divide stylesDivide={{ marginTop: dimens.base }} />
+        <View style={{ paddingHorizontal: dimens.small }}>
+          <ImagesSugestion
+            value={data?.icon}
+            onChange={handlePickImage}
+            color={colorSelected}
+          />
+
+          <CustomButton
+            loading={loading}
+            title="Salvar"
+            onPress={handleSubmit(onSubmit)}
+            backgroundColor={getColorButton()}
+            styleButton={{ marginTop: dimens.base }}
+          />
+        </View>
+      </ScrollView>
     </>
   );
 };

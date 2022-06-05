@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   SectionList,
   View,
@@ -26,6 +26,9 @@ import { colors, SCREEN_HEIGHT } from "@app/configs/Theme";
 import { images, lotties } from "@app/assets";
 import Util from "@app/util";
 import RootStackNavigation from "@app/types/RootStackParams";
+import useProfileRepository from "@app/features/Profile/data/profileRepository";
+import userService from "@app/services/user";
+import { useProfileViewModel } from "@app/features/Profile/view/profileViewModel";
 
 const Home = () => {
   const theme = colors();
@@ -39,6 +42,10 @@ const Home = () => {
   const { data, getData, isLoading } = useHomeViewModel(
     balanceResumeRepository,
   );
+
+  const profileRepository = useProfileRepository(userService);
+
+  const { getData: getDataProfile } = useProfileViewModel(profileRepository);
 
   const handleFilterDate = (date: Date) => {
     setDateFilter(date);
@@ -103,6 +110,10 @@ const Home = () => {
       getData(Util.getMonthIndex(dateFilter), dateFilter.getFullYear());
     }, [dateFilter, getData]),
   );
+
+  useEffect(() => {
+    getDataProfile();
+  }, [getDataProfile]);
 
   return (
     <>

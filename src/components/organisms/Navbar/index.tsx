@@ -3,12 +3,15 @@ import { View, Image, TouchableOpacity, Platform } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
 import { images } from "@app/assets";
-import { Regular } from "@app/components/atoms/Text";
+import { Caption, Regular } from "@app/components/atoms/Text";
 import { colors } from "@app/configs/Theme";
 
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import RootStackNavigation from "@app/types/RootStackParams";
+import Util from "@app/util";
+import { useSelector } from "react-redux";
+import { RootState } from "@app/configs/store";
 
 type NavBarProps = {
   iconRight?: string;
@@ -33,6 +36,8 @@ const NavBar = ({
   backAction,
 }: NavBarProps) => {
   const theme = colors();
+
+  const { profile } = useSelector((state: RootState) => state.profile);
 
   const navigation = useNavigation<RootStackNavigation>();
 
@@ -93,12 +98,19 @@ const NavBar = ({
         {iconRight ? (
           <Icon name={iconRight} size={25} color={theme.primary} />
         ) : (
-          <Image
-            source={{
-              uri: "https://i.pinimg.com/564x/24/b1/12/24b112b8c112d1077981c9ebc0780014.jpg",
-            }}
-            style={{ width: 40, height: 40, borderRadius: 100 }}
-          />
+          <View
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 100,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: theme.primary,
+            }}>
+            <Caption color="white">
+              {profile && Util.getInitialLetters(profile.name)}
+            </Caption>
+          </View>
         )}
       </TouchableOpacity>
     </View>

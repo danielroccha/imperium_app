@@ -3,12 +3,19 @@ import ITransactionEntity from "./ITransactionEntity";
 import { TEditCategoryRemote } from "@app/services/category/remoteTypes/EditCategoryRemote";
 import { ITransactionService } from "@app/services/transaction";
 import { TCreateTransactionRemote } from "@app/services/transaction/remoteTypes/CreateTransactionRemote";
+import { TRANSACTION_TYPE } from "@app/constants";
+import ITransactionByCategoryEntity from "./ITransactionsByCategoryEntity";
 
 export interface ITransactionRepository {
   createTransaction(data: TCreateTransactionRemote): Promise<void>;
   editCategory(data: TEditCategoryRemote): Promise<void>;
   getTransaction(transactionId: string): Promise<ITransactionEntity>;
   deleteCategory(categoryId: string): Promise<void>;
+  getTransactionsGroupByCategory(
+    monthId: number,
+    year: number,
+    transactionType: TRANSACTION_TYPE,
+  ): Promise<ITransactionByCategoryEntity[]>;
 }
 
 const useTransactionRepository = (
@@ -45,11 +52,28 @@ const useTransactionRepository = (
     [service],
   );
 
+  const getTransactionsGroupByCategory = useCallback(
+    async (
+      monthId: number,
+      year: number,
+      transactionType: TRANSACTION_TYPE,
+    ) => {
+      const response = await service.getTransactionsGroupByCategory(
+        monthId,
+        year,
+        transactionType,
+      );
+      return response;
+    },
+    [service],
+  );
+
   return {
     createTransaction,
     editCategory,
     getTransaction,
     deleteCategory,
+    getTransactionsGroupByCategory,
   };
 };
 

@@ -14,6 +14,11 @@ type RootStackParamList = {
   EditCategory: { categoryId: string };
   CreateCategory: undefined;
   CategorySugestion: undefined;
+  TransactionGroupByCategory: {
+    transactionType: TRANSACTION_TYPE;
+    monthId: number;
+    year: number;
+  };
   SelectCategory: {
     onSelectCategory: (category: ICategoryModel) => void;
     type: TRANSACTION_TYPE;

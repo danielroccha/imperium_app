@@ -5,8 +5,12 @@ const AUTHENTICATION_SERVICES = {
   REFRESH_TOKEN: "/authentication/refresh-token",
 };
 
+const USER_SERVICES = {
+  PROFILE: "/user/profile",
+};
+
 const SIGN_UP_SERVICES = {
-  SIGN_UP: "/users",
+  SIGN_UP: "/user",
 };
 
 const TRANSACTION_SERVICES = {
@@ -15,6 +19,12 @@ const TRANSACTION_SERVICES = {
   CREATE_TRANSACTION: "/transaction",
   GET_TRANSACTION: (transactionId: string) => `/transaction/${transactionId}`,
   EDIT_TRANSACTION: (transactionId: string) => `/transaction/${transactionId}`,
+  GET_TRANSACTION_GROUP_BY_CATEGORY: (
+    monthId: number,
+    year: number,
+    typeTrasaction: TRANSACTION_TYPE,
+  ) =>
+    `/transaction/categories?monthId=${monthId}&year=${year}&type=${typeTrasaction}`,
 };
 
 const CATEGORY_SERVICES = {
@@ -39,6 +49,7 @@ const API_SERVICES = {
   TRANSACTION_SERVICES,
   CATEGORY_SERVICES,
   RECURRENCE_SERVICES,
+  USER_SERVICES,
 };
 
 export default API_SERVICES;

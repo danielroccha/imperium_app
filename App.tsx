@@ -1,3 +1,5 @@
+import "intl";
+import "intl/locale-data/jsonp/en";
 import React, { useRef, useState } from "react";
 import { SafeAreaView, StatusBar, useColorScheme, LogBox } from "react-native";
 import {

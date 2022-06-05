@@ -6,15 +6,19 @@ import {
 } from "redux";
 import ReduxThunk from "redux-thunk";
 
-import auth from "@app/features/Login/data/loginReducer";
+import authReducer from "@app/features/Login/data/loginReducer";
+import profileReducer from "@app/features/Profile/data/profileReducer";
 import { IAuthenticationFlowState } from "@app/features/Login/data/loginTypes";
+import { IProfileState } from "@app/features/Profile/data/profileTypes";
 
 export type RootState = {
   auth: IAuthenticationFlowState;
+  profile: IProfileState;
 };
 
 const appReducer = combineReducers<RootState>({
-  auth,
+  auth: authReducer,
+  profile: profileReducer,
 });
 
 export const store = createStore(appReducer, {}, applyMiddleware(ReduxThunk));

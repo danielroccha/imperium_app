@@ -7,7 +7,13 @@ import Icon from "react-native-vector-icons/Feather";
 
 import SwitchTransactionType from "@app/components/molecules/SwitchTransactionType";
 import CustomButton from "@app/components/atoms/Button";
-import { colors, dimens, getShadow, SCREEN_HEIGHT } from "@app/configs/Theme";
+import {
+  colors,
+  dimens,
+  getShadow,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+} from "@app/configs/Theme";
 import Input from "@app/components/atoms/Input";
 import { useForm } from "react-hook-form";
 import { Body, Caption } from "@app/components/atoms/Text";
@@ -167,7 +173,7 @@ const TransactionForm = ({
 
   return (
     <View>
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ paddingBottom: dimens.xlarge }}>
         <View>
           <View
             style={{
@@ -177,7 +183,7 @@ const TransactionForm = ({
                 transactionType == TRANSACTION_TYPE.INCOME
                   ? theme.green
                   : theme.danger,
-              height: SCREEN_HEIGHT * 0.22,
+              height: 200,
               padding: dimens.tiny,
             }}>
             <SwitchTransactionType
@@ -211,8 +217,12 @@ const TransactionForm = ({
                 errorMessage={errors.description?.message}
               />
             </View>
-            <Divide stylesDivide={{ marginVertical: dimens.base }} />
-            <SelectDate onChangeDate={handleSetDate} initialDate={date} />
+            {!edit && (
+              <>
+                <Divide stylesDivide={{ marginVertical: dimens.base }} />
+                <SelectDate onChangeDate={handleSetDate} initialDate={date} />
+              </>
+            )}
             <Divide stylesDivide={{ marginVertical: dimens.base }} />
             <TouchableOpacity
               style={{
@@ -247,10 +257,6 @@ const TransactionForm = ({
             {showAdvancedOptions && (
               <Switch
                 options={[
-                  {
-                    text: "Recorrência",
-                    value: TRANSACTION_OPTIONS.RECURRENCE,
-                  },
                   {
                     text: "Repetir",
                     value: TRANSACTION_OPTIONS.INSTALLMENT,

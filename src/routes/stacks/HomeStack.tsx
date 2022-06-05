@@ -7,9 +7,11 @@ import RecurrenceStack from "@app/routes/stacks/RecurrenceStack";
 import Home from "@app/features/Home/view";
 import CreateTransaction from "@app/features/Transaction/view/Create";
 import EditTransaction from "@app/features/Transaction/view/Edit";
-import BalanceInfo from "@app/components/pages/BalanceInfo";
+import TransactionGroupByCategory from "@app/features/Transaction/view/TransactionGroupByCategory";
 
 import Profile from "@app/features/Profile/view";
+
+import BalanceInfo from "@app/components/pages/BalanceInfo";
 
 import SelectCategory from "@app/features/Category/view/SelectCategory";
 
@@ -75,6 +77,14 @@ const HomeStack = () => {
         }}
         name="SelectCategory"
         component={SelectCategory}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          presentation: "modal",
+        }}
+        name="TransactionGroupByCategory"
+        component={TransactionGroupByCategory}
       />
     </Stack.Navigator>
   );
