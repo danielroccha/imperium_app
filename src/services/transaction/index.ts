@@ -5,14 +5,17 @@ import IBalanceResumeEntity from "@app/features/Home/data/IBalanceResumeEntity";
 import ITransactionEntity from "@app/features/Transaction/data/ITransactionEntity";
 import ITransactionByCategoryEntity from "@app/features/Transaction/data/ITransactionsByCategoryEntity";
 import { TCreateTransactionRemote } from "@app/services/transaction/remoteTypes/CreateTransactionRemote";
+import { TEditTransactionRemote } from "@app/services/transaction/remoteTypes/EditTransactionRemote";
 
 export interface ITransactionService {
   getBalanceService: (
     monthId: number,
     year: number,
   ) => Promise<IBalanceResumeEntity>;
-  createTransaction: (data: TCreateTransactionRemote) => Promise<void>;
-  getTransaction: (transactionId: string) => Promise<ITransactionEntity>;
+  createTransactionService: (data: TCreateTransactionRemote) => Promise<void>;
+  getTransactionService: (transactionId: string) => Promise<ITransactionEntity>;
+  deleteTransactionService: (transactionId: string) => Promise<void>;
+  editTransactionService: (data: TEditTransactionRemote) => Promise<void>;
   getTransactionsGroupByCategory: (
     monthId: number,
     year: number,
@@ -28,14 +31,28 @@ const getBalanceService = async (
     .get(API_SERVICES.TRANSACTION_SERVICES.BALANCE_RESUME(monthId, year))
     .then(res => res.data);
 
-const createTransaction = (data: TCreateTransactionRemote): Promise<void> =>
+const deleteTransactionService = async (transactionId: string): Promise<void> =>
+  api
+    .delete(API_SERVICES.TRANSACTION_SERVICES.DELETE_TRANSACTION(transactionId))
+    .then(res => res.data);
+
+const createTransactionService = (
+  data: TCreateTransactionRemote,
+): Promise<void> =>
   api
     .post(API_SERVICES.TRANSACTION_SERVICES.CREATE_TRANSACTION, data)
     .then(res => res.data);
 
-const getTransaction = (transactionId: string): Promise<ITransactionEntity> =>
+const getTransactionService = (
+  transactionId: string,
+): Promise<ITransactionEntity> =>
   api
     .get(API_SERVICES.TRANSACTION_SERVICES.GET_TRANSACTION(transactionId))
+    .then(res => res.data);
+
+const editTransactionService = (data: TEditTransactionRemote): Promise<void> =>
+  api
+    .put(API_SERVICES.TRANSACTION_SERVICES.EDIT_TRANSACTION(data.id), data)
     .then(res => res.data);
 
 const getTransactionsGroupByCategory = (
@@ -55,9 +72,11 @@ const getTransactionsGroupByCategory = (
 
 const transactionService: ITransactionService = {
   getBalanceService,
-  createTransaction,
-  getTransaction,
+  createTransactionService,
+  getTransactionService,
   getTransactionsGroupByCategory,
+  deleteTransactionService,
+  editTransactionService,
 };
 
 export default transactionService;

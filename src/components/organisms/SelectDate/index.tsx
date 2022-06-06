@@ -83,6 +83,7 @@ const SelectDate = ({ onChangeDate, initialDate }: SelectDateProps) => {
     if (initialDate) {
       const dateValue = new Date(initialDate);
       setSelectedDate(dateValue);
+      onChangeDate(initialDate);
 
       const [today, tomorrow, yesterday] = dates;
 
@@ -95,7 +96,7 @@ const SelectDate = ({ onChangeDate, initialDate }: SelectDateProps) => {
         setOtherDate(dateValue);
       }
     }
-  }, [initialDate, dates]);
+  }, [initialDate, dates, onChangeDate]);
 
   return (
     <>

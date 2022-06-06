@@ -14,7 +14,7 @@ type OptionSwitch = {
 
 type SwitchTransactionTypeProps = {
   options: OptionSwitch[];
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   error?: boolean;
   text?: string;
   value?: string;
@@ -40,10 +40,10 @@ const Switch = ({
   const handleSelectOption = (item: OptionSwitch) => {
     if (item.value === selectedOption) {
       setSelectedOption("");
-      onChange("");
+      if (onChange) onChange("");
     } else {
       setSelectedOption(item.value);
-      onChange(item.value);
+      if (onChange) onChange(item.value);
     }
   };
 
@@ -76,6 +76,7 @@ const Switch = ({
         {options.map((item, index, data) => (
           <TouchableOpacity
             key={item.value}
+            disabled={disableSwitchTypeTransaction}
             hitSlop={{ bottom: 20, left: 20, right: 20, top: 20 }}
             style={[
               {

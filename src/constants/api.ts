@@ -19,6 +19,8 @@ const TRANSACTION_SERVICES = {
   CREATE_TRANSACTION: "/transaction",
   GET_TRANSACTION: (transactionId: string) => `/transaction/${transactionId}`,
   EDIT_TRANSACTION: (transactionId: string) => `/transaction/${transactionId}`,
+  DELETE_TRANSACTION: (transactionId: string) =>
+    `/transaction/${transactionId}`,
   GET_TRANSACTION_GROUP_BY_CATEGORY: (
     monthId: number,
     year: number,

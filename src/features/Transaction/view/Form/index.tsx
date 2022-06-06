@@ -7,13 +7,7 @@ import Icon from "react-native-vector-icons/Feather";
 
 import SwitchTransactionType from "@app/components/molecules/SwitchTransactionType";
 import CustomButton from "@app/components/atoms/Button";
-import {
-  colors,
-  dimens,
-  getShadow,
-  SCREEN_HEIGHT,
-  SCREEN_WIDTH,
-} from "@app/configs/Theme";
+import { colors, dimens, getShadow } from "@app/configs/Theme";
 import Input from "@app/components/atoms/Input";
 import { useForm } from "react-hook-form";
 import { Body, Caption } from "@app/components/atoms/Text";
@@ -69,7 +63,7 @@ const TransactionForm = ({
   );
   const [transactionValue, setTransactionValue] = useState<string>();
 
-  const [date, setDate] = useState<Date>();
+  const [date, setDate] = useState(new Date());
 
   const [category, setCategory] = useState<ICategoryModel | null>();
 
@@ -95,17 +89,17 @@ const TransactionForm = ({
   const onSubmit = (data: TTransactionFormYup) => {
     const { description } = data;
 
-    if (category === null || category === undefined) {
+    if (transactionValue === undefined || transactionValue === "0") {
+      return Util.showAlertError("Preecha os campos", "Adicione um valor");
+    } else if (description === "" || description === undefined) {
+      return Util.showAlertError("Preecha os campos", "Adicione uma descrição");
+    } else if (category === null || category === undefined) {
       return Util.showAlertError(
         "Preecha os campos",
         "Selecione uma categoria",
       );
     } else if (date === undefined) {
       return Util.showAlertError("Preecha os campos", "Selecione uma data");
-    } else if (transactionValue === "" || transactionValue === "0") {
-      return Util.showAlertError("Preecha os campos", "Adicione um valor");
-    } else if (description === "") {
-      return Util.showAlertError("Preecha os campos", "Adicione uma descrição");
     }
 
     onValidateSuccess({
@@ -186,13 +180,39 @@ const TransactionForm = ({
               height: 200,
               padding: dimens.tiny,
             }}>
-            <SwitchTransactionType
-              showLabel
-              disableSwitchTypeTransaction={edit}
-              value={transactionType}
-              colorLabel="white"
-              onChange={handleChangeTransactionType}
-            />
+            {edit ? (
+              <View style={{ marginTop: dimens.medium }}>
+                <Switch
+                  options={[
+                    {
+                      text:
+                        dataForm?.transactionType === TRANSACTION_TYPE.EXPENSE
+                          ? "Despesa"
+                          : "Receita",
+                      value:
+                        dataForm?.transactionType ?? TRANSACTION_TYPE.EXPENSE,
+                      color:
+                        dataForm?.transactionType === TRANSACTION_TYPE.EXPENSE
+                          ? theme.danger
+                          : theme.green,
+                    },
+                  ]}
+                  disableSwitchTypeTransaction
+                  value={dataForm?.transactionType}
+                  onChange={handleChangeTransactionOption}
+                  colorLabel="green"
+                />
+              </View>
+            ) : (
+              <SwitchTransactionType
+                showLabel
+                disableSwitchTypeTransaction={edit}
+                value={transactionType}
+                colorLabel="white"
+                onChange={handleChangeTransactionType}
+              />
+            )}
+
             <View>
               <Caption align="center" color="white">
                 Valor
@@ -217,9 +237,21 @@ const TransactionForm = ({
                 errorMessage={errors.description?.message}
               />
             </View>
-            {!edit && (
+            <Divide stylesDivide={{ marginVertical: dimens.base }} />
+            {edit ? (
               <>
-                <Divide stylesDivide={{ marginVertical: dimens.base }} />
+                <Caption color="primary">
+                  {`Data: ${new Date(
+                    dataForm?.date ?? "",
+                  ).toLocaleDateString()}`}
+                </Caption>
+                <Caption color="primary">
+                  <Caption>A data está errada ?</Caption> É só apagar e criar um
+                  novo.
+                </Caption>
+              </>
+            ) : (
+              <>
                 <SelectDate onChangeDate={handleSetDate} initialDate={date} />
               </>
             )}
@@ -288,7 +320,7 @@ const TransactionForm = ({
 
             <CustomButton
               loading={loading}
-              title="Registrar"
+              title={edit ? "Alterar" : "Registrar"}
               backgroundColor={
                 transactionType === TRANSACTION_TYPE.EXPENSE
                   ? "danger"

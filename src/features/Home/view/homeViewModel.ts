@@ -1,16 +1,17 @@
 import { useCallback, useState } from "react";
 
 import { handleError } from "@app/configs/api";
-import { IBalanceResumeRepository } from "@app/features/Home/data/balanceResumeRepository";
+import { ITransactionRepository } from "@app/features/Transaction/data/transactionRepository";
 import { getBalanceResumeUseCase } from "@app/features/Home/domain/useCases/getBalanceResumeUseCase";
 import IBalanceResumeModel from "@app/features/Home/domain/models/IBalanceResumeModel";
+import { deleteTransactionUseCase } from "@app/features/Transaction/domain/useCases/deleteTransactionUseCase";
 
 export type TLoginViewModel = {
   email: string;
   password: string;
 };
 
-const useHomeViewModel = (repository: IBalanceResumeRepository) => {
+const useHomeViewModel = (repository: ITransactionRepository) => {
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState<IBalanceResumeModel>();
 
@@ -34,7 +35,24 @@ const useHomeViewModel = (repository: IBalanceResumeRepository) => {
     [repository.getBalanceResume],
   );
 
-  return { getData, isLoading, data };
+  const deleteTransaction = useCallback(
+    async (transactionId: string) => {
+      try {
+        setLoading(true);
+        await deleteTransactionUseCase(
+          { deleteTransaction: repository.deleteTransaction },
+          transactionId,
+        );
+      } catch (error) {
+        handleError(error);
+        setLoading(false);
+      }
+    },
+
+    [repository.deleteTransaction],
+  );
+
+  return { getData, isLoading, data, deleteTransaction };
 };
 
 export { useHomeViewModel };

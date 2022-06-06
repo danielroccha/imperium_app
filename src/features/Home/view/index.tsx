@@ -12,7 +12,12 @@ import MonthPicker, { EventTypes } from "react-native-month-year-picker";
 
 import { ITransactionModel } from "@app/features/Home/domain/models/IBalanceResumeModel";
 import { useHomeViewModel } from "@app/features/Home/view/homeViewModel";
-import useBalanceResumeRepository from "@app/features/Home/data/balanceResumeRepository";
+import { useProfileViewModel } from "@app/features/Profile/view/profileViewModel";
+
+import useTransactionRepository from "@app/features/Transaction/data/transactionRepository";
+import useProfileRepository from "@app/features/Profile/data/profileRepository";
+
+import userService from "@app/services/user";
 import transactionService from "@app/services/transaction";
 
 import HeaderInfo from "@app/components/organisms/HeaderInfo";
@@ -24,11 +29,8 @@ import { Caption } from "@app/components/atoms/Text";
 
 import { colors, SCREEN_HEIGHT } from "@app/configs/Theme";
 import { images, lotties } from "@app/assets";
-import Util from "@app/util";
 import RootStackNavigation from "@app/types/RootStackParams";
-import useProfileRepository from "@app/features/Profile/data/profileRepository";
-import userService from "@app/services/user";
-import { useProfileViewModel } from "@app/features/Profile/view/profileViewModel";
+import Util from "@app/util";
 
 const Home = () => {
   const theme = colors();
@@ -37,10 +39,9 @@ const Home = () => {
   const [stateDatePicker, setStateDatePicker] = useState(false);
   const [dateFilter, setDateFilter] = useState(new Date());
 
-  const balanceResumeRepository =
-    useBalanceResumeRepository(transactionService);
-  const { data, getData, isLoading } = useHomeViewModel(
-    balanceResumeRepository,
+  const transactionRepository = useTransactionRepository(transactionService);
+  const { data, getData, isLoading, deleteTransaction } = useHomeViewModel(
+    transactionRepository,
   );
 
   const profileRepository = useProfileRepository(userService);
@@ -73,7 +74,10 @@ const Home = () => {
           { text: "Cancelar", onPress: () => console.log("OK Pressed") },
           {
             text: "Remover",
-            onPress: () => console.log("OK Pressed"),
+            onPress: async () => {
+              await deleteTransaction(item.id);
+              getResumeData();
+            },
             style: "destructive",
           },
         ],
@@ -97,7 +101,7 @@ const Home = () => {
   const handleDateChange = (event: EventTypes, newDate: Date) => {
     switch (event) {
       case "dateSetAction":
-        setDateFilter(newDate);
+        handleFilterDate(newDate);
         break;
       case "dismissedAction":
         break;
@@ -105,10 +109,16 @@ const Home = () => {
     hideDatePicker();
   };
 
+  const getResumeData = useCallback(() => {
+    const currentDate = new Date();
+    setDateFilter(currentDate);
+    getData(Util.getMonthIndex(currentDate), currentDate.getFullYear());
+  }, [getData]);
+
   useFocusEffect(
     useCallback(() => {
-      getData(Util.getMonthIndex(dateFilter), dateFilter.getFullYear());
-    }, [dateFilter, getData]),
+      getResumeData();
+    }, [getResumeData]),
   );
 
   useEffect(() => {
@@ -120,52 +130,58 @@ const Home = () => {
       <View style={{ flex: 1, backgroundColor: theme.mode }}>
         <NavBar imageCentral={images.brandCrown} />
 
-        <HeaderInfo
-          onFilterDate={handleFilterDate}
-          onTapDate={showDatePicker}
-          dateFilter={dateFilter}
-          currentBalance={data?.balanceResume.currentBalance ?? 0}
-          expensesBalance={data?.balanceResume.monthlyExpenses ?? 0}
-          incomesBalance={data?.balanceResume.monthlyIncomes ?? 0}
+        <SectionList
+          ListHeaderComponent={
+            <HeaderInfo
+              onFilterDate={handleFilterDate}
+              onTapDate={showDatePicker}
+              dateFilter={dateFilter}
+              currentBalance={data?.balanceResume.currentBalance ?? 0}
+              expensesBalance={data?.balanceResume.monthlyExpenses ?? 0}
+              incomesBalance={data?.balanceResume.monthlyIncomes ?? 0}
+            />
+          }
+          sections={data?.transactions ?? []}
+          keyExtractor={item => item.id}
+          renderItem={renderItem}
+          ListEmptyComponent={
+            <>
+              {isLoading ? (
+                <View style={{ height: 200 }}>
+                  <Loading />
+                </View>
+              ) : (
+                <View
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}>
+                  <LottieView
+                    source={lotties.empty}
+                    style={{ height: 200 }}
+                    autoPlay
+                  />
+                  <Caption style={{ width: 200 }} align="center">
+                    Nenhum lançamento até o momento para esse mês
+                  </Caption>
+                </View>
+              )}
+            </>
+          }
+          renderSectionHeader={({ section: dataSection }) => (
+            <SectionHeader
+              date={dataSection.section.date}
+              value={dataSection.section.value}
+            />
+          )}
         />
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <SectionList
-            sections={data?.transactions ?? []}
-            keyExtractor={item => item.id}
-            renderItem={renderItem}
-            ListEmptyComponent={
-              <View
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}>
-                <LottieView
-                  source={lotties.empty}
-                  style={{ height: 200 }}
-                  autoPlay
-                />
-                <Caption style={{ width: 200 }} align="center">
-                  Nenhum lançamento até o momento para esse mês
-                </Caption>
-              </View>
-            }
-            renderSectionHeader={({ section: dataSection }) => (
-              <SectionHeader
-                date={dataSection.section.date}
-                value={dataSection.section.value}
-              />
-            )}
-          />
-        )}
       </View>
       {stateDatePicker && (
         <>
           <TouchableWithoutFeedback onPress={hideDatePicker}>
             <View
               style={{
-                backgroundColor: theme.blackTransparent,
+                backgroundColor: theme.mode,
                 height: SCREEN_HEIGHT,
               }}
             />

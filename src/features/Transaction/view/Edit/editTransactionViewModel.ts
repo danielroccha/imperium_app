@@ -1,13 +1,16 @@
 import { useCallback, useState } from "react";
 
-import { createTransactionUseCase } from "@app/features/Transaction/domain/useCases/createTransactionUseCase";
 import { useNavigation } from "@react-navigation/native";
+
+import { ITransactionRepository } from "@app/features/Transaction/data/transactionRepository";
+import { editTransactionUseCase } from "@app/features/Transaction/domain/useCases/editTransactionUseCase";
+import { getTransactionUseCase } from "@app/features/Transaction/domain/useCases/getTransactionUseCase";
+import { deleteTransactionUseCase } from "@app/features/Transaction/domain/useCases/deleteTransactionUseCase";
+import { ICategoryModel } from "@app/features/Category/domain/models/ICategoryModel";
+
+import RootStackNavigation from "@app/types/RootStackParams";
 import { TRANSACTION_TYPE } from "@app/constants";
 import { handleError } from "@app/configs/api";
-import { ITransactionRepository } from "@app/features/Transaction/data/transactionRepository";
-import RootStackNavigation from "@app/types/RootStackParams";
-import { getTransactionUseCase } from "../../domain/useCases/getTransactionUseCase";
-import { ICategoryModel } from "@app/features/Category/domain/models/ICategoryModel";
 
 export type TEditTransactionViewModel = {
   name: string;
@@ -17,6 +20,7 @@ export type TEditTransactionViewModel = {
   type: TRANSACTION_TYPE;
   categoryId: string;
   category: ICategoryModel;
+  id: string;
 };
 
 const useEditTransactionViewModel = (repository: ITransactionRepository) => {
@@ -35,6 +39,7 @@ const useEditTransactionViewModel = (repository: ITransactionRepository) => {
         );
 
         setTransactionData({
+          id: result.id,
           categoryId: result.categoryId,
           date: result.date,
           isInstallment: false,
@@ -57,8 +62,8 @@ const useEditTransactionViewModel = (repository: ITransactionRepository) => {
     async (data: TEditTransactionViewModel) => {
       try {
         setLoading(true);
-        await createTransactionUseCase(
-          { createTransaction: repository.createTransaction },
+        await editTransactionUseCase(
+          { editTransaction: repository.editTransaction },
           data,
         );
         navigation.goBack();
@@ -68,10 +73,34 @@ const useEditTransactionViewModel = (repository: ITransactionRepository) => {
       }
     },
 
-    [navigation, repository.createTransaction],
+    [navigation, repository.editTransaction],
   );
 
-  return { editTransaction, getTransaction, isLoading, transactionData };
+  const deleteTransaction = useCallback(
+    async (transactionId: string) => {
+      try {
+        setLoading(true);
+        await deleteTransactionUseCase(
+          { deleteTransaction: repository.deleteTransaction },
+          transactionId,
+        );
+        navigation.goBack();
+      } catch (error) {
+        handleError(error);
+        setLoading(false);
+      }
+    },
+
+    [navigation, repository.deleteTransaction],
+  );
+
+  return {
+    editTransaction,
+    getTransaction,
+    deleteTransaction,
+    isLoading,
+    transactionData,
+  };
 };
 
 export { useEditTransactionViewModel };

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View } from "react-native";
+import { View, Alert } from "react-native";
 
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
@@ -28,15 +28,66 @@ const EditTransaction = () => {
   const { transactionId } = route.params;
 
   const transactionRespository = useTransactionRepository(transactionService);
-  const { editTransaction, getTransaction, transactionData, isLoading } =
-    useEditTransactionViewModel(transactionRespository);
+  const {
+    editTransaction,
+    getTransaction,
+    deleteTransaction,
+    transactionData,
+    isLoading,
+  } = useEditTransactionViewModel(transactionRespository);
 
   const handleClose = () => {
     navigation.goBack();
   };
 
   const handleValidateSuccess = (data: TTransactionForm) => {
-    const { category, date, description, transactionType, value } = data;
+    const {
+      category,
+      description,
+      value,
+      date,
+      transactionType,
+      repeat,
+      repeatType,
+    } = data;
+
+    let isInstallment = false;
+
+    if (repeat && repeatType) {
+      isInstallment = true;
+    }
+
+    if (category) {
+      editTransaction({
+        category,
+        categoryId: category.id,
+        date,
+        id: transactionId,
+        name: description,
+        type: transactionType,
+        value,
+        isInstallment,
+      });
+    }
+  };
+
+  const handleDeleteTransaction = () => {
+    Alert.alert(
+      "Apagar lançamento",
+      "Tem certeza que deseja remover esse lançamento ?",
+      [
+        { text: "Cancelar", onPress: () => console.log("OK Pressed") },
+        {
+          text: "Remover",
+          onPress: () => {
+            if (transactionData && transactionData.id) {
+              deleteTransaction(transactionData.id);
+            }
+          },
+          style: "destructive",
+        },
+      ],
+    );
   };
 
   useEffect(() => {
@@ -53,7 +104,9 @@ const EditTransaction = () => {
         <NavBar
           iconRight="x"
           iconLeft="trash"
+          title="Editar transação"
           onClickActionRight={handleClose}
+          onClickActionLeft={handleDeleteTransaction}
         />
         {isLoading ? (
           <Loading />
