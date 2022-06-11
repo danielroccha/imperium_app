@@ -32,7 +32,14 @@ export enum TRANSACTION_OPTIONS {
   INSTALLMENT = "installment",
 }
 
-export const expensesCategorySugestion = [
+export type TCategorySugestion = {
+  name: string;
+  color: string;
+  icon: string;
+  type: TRANSACTION_TYPE;
+};
+
+export const expensesCategorySugestion: TCategorySugestion[] = [
   {
     name: "Alimentação",
     color: "#FF0000",
@@ -59,7 +66,7 @@ export const expensesCategorySugestion = [
   },
   {
     name: "Roupas",
-    color: "#23F1FE",
+    color: "#8CC40B",
     icon: "tshirt-crew",
     type: TRANSACTION_TYPE.EXPENSE,
   },
@@ -71,7 +78,7 @@ export const expensesCategorySugestion = [
   },
   {
     name: "Despesas Domesticas",
-    color: "#18A1F2",
+    color: "#6B0531",
     icon: "home-analytics",
     type: TRANSACTION_TYPE.EXPENSE,
   },
@@ -119,24 +126,18 @@ export const expensesCategorySugestion = [
   },
 ];
 
-export const incomesCategorySugestion = [
+export const incomesCategorySugestion: TCategorySugestion[] = [
   {
     name: "Salário",
     color: "#66991A",
-    icon: "food-drumstick",
-    type: TRANSACTION_TYPE.EXPENSE,
+    icon: "cash",
+    type: TRANSACTION_TYPE.INCOME,
   },
   {
     name: "Dividendos",
     color: "#00B3E6",
-    icon: "bus",
-    type: TRANSACTION_TYPE.EXPENSE,
-  },
-  {
-    name: "Bônus",
-    color: "#FF8072",
-    icon: "gamepad-variant",
-    type: TRANSACTION_TYPE.EXPENSE,
+    icon: "chart-timeline-variant-shimmer",
+    type: TRANSACTION_TYPE.INCOME,
   },
 ];
 

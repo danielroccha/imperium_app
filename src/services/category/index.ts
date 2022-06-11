@@ -3,13 +3,17 @@ import { TRANSACTION_TYPE } from "@app/constants";
 import API_SERVICES from "@app/constants/api";
 import { ICategoryEntity } from "@app/features/Category/data/ICategoryEntity";
 import { TCreateCategoryRemote } from "@app/services/Category/remoteTypes/CreateCategoryRemote";
-import { TEditCategoryRemote } from "./remoteTypes/EditCategoryRemote";
+import { TCreateCategorieBatchRemote } from "@app/services/category/remoteTypes/CreateCategoriesBatchRemote";
+import { TEditCategoryRemote } from "@app/services/category/remoteTypes/EditCategoryRemote";
 
 export interface ICategoryService {
   listCategoriesService: (
     type?: TRANSACTION_TYPE,
   ) => Promise<ICategoryEntity[]>;
   createCategoryService: (data: TCreateCategoryRemote) => Promise<void>;
+  createCategoriesBatchService: (
+    data: TCreateCategorieBatchRemote,
+  ) => Promise<void>;
   editCategoryService: (data: TEditCategoryRemote) => Promise<void>;
   getCategoryService: (categoryId: string) => Promise<ICategoryEntity>;
   deleteCategoryService: (categoryId: string) => Promise<void>;
@@ -27,6 +31,13 @@ const createCategoryService = async (
 ): Promise<void> =>
   api
     .post(API_SERVICES.CATEGORY_SERVICES.CREATE_CATEGORY, data)
+    .then(res => res.data);
+
+const createCategoriesBatchService = async (
+  data: TCreateCategorieBatchRemote,
+): Promise<void> =>
+  api
+    .post(API_SERVICES.CATEGORY_SERVICES.CREATE_CATEGORIES_BATCH, data)
     .then(res => res.data);
 
 const getCategoryService = async (
@@ -49,6 +60,7 @@ const deleteCategoryService = async (categoryId: string): Promise<void> =>
 const categoryService: ICategoryService = {
   listCategoriesService,
   createCategoryService,
+  createCategoriesBatchService,
   getCategoryService,
   deleteCategoryService,
   editCategoryService,

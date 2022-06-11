@@ -31,6 +31,7 @@ import { colors, SCREEN_HEIGHT } from "@app/configs/Theme";
 import { images, lotties } from "@app/assets";
 import RootStackNavigation from "@app/types/RootStackParams";
 import Util from "@app/util";
+import EmptyStateList from "@app/components/organisms/EmptyStateList";
 
 const Home = () => {
   const theme = colors();
@@ -183,8 +184,12 @@ const Home = () => {
               style={{
                 backgroundColor: theme.mode,
                 height: SCREEN_HEIGHT,
-              }}
-            />
+              }}>
+              <EmptyStateList
+                lottie={lotties.calendar}
+                text="Selecione um mês"
+              />
+            </View>
           </TouchableWithoutFeedback>
           <MonthPicker
             onChange={handleDateChange}

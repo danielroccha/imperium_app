@@ -32,6 +32,7 @@ const TRANSACTION_SERVICES = {
 const CATEGORY_SERVICES = {
   LIST_CATEGORIES: (type?: TRANSACTION_TYPE) => `/category/list?type=${type}`,
   CREATE_CATEGORY: "/category",
+  CREATE_CATEGORIES_BATCH: "/category/batch",
   EDIT_CATEGORY: (categoryId: string) => `/category/${categoryId}`,
   DELETE_CATEGORY: (categoryId: string) => `/category/${categoryId}`,
   GET_CATEGORY: (categoryId: string) => `/category/${categoryId}`,

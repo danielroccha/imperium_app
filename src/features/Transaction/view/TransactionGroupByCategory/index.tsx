@@ -10,12 +10,14 @@ import NavBar from "@app/components/organisms/Navbar";
 import { colors, dimens } from "@app/configs/Theme";
 import transactionService from "@app/services/transaction";
 import { TRANSACTION_TYPE } from "@app/constants";
-import { Body } from "@app/components/atoms/Text";
+import { Body, Caption } from "@app/components/atoms/Text";
 import Card from "@app/components/atoms/Card";
 import Util from "@app/util";
 import ITransactionByCategoryModel from "../../domain/models/ITransactionByCategoryModel";
 import TextMoney from "@app/components/atoms/TextMoney";
 import Loading from "@app/components/molecules/Loading";
+import LottieView from "lottie-react-native";
+import { lotties } from "@app/assets";
 
 type Chart = {
   id: string;
@@ -123,18 +125,35 @@ const TransactionsGroupByCategory = () => {
       ) : (
         <>
           <View style={{ alignSelf: "center", marginTop: dimens.base }}>
-            <PieChart
-              data={transactionsByCategory}
-              focusOnPress
-              font="Montserrat-Regular"
-              labelsPosition="outward"
-              fontWeight="bold"
-              textColor={theme.white}
-              centerLabelComponent={renderCenterText}
-              innerRadius={60}
-              showText
-              textBackgroundRadius={20}
-            />
+            {transactionsByCategory.length ? (
+              <PieChart
+                data={transactionsByCategory}
+                focusOnPress
+                font="Montserrat-Regular"
+                labelsPosition="outward"
+                fontWeight="bold"
+                textColor={theme.white}
+                centerLabelComponent={renderCenterText}
+                innerRadius={60}
+                showText
+                textBackgroundRadius={20}
+              />
+            ) : (
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}>
+                <LottieView
+                  source={lotties.empty}
+                  style={{ height: 200 }}
+                  autoPlay
+                />
+                <Caption style={{ width: 200 }} align="center">
+                  Nenhum lançamento até o momento para esse mês
+                </Caption>
+              </View>
+            )}
           </View>
 
           <FlatList

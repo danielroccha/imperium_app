@@ -11,10 +11,9 @@ export default (theme: AvailableColors) =>
       alignItems: "center",
       justifyContent: "center",
       borderWidth: 2,
-      padding: dimens.xtiny,
+      padding: dimens.tiny,
       borderRadius: 10,
       borderColor: theme.white,
       ...getShadow(2),
-      backgroundColor: theme.white,
     },
   });

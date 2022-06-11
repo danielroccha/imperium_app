@@ -108,7 +108,7 @@ const ListCategory = () => {
       getData();
     }, [getData]),
   );
-
+  console.log(listCategoriesData);
   return (
     <View style={{ flex: 1, backgroundColor: theme.mode }}>
       <NavBar
@@ -140,22 +140,26 @@ const ListCategory = () => {
               />
             }
             ListHeaderComponent={
-              <TouchableOpacity
-                onPress={handlePressSugestionCategories}
-                style={{
-                  flexDirection: "row",
-                  backgroundColor: theme.primary,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  padding: dimens.small,
-                  marginBottom: dimens.small,
-                  borderRadius: 10,
-                }}>
-                <Icon name="grid" size={22} color={theme.white} />
-                <Caption color="white" style={{ marginLeft: dimens.tiny }}>
-                  Veja algumas sugestões de categorias
-                </Caption>
-              </TouchableOpacity>
+              <>
+                {!listCategoriesData?.length && (
+                  <TouchableOpacity
+                    onPress={handlePressSugestionCategories}
+                    style={{
+                      flexDirection: "row",
+                      backgroundColor: theme.primary,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: dimens.small,
+                      marginBottom: dimens.small,
+                      borderRadius: 10,
+                    }}>
+                    <Icon name="grid" size={22} color={theme.white} />
+                    <Caption color="white" style={{ marginLeft: dimens.tiny }}>
+                      Veja algumas sugestões de categorias
+                    </Caption>
+                  </TouchableOpacity>
+                )}
+              </>
             }
           />
         </View>

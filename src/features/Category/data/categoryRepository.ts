@@ -4,10 +4,12 @@ import { ICategoryService } from "@app/services/category";
 import { ICategoryEntity } from "./ICategoryEntity";
 import { TEditCategoryRemote } from "@app/services/category/remoteTypes/EditCategoryRemote";
 import { TRANSACTION_TYPE } from "@app/constants";
+import { TCreateCategorieBatchRemote } from "@app/services/category/remoteTypes/CreateCategoriesBatchRemote";
 
 export interface ICategoryRepository {
   listCategories(type?: TRANSACTION_TYPE): Promise<ICategoryEntity[]>;
   createCategory(data: TCreateCategoryRemote): Promise<void>;
+  createCategoriesBatch(data: TCreateCategorieBatchRemote): Promise<void>;
   editCategory(data: TEditCategoryRemote): Promise<void>;
   getCategory(categoryId: string): Promise<ICategoryEntity>;
   deleteCategory(categoryId: string): Promise<void>;
@@ -27,6 +29,14 @@ const useCategoryRepository = (
   const createCategory = useCallback(
     async (data: TCreateCategoryRemote) => {
       const response = await service.createCategoryService(data);
+      return response;
+    },
+    [service],
+  );
+
+  const createCategoriesBatch = useCallback(
+    async (data: TCreateCategorieBatchRemote) => {
+      const response = await service.createCategoriesBatchService(data);
       return response;
     },
     [service],
@@ -59,6 +69,7 @@ const useCategoryRepository = (
   return {
     listCategories,
     createCategory,
+    createCategoriesBatch,
     editCategory,
     getCategory,
     deleteCategory,

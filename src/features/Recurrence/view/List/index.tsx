@@ -144,7 +144,7 @@ const ListRecurrence = () => {
     <View style={{ backgroundColor: theme.mode, flex: 1 }}>
       <NavBar
         backAction
-        title="Recorrencias"
+        title="Recorrências"
         iconRight="plus"
         onClickActionRight={handlePressRightAction}
       />

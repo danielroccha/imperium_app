@@ -4,7 +4,9 @@ export type AvailableColors = {
   contrastDark: string;
   contrastMode: string;
   primary: string;
+  primaryLight: string;
   secondary: string;
+  secondaryLight: string;
   danger: string;
   warning: string;
   green: string;
@@ -21,7 +23,9 @@ export type ColorsPropType =
   | "contrastDark"
   | "contrastMode"
   | "primary"
+  | "primaryLight"
   | "secondary"
+  | "secondaryLight"
   | "danger"
   | "warning"
   | "green"

@@ -116,7 +116,7 @@ const SelectDate = ({ onChangeDate, initialDate }: SelectDateProps) => {
         </View>
       ) : (
         <>
-          <ScrollView horizontal>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {dates.map((item, index) => (
               <Pill
                 key={item.dayText}

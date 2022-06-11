@@ -2,7 +2,9 @@ import { Dimensions, Platform } from "react-native";
 
 const commomColors = {
   primary: "#6700c1",
+  primaryLight: "#B95EEC",
   secondary: "#2096f3",
+  secondaryLight: "#D2F4FE",
   danger: "#FF0000",
   warning: "#F4A540",
   green: "#7AC735",
