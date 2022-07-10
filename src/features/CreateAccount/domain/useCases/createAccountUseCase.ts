@@ -9,15 +9,16 @@ const createAccountUseCase = async (
 ) => {
   const { email, password, name } = data;
 
-  const [firstName, lastname] = name.split(" ");
+  const names = name.split(" ");
+  const [firstname] = names;
 
   const platform: OS = Platform.OS === "ios" ? "ios" : "android";
 
   await repository.createAccount({
     email,
     password,
-    lastname,
-    name: firstName,
+    lastname: names[names.length - 1],
+    name: firstname,
     os: platform,
     appVersion: "1.0",
     tokenDeviceId: "",

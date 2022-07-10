@@ -7,6 +7,7 @@ export default interface ITransactionEntity {
   value: number;
   date: Date;
   type: TRANSACTION_TYPE;
+  isRecurrence: boolean;
   userId: string;
   categoryId: string;
   category: ICategoryEntity;

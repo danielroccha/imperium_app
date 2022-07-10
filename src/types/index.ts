@@ -1,0 +1,1 @@
+export type TEMAIL_TEMPLATE = "FORGOT_PASSWORD" | "WELCOME";

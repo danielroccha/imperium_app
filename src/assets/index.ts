@@ -3,6 +3,7 @@ const lotties = {
   empty: require("./lotties/empty.json"),
   emptyBox: require("./lotties/empty-box.json"),
   calendar: require("./lotties/calendar.json"),
+  verificationCode: require("./lotties/verification-code.json"),
 };
 
 const images = {

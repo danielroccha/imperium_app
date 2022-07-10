@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useSelector } from "react-redux";
 
-import { handleError } from "@app/configs/api";
+import handleApplicationError from "@app/handles/apiError";
 import { getProfileUseCase } from "@app/features/Profile/domain/useCases/GetProfileUseCase";
 import { IProfileRepository } from "@app/features/Profile/data/profileRepository";
 import { RootState } from "@app/configs/store";
@@ -20,7 +20,7 @@ const useProfileViewModel = (repository: IProfileRepository) => {
         getProfile: repository.getProfile,
       });
     } catch (error) {
-      handleError(error);
+      handleApplicationError.handleError(error);
     }
   }, [repository.getProfile]);
 

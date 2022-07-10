@@ -8,6 +8,7 @@ import Home from "@app/features/Home/view";
 import CreateTransaction from "@app/features/Transaction/view/Create";
 import EditTransaction from "@app/features/Transaction/view/Edit";
 import TransactionGroupByCategory from "@app/features/Transaction/view/TransactionGroupByCategory";
+import CreateCategory from "@app/features/Category/view/Create";
 
 import Profile from "@app/features/Profile/view";
 
@@ -45,6 +46,14 @@ const HomeStack = () => {
         }}
         name="CreateTransaction"
         component={CreateTransaction}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          presentation: "modal",
+        }}
+        name="CreateCategory"
+        component={CreateCategory}
       />
       <Stack.Screen
         options={{

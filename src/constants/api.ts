@@ -7,6 +7,10 @@ const AUTHENTICATION_SERVICES = {
 
 const USER_SERVICES = {
   PROFILE: "/user/profile",
+  FORGOT_PASSWORD: "/user/forgot-password",
+  VERIFICATION_CODE: "/user/verification-code",
+  RESEND_EMAIL: "/user/resend-email",
+  CHANGE_PASSWORD: "/user/change-password",
 };
 
 const SIGN_UP_SERVICES = {

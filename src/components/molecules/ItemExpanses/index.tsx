@@ -15,6 +15,7 @@ type ItemExpansesProps = {
   color: string;
   icon: string;
   type: string;
+  isRecurrence: boolean;
   onPress: () => void;
   onLongPress: () => void;
 };
@@ -26,6 +27,7 @@ const ItemExpanses = ({
   icon,
   value,
   type,
+  isRecurrence,
   onPress,
   onLongPress,
 }: ItemExpansesProps) => {
@@ -44,9 +46,10 @@ const ItemExpanses = ({
       <View style={styles(theme).container}>
         <CategoryIcon icon={icon} color={color} />
         <View style={styles(theme).content}>
-          <View>
+          <View style={{ width: 200 }}>
             <Body>{title}</Body>
             <Small>{category}</Small>
+            {isRecurrence && <Small color="secondary">Recorrência</Small>}
           </View>
           <TextMoney
             color={type === TRANSACTION_TYPE.EXPENSE ? "danger" : "green"}

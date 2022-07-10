@@ -39,6 +39,23 @@ export type TCategorySugestion = {
   type: TRANSACTION_TYPE;
 };
 
+export type MONTH_PERIOD = "PREVIOUS" | "CURRENT" | "NEXT";
+
+export const months = [
+  "Janeiro",
+  "Fevereiro",
+  "Março",
+  "Abril",
+  "Maio",
+  "Junho",
+  "Julho",
+  "Agosto",
+  "Setembro",
+  "Outubro",
+  "Novembro",
+  "Dezembro",
+];
+
 export const expensesCategorySugestion: TCategorySugestion[] = [
   {
     name: "Alimentação",
@@ -77,7 +94,7 @@ export const expensesCategorySugestion: TCategorySugestion[] = [
     type: TRANSACTION_TYPE.EXPENSE,
   },
   {
-    name: "Despesas Domesticas",
+    name: "Despesas Domésticas",
     color: "#6B0531",
     icon: "home-analytics",
     type: TRANSACTION_TYPE.EXPENSE,

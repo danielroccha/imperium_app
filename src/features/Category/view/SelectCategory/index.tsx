@@ -1,7 +1,12 @@
 import { Caption } from "@app/components/atoms/Text";
-import React, { useEffect } from "react";
+import React, { useCallback } from "react";
 import { View, FlatList, TouchableOpacity } from "react-native";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  RouteProp,
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 
 import NavBar from "@app/components/organisms/Navbar";
 import { colors, dimens, getShadow, SCREEN_HEIGHT } from "@app/configs/Theme";
@@ -12,6 +17,8 @@ import categoryService from "@app/services/category";
 import { useSelectCategoryViewModel } from "./selectCategoryViewModel";
 import Loading from "@app/components/molecules/Loading";
 import { TRANSACTION_TYPE } from "@app/constants";
+import CustomButton from "@app/components/atoms/Button";
+import RootStackNavigation from "@app/types/RootStackParams";
 
 type SelectCategoryParamList = {
   Detail: {
@@ -22,7 +29,7 @@ type SelectCategoryParamList = {
 
 const SelectCategory = () => {
   const theme = colors();
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootStackNavigation>();
   const route = useRoute<RouteProp<SelectCategoryParamList>>();
   const { onSelectCategory, type } = route.params;
 
@@ -34,14 +41,20 @@ const SelectCategory = () => {
     navigation.goBack();
   };
 
+  const handleOpenCreateCategory = () => {
+    navigation.navigate("CreateCategory");
+  };
+
   const handleSelectCategory = (data: ICategoryModel) => {
     onSelectCategory(data);
     handleClose();
   };
 
-  useEffect(() => {
-    getCategories(type);
-  }, [getCategories, type]);
+  useFocusEffect(
+    useCallback(() => {
+      getCategories(type);
+    }, [getCategories, type]),
+  );
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.blackTransparent }}>
@@ -62,30 +75,37 @@ const SelectCategory = () => {
         {isLoading ? (
           <Loading />
         ) : (
-          <FlatList
-            contentContainerStyle={{ padding: dimens.small }}
-            data={listCategoriesData}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginVertical: dimens.tiny,
-                  backgroundColor: theme.white,
-                  padding: dimens.small,
-                  borderRadius: 10,
-                  ...getShadow(3),
-                }}
-                onPress={() => handleSelectCategory(item)}>
-                <>
-                  <CategoryIcon color={item.color} icon={item.icon} />
-                  <Caption style={{ marginLeft: dimens.base }}>
-                    {item.name}
-                  </Caption>
-                </>
-              </TouchableOpacity>
-            )}
-          />
+          <View style={{ flex: 1 }}>
+            <FlatList
+              contentContainerStyle={{ padding: dimens.small }}
+              data={listCategoriesData}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginVertical: dimens.tiny,
+                    backgroundColor: theme.white,
+                    padding: dimens.small,
+                    borderRadius: 10,
+                    ...getShadow(3),
+                  }}
+                  onPress={() => handleSelectCategory(item)}>
+                  <>
+                    <CategoryIcon color={item.color} icon={item.icon} />
+                    <Caption style={{ marginLeft: dimens.base }}>
+                      {item.name}
+                    </Caption>
+                  </>
+                </TouchableOpacity>
+              )}
+            />
+            <CustomButton
+              title="Criar nova categoria"
+              onPress={handleOpenCreateCategory}
+              styleButton={{ margin: dimens.small }}
+            />
+          </View>
         )}
       </View>
     </View>

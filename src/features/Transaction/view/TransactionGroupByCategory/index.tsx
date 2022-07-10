@@ -81,11 +81,11 @@ const TransactionsGroupByCategory = () => {
     );
   };
 
-  const renderCenterText = () => (
-    <View>
-      <TextMoney size="regular" animation value={totalValue} />
-    </View>
-  );
+  // const renderCenterText = () => (
+  //   <View>
+  //     <TextMoney size="regular" animation value={totalValue} />
+  //   </View>
+  // );
 
   useEffect(() => {
     if (data) {
@@ -133,8 +133,8 @@ const TransactionsGroupByCategory = () => {
                 labelsPosition="outward"
                 fontWeight="bold"
                 textColor={theme.white}
-                centerLabelComponent={renderCenterText}
                 innerRadius={60}
+                donut
                 showText
                 textBackgroundRadius={20}
               />

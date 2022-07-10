@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ICategoryRepository } from "@app/features/Category/data/categoryRepository";
 import { createCategoriesBatchUseCase } from "@app/features/Category/domain/useCases/createCategoriesBatchUseCase";
 
-import { handleError } from "@app/configs/api";
+import handleApplicationError from "@app/handles/apiError";
 import { CreateCategoryViewModel } from "@app/features/Category/view/Create/createCategoryViewModel";
 
 export type CreateCategorySugestionViewModel = {
@@ -28,7 +28,7 @@ const useCategorySugestionViewModel = (repository: ICategoryRepository) => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        handleError(error);
+        handleApplicationError.handleError(error);
       }
     },
     [repository.createCategoriesBatch, navigation],

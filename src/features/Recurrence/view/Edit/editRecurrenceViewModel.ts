@@ -6,7 +6,7 @@ import { getRecurrenceUseCase } from "@app/features/Recurrence/domain/useCases/g
 import { IRecurrenceRepository } from "@app/features/Recurrence/data/recurrenceRepository";
 import { editRecurrenceUseCase } from "@app/features/Recurrence/domain/useCases/editRecurrenceUseCase";
 
-import { handleError } from "@app/configs/api";
+import handleApplicationError from "@app/handles/apiError";
 import { TRANSACTION_TYPE } from "@app/constants";
 import { ICategoryModel } from "@app/features/Category/domain/models/ICategoryModel";
 
@@ -37,7 +37,7 @@ const useEditRecurrenceViewModel = (repository: IRecurrenceRepository) => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        handleError(error);
+        handleApplicationError.handleError(error, "ALERT");
       }
     },
     [repository.editRecurrence, navigation],
@@ -55,7 +55,7 @@ const useEditRecurrenceViewModel = (repository: IRecurrenceRepository) => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        handleError(error);
+        handleApplicationError.handleError(error);
       }
     },
     [repository.getRecurrence],

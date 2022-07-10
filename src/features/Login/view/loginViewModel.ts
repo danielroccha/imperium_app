@@ -2,7 +2,11 @@ import { useCallback, useState } from "react";
 
 import { loginUseCase } from "@app/features/Login/domain/useCases/loginUseCase";
 import { IUseLoginRepository } from "@app/features/Login/data/loginRepository";
-import { handleError } from "@app/configs/api";
+import handleApplicationError, {
+  ApplicationError,
+} from "@app/handles/apiError";
+import { useNavigation } from "@react-navigation/native";
+import RootStackNavigation from "@app/types/RootStackParams";
 
 export type TLoginViewModel = {
   email: string;
@@ -11,6 +15,7 @@ export type TLoginViewModel = {
 
 const useLoginViewModel = (repository: IUseLoginRepository) => {
   const [isLoading, setLoading] = useState(false);
+  const navigation = useNavigation<RootStackNavigation>();
 
   const tryLogin = useCallback(
     async (data: TLoginViewModel) => {
@@ -20,11 +25,22 @@ const useLoginViewModel = (repository: IUseLoginRepository) => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        handleError(error);
+        if (
+          handleApplicationError.isApplicationError(error) &&
+          (error as ApplicationError).response.data?.error.code ===
+            "ERROR_USER_0003"
+        ) {
+          navigation.navigate("VerificationCode", {
+            email: data.email,
+            emailType: "WELCOME",
+            title: "Sua conta ainda precisa ser validada",
+          });
+        } else {
+          handleApplicationError.handleError(error);
+        }
       }
     },
-
-    [repository.login],
+    [repository.login, navigation],
   );
 
   return { tryLogin, isLoading };

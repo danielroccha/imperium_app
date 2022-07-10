@@ -3,4 +3,5 @@ export type TEditTransactionRemote = {
   name: string;
   value: number;
   categoryId: string;
+  date: Date;
 };

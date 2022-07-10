@@ -147,8 +147,7 @@ const CategorySugestion = () => {
         title={!!selectedSugestions.length ? "Salvar" : "Próximo"}
         disabled={!selectedSugestions.length}
         styleButton={{
-          marginHorizontal: dimens.small,
-          marginVertical: dimens.xlarge,
+          margin: dimens.small,
         }}
         loading={isLoading}
         onPress={handleSaveCategoriesSugestions}

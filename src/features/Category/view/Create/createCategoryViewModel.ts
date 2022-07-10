@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ICategoryRepository } from "@app/features/Category/data/categoryRepository";
 import { createCategoryUseCase } from "@app/features/Category/domain/useCases/createCategoryUseCase";
 
-import { handleError } from "@app/configs/api";
+import handleApplicationError from "@app/handles/apiError";
 import { TRANSACTION_TYPE } from "@app/constants";
 
 export type CreateCategoryViewModel = {
@@ -31,7 +31,7 @@ const useCreateCategoryViewModel = (repository: ICategoryRepository) => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        handleError(error);
+        handleApplicationError.handleError(error);
       }
     },
     [repository.createCategory, navigation],

@@ -10,6 +10,7 @@ import Card from "@app/components/atoms/Card";
 import { TCreateAccountViewModel } from "../createAccountViewModel";
 import CustomButton from "@app/components/atoms/Button";
 import { dimens } from "@app/configs/Theme";
+import Util from "@app/util";
 
 type CreateAccountFormProps = {
   onValidateSuccess: (data: TCreateAccountViewModel) => void;
@@ -41,7 +42,11 @@ const CreateAccountForm = ({
   });
 
   const onSubmit = (data: TCreateAccountViewModel) => {
-    onValidateSuccess(data);
+    if (data.name.split(" ").length < 2) {
+      Util.showAlertError("Ops!", "Coloque seu nome e sobrenome");
+    } else {
+      onValidateSuccess(data);
+    }
   };
 
   return (
@@ -52,8 +57,8 @@ const CreateAccountForm = ({
         errorMessage={errors.name?.message}
         name="name"
         icon="user"
-        label="Nome Completo"
-        placeholder="Digite seu nome completo"
+        label="Nome e sobrenome"
+        placeholder="Digite nome e sobrenome"
         autoCapitalize="words"
       />
       <View style={{ marginTop: dimens.small }}>

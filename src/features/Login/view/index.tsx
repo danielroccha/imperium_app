@@ -32,6 +32,10 @@ const Login = () => {
     navigation.navigate("CreateAccount");
   };
 
+  const handleNavigateForgotPassword = () => {
+    navigation.navigate("ForgotPassword");
+  };
+
   const handleLogin = (data: TLoginViewModel) => {
     tryLogin({ email: data.email, password: data.password });
   };
@@ -46,7 +50,8 @@ const Login = () => {
           <LoginForm onValidateSuccess={handleLogin} loading={isLoading} />
         </View>
         <Divide />
-        <TouchableOpacity onPress={handleNavigateCreateAccount}>
+
+        <TouchableOpacity onPress={handleNavigateForgotPassword}>
           <Caption align="center" color="primary">
             Esqueci minha senha
           </Caption>

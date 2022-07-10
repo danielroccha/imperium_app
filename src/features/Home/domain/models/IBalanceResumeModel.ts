@@ -25,5 +25,6 @@ export interface ITransactionModel {
   type: TRANSACTION_TYPE;
   userId: string;
   categoryId: string;
+  isRecurrence: boolean;
   category: ICategoryModel;
 }

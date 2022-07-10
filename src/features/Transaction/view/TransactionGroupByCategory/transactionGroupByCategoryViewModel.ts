@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-import { handleError } from "@app/configs/api";
+import handleApplicationError from "@app/handles/apiError";
 import { ITransactionRepository } from "@app/features/Transaction/data/transactionRepository";
 import { getTransactionByCategoryUseCase } from "@app/features/Transaction/domain/useCases/getTransactionsGroupByCategoryUseCase";
 import { TRANSACTION_TYPE } from "@app/constants";
@@ -36,7 +36,7 @@ const useTransactionGroupByViewModel = (repository: ITransactionRepository) => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        handleError(error);
+        handleApplicationError.handleError(error);
       }
     },
 

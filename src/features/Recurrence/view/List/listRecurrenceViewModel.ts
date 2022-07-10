@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 
 import { deleteRecurrenceUseCase } from "@app/features/Recurrence/domain/useCases/deleteRecurrenceUseCase";
 
-import { handleError } from "@app/configs/api";
+import handleApplicationError from "@app/handles/apiError";
 import { IRecurrenceRepository } from "../../data/recurrenceRepository";
 import { listRecurrencesUseCase } from "../../domain/useCases/listRecurrencesUseCase";
 import IRecurrenceModel from "../../domain/models/IRecurrenceModel";
@@ -24,7 +24,7 @@ const useListRecurrenceViewModel = (repository: IRecurrenceRepository) => {
         refresh ? setIsRefreshing(false) : setLoading(false);
       } catch (error) {
         refresh ? setIsRefreshing(false) : setLoading(false);
-        handleError(error);
+        handleApplicationError.handleError(error);
       }
     },
     [repository.listRecurrences],
@@ -42,7 +42,7 @@ const useListRecurrenceViewModel = (repository: IRecurrenceRepository) => {
         getRecurrences();
       } catch (error) {
         setLoading(false);
-        handleError(error);
+        handleApplicationError.handleError(error);
       }
     },
     [repository.deleteRecurrence, getRecurrences],

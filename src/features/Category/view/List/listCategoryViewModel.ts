@@ -5,7 +5,7 @@ import { listCategoriesUseCase } from "@app/features/Category/domain/useCases/li
 import { deleteCategoryUseCase } from "@app/features/Category/domain/useCases/deleteCategoryUseCase";
 import { ICategoryModel } from "@app/features/Category/domain/models/ICategoryModel";
 
-import { handleError } from "@app/configs/api";
+import handleApplicationError from "@app/handles/apiError";
 
 const useListCategoryViewModel = (repository: ICategoryRepository) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -24,7 +24,7 @@ const useListCategoryViewModel = (repository: ICategoryRepository) => {
         refresh ? setIsRefreshing(false) : setLoading(false);
       } catch (error) {
         refresh ? setIsRefreshing(false) : setLoading(false);
-        handleError(error);
+        handleApplicationError.handleError(error);
       }
     },
     [repository.listCategories],
@@ -42,7 +42,7 @@ const useListCategoryViewModel = (repository: ICategoryRepository) => {
         getCategories();
       } catch (error) {
         setLoading(false);
-        handleError(error);
+        handleApplicationError.handleError(error);
       }
     },
     [repository.deleteCategory, getCategories],

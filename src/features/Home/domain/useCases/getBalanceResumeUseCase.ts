@@ -1,4 +1,4 @@
-import { IBalanceResumeRepository } from "@app/features/Home/data/balanceResumeRepository";
+import { ITransactionRepository } from "@app/features/Transaction/data/transactionRepository";
 import IBalanceResumeEntity from "@app/features/Home/data/IBalanceResumeEntity";
 import IBalanceResumeModel, {
   ITransactionModel,
@@ -6,7 +6,7 @@ import IBalanceResumeModel, {
 } from "@app/features/Home/domain/models/IBalanceResumeModel";
 
 const getBalanceResumeUseCase = async (
-  repository: Pick<IBalanceResumeRepository, "getBalanceResume">,
+  repository: Pick<ITransactionRepository, "getBalanceResume">,
   monthId: number,
   year: number,
 ) => {
@@ -33,6 +33,7 @@ const mapBalanceResumeToDomain = (data: IBalanceResumeEntity) => {
             userId: transaction.userId,
             value: transaction.value,
             category: transaction.category,
+            isRecurrence: transaction.isRecurrence,
           };
         },
       );

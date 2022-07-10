@@ -2,8 +2,7 @@ import axios from "axios";
 
 import Storage from "@app/configs/storage";
 import enviroments from "@app/configs/enviroment";
-import showNotification from "@app/components/organisms/CustomNotification";
-import I18n from "@app/languages/I18n";
+
 import { logOut } from "@app/features/Login/data/loginActions";
 
 const api = axios.create({
@@ -76,13 +75,5 @@ export class Axios {
     );
   }
 }
-
-export const handleError = (error: unknown) => {
-  showNotification(
-    I18n.t(`common.ooops`),
-    I18n.t(`error_messages.${error.response.data.error.code}`),
-    "error",
-  );
-};
 
 export default api;

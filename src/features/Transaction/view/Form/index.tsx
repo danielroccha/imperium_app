@@ -26,6 +26,7 @@ import CategoryIcon from "@app/components/molecules/CategoryIcon";
 import Divide from "@app/components/atoms/Divide";
 import InputMoney from "@app/components/atoms/InputMoney";
 import Util from "@app/util";
+import DismissKeyboard from "@app/components/atoms/DismissKeyboard";
 
 type TTransactionFormYup = {
   description: string;
@@ -119,6 +120,10 @@ const TransactionForm = ({
 
   const handleChangeTransactionOption = (value: string) => {
     setTransactionOption(value);
+    if (!value) {
+      setRepeat(0);
+      setRepeatType(undefined);
+    }
   };
 
   const handleSetDate = (value: Date) => {
@@ -166,7 +171,7 @@ const TransactionForm = ({
   }, [dataForm, reset]);
 
   return (
-    <View>
+    <DismissKeyboard>
       <ScrollView contentContainerStyle={{ paddingBottom: dimens.xlarge }}>
         <View>
           <View
@@ -238,23 +243,8 @@ const TransactionForm = ({
               />
             </View>
             <Divide stylesDivide={{ marginVertical: dimens.base }} />
-            {edit ? (
-              <>
-                <Caption color="primary">
-                  {`Data: ${new Date(
-                    dataForm?.date ?? "",
-                  ).toLocaleDateString()}`}
-                </Caption>
-                <Caption color="primary">
-                  <Caption>A data está errada ?</Caption> É só apagar e criar um
-                  novo.
-                </Caption>
-              </>
-            ) : (
-              <>
-                <SelectDate onChangeDate={handleSetDate} initialDate={date} />
-              </>
-            )}
+
+            <SelectDate onChangeDate={handleSetDate} initialDate={date} />
             <Divide stylesDivide={{ marginVertical: dimens.base }} />
             <TouchableOpacity
               style={{
@@ -298,19 +288,6 @@ const TransactionForm = ({
               />
             )}
 
-            {transactionOption === TRANSACTION_OPTIONS.RECURRENCE && (
-              <View style={{ marginVertical: dimens.medium }}>
-                <Body
-                  align="center"
-                  color={
-                    TRANSACTION_TYPE.EXPENSE === transactionType
-                      ? "danger"
-                      : "green"
-                  }>
-                  Esse lançamento será feito 1 vêz por mês na data informada.
-                </Body>
-              </View>
-            )}
             {transactionOption === TRANSACTION_OPTIONS.INSTALLMENT && (
               <SelectPeriod
                 onSelectRepeatType={handleChangeRepeatType}
@@ -332,7 +309,7 @@ const TransactionForm = ({
           </View>
         </View>
       </ScrollView>
-    </View>
+    </DismissKeyboard>
   );
 };
 

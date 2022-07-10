@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import moment from "moment";
 import Icon from "react-native-vector-icons/Feather";
 
 import Pill from "@app/components/molecules/Pill";
 import { colors, SCREEN_WIDTH } from "@app/configs/Theme";
+import { months } from "@app/constants";
 
 type ScrollMonthsProps = {
   onTapDate: () => void;
@@ -22,7 +22,6 @@ const ScrollMonths = ({
   const [date, setDate] = useState(new Date());
 
   const currentYear = date.getFullYear();
-  const months = moment.monthsShort();
 
   const handlePressLeft = () => {
     date.setMonth(date.getMonth() - 1);
@@ -57,7 +56,7 @@ const ScrollMonths = ({
       </TouchableOpacity>
       <Pill
         onTap={onTapDate}
-        text={`${months[date.getMonth()]} ${currentYear}`}
+        text={`${months[date.getMonth()].substring(0, 3)} ${currentYear}`}
         color="blackTransparent"
       />
       <TouchableOpacity

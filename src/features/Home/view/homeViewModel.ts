@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-import { handleError } from "@app/configs/api";
+import handleApplicationError from "@app/handles/apiError";
 import { ITransactionRepository } from "@app/features/Transaction/data/transactionRepository";
 import { getBalanceResumeUseCase } from "@app/features/Home/domain/useCases/getBalanceResumeUseCase";
 import IBalanceResumeModel from "@app/features/Home/domain/models/IBalanceResumeModel";
@@ -28,7 +28,7 @@ const useHomeViewModel = (repository: ITransactionRepository) => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        handleError(error);
+        handleApplicationError.handleError(error);
       }
     },
 
@@ -44,7 +44,7 @@ const useHomeViewModel = (repository: ITransactionRepository) => {
           transactionId,
         );
       } catch (error) {
-        handleError(error);
+        handleApplicationError.handleError(error);
         setLoading(false);
       }
     },

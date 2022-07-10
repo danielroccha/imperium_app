@@ -1,9 +1,9 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
 import ScrollMonths from "@app/components/molecules/ScrollMonths";
-import { Regular, Body } from "@app/components/atoms/Text";
+import { Regular, Body, Caption, Small } from "@app/components/atoms/Text";
 import { colors, dimens, SCREEN_WIDTH } from "@app/configs/Theme";
 import SectionOptions from "@app/components/organisms/SectionOptions";
 import styles from "./styles";
@@ -11,10 +11,11 @@ import TextMoney from "@app/components/atoms/TextMoney";
 import { useNavigation } from "@react-navigation/native";
 import RootStackNavigation from "@app/types/RootStackParams";
 import Util from "@app/util";
-import { TRANSACTION_TYPE } from "@app/constants";
+import { MONTH_PERIOD, TRANSACTION_TYPE } from "@app/constants";
 
 type HeaderInfoProps = {
   onFilterDate: (date: Date) => void;
+  onResetDate: () => void;
   onTapDate: () => void;
   dateFilter?: Date;
   currentBalance: number;
@@ -25,11 +26,13 @@ type HeaderInfoProps = {
 const HeaderInfo = ({
   onFilterDate,
   onTapDate,
+  onResetDate,
   dateFilter,
   currentBalance,
   expensesBalance,
   incomesBalance,
 }: HeaderInfoProps) => {
+  const [monthPeriod, setMonthPeriod] = useState<MONTH_PERIOD>("CURRENT");
   const theme = colors();
   const navigation = useNavigation<RootStackNavigation>();
 
@@ -69,19 +72,37 @@ const HeaderInfo = ({
   };
 
   const getLabelBalance = useCallback(() => {
-    const label = "Saldo atual";
-    if (dateFilter) {
-      const currentMonthId = Util.getMonthIndex(new Date());
-      const monthId = Util.getMonthIndex(dateFilter);
-      if (monthId < currentMonthId) {
+    switch (monthPeriod) {
+      case "CURRENT":
+        return "Saldo atual";
+      case "NEXT":
+        return "Saldo Previsto";
+
+      default:
         return "Balanço do mês";
-      } else if (monthId > currentMonthId) {
-        return "Saldo previsto";
+    }
+  }, [monthPeriod]);
+
+  useEffect(() => {
+    if (dateFilter) {
+      const date = new Date();
+      const currentMonthId = Util.getMonthIndex(date);
+      const monthIdFilter = Util.getMonthIndex(dateFilter);
+
+      const currentYear = date.getFullYear();
+      const yearFilter = dateFilter.getFullYear();
+
+      if (monthIdFilter === currentMonthId && yearFilter === currentYear) {
+        setMonthPeriod("CURRENT");
+      } else if (
+        (monthIdFilter < currentMonthId && yearFilter <= currentYear) ||
+        yearFilter < currentYear
+      ) {
+        setMonthPeriod("PREVIOUS");
       } else {
-        return label;
+        setMonthPeriod("NEXT");
       }
     }
-    return label;
   }, [dateFilter]);
 
   return (
@@ -127,6 +148,14 @@ const HeaderInfo = ({
           />
         </View>
       </View>
+      {monthPeriod !== "CURRENT" && (
+        <Small
+          color="white"
+          style={{ textDecorationLine: "underline" }}
+          onPress={onResetDate}>
+          {"Voltar para mês atual".toUpperCase()}
+        </Small>
+      )}
       <View style={styles(theme).containerTransactionType}>
         <TouchableOpacity onPress={handlePressIncomes}>
           <View style={styles(theme).transactionTypeContainerTitle}>

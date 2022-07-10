@@ -4,7 +4,7 @@ import { ICategoryRepository } from "@app/features/Category/data/categoryReposit
 import { listCategoriesUseCase } from "@app/features/Category/domain/useCases/listCategoriesUseCase";
 import { ICategoryModel } from "@app/features/Category/domain/models/ICategoryModel";
 
-import { handleError } from "@app/configs/api";
+import handleApplicationError from "@app/handles/apiError";
 import { TRANSACTION_TYPE } from "@app/constants";
 
 const useSelectCategoryViewModel = (repository: ICategoryRepository) => {
@@ -26,7 +26,7 @@ const useSelectCategoryViewModel = (repository: ICategoryRepository) => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        handleError(error);
+        handleApplicationError.handleError(error);
       }
     },
     [repository.listCategories],

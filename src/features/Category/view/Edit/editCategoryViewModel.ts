@@ -4,7 +4,7 @@ import { ICategoryRepository } from "@app/features/Category/data/categoryReposit
 import { editCategoryUseCase } from "@app/features/Category/domain/useCases/editCategoryUseCase";
 import { ICategoryModel } from "@app/features/Category/domain/models/ICategoryModel";
 
-import { handleError } from "@app/configs/api";
+import handleApplicationError from "@app/handles/apiError";
 import { getCategoryUseCase } from "@app/features/Category/domain/useCases/getCategoryUseCase";
 import { TRANSACTION_TYPE } from "@app/constants";
 import { useNavigation } from "@react-navigation/native";
@@ -37,7 +37,7 @@ const useEditCategoryViewModel = (repository: ICategoryRepository) => {
         setLoadingEdit(false);
       } catch (error) {
         setLoadingEdit(false);
-        handleError(error);
+        handleApplicationError.handleError(error);
       }
     },
     [repository.editCategory, navigation],
@@ -57,7 +57,7 @@ const useEditCategoryViewModel = (repository: ICategoryRepository) => {
         setCategory(categoryData);
       } catch (error) {
         setLoading(false);
-        handleError(error);
+        handleApplicationError.handleError(error);
       }
     },
     [repository.getCategory],

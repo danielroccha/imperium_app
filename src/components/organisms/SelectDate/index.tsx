@@ -84,9 +84,7 @@ const SelectDate = ({ onChangeDate, initialDate }: SelectDateProps) => {
       const dateValue = new Date(initialDate);
       setSelectedDate(dateValue);
       onChangeDate(initialDate);
-
       const [today, tomorrow, yesterday] = dates;
-
       if (
         dateValue.toLocaleDateString() !== today.date().toLocaleDateString() &&
         dateValue.toLocaleDateString() !==

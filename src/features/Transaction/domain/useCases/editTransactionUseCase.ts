@@ -5,13 +5,14 @@ const editTransactionUseCase = async (
   repository: Pick<ITransactionRepository, "editTransaction">,
   data: TEditTransactionViewModel,
 ) => {
-  const { id, categoryId, name, value } = data;
+  const { id, categoryId, name, value, date } = data;
 
   await repository.editTransaction({
     categoryId,
     id,
     name,
     value,
+    date,
   });
 };
 

@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { createRecurrenceUseCase } from "@app/features/Recurrence/domain/useCases/createRecurrenceUseCase";
 import { IRecurrenceRepository } from "@app/features/Recurrence/data/recurrenceRepository";
 
-import { handleError } from "@app/configs/api";
+import handleApplicationError from "@app/handles/apiError";
 import { TRANSACTION_TYPE } from "@app/constants";
 
 export type CreateRecurrenceViewModel = {
@@ -32,7 +32,7 @@ const useCreateRecurrenceViewModel = (repository: IRecurrenceRepository) => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        handleError(error);
+        handleApplicationError.handleError(error, "ALERT");
       }
     },
     [repository.createRecurrence, navigation],

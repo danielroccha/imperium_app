@@ -1,16 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  SectionList,
-  View,
-  TouchableWithoutFeedback,
-  Alert,
-} from "react-native";
+import { View, TouchableWithoutFeedback, Alert, FlatList } from "react-native";
 
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
 import MonthPicker, { EventTypes } from "react-native-month-year-picker";
 
-import { ITransactionModel } from "@app/features/Home/domain/models/IBalanceResumeModel";
+import {
+  ITransactionModel,
+  ITransactionSectionDateModel,
+} from "@app/features/Home/domain/models/IBalanceResumeModel";
 import { useHomeViewModel } from "@app/features/Home/view/homeViewModel";
 import { useProfileViewModel } from "@app/features/Profile/view/profileViewModel";
 
@@ -50,8 +48,10 @@ const Home = () => {
   const { getData: getDataProfile } = useProfileViewModel(profileRepository);
 
   const handleFilterDate = (date: Date) => {
-    setDateFilter(date);
-    getData(Util.getMonthIndex(date), date.getFullYear());
+    setDateFilter(new Date(date));
+  };
+  const handleResetDate = () => {
+    setDateFilter(new Date());
   };
 
   const showDatePicker = () => {
@@ -62,12 +62,26 @@ const Home = () => {
     setStateDatePicker(false);
   };
 
-  const renderItem = ({ item }: { item: ITransactionModel }) => {
-    const handlePress = () => {
-      navigation.navigate("EditTransaction", { transactionId: item.id });
+  const getResumeData = useCallback(() => {
+    getData(Util.getMonthIndex(dateFilter), dateFilter.getFullYear());
+  }, [getData, dateFilter]);
+
+  const renderItem = ({ item }: { item: ITransactionSectionDateModel }) => {
+    const handlePress = (transaction: ITransactionModel) => {
+      if (!transaction.isRecurrence) {
+        navigation.navigate("EditTransaction", {
+          transactionId: transaction.id,
+        });
+      } else {
+        Alert.alert(
+          "Ops!!!",
+          "Essa transação é uma recorrência, para fazer a edição entre no menu recorrências.",
+          [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        );
+      }
     };
 
-    const handleLongPress = () => {
+    const handleLongPress = (id: string) => {
       Alert.alert(
         "Apagar lançamento",
         "Tem certeza que deseja remover esse lançamento ?",
@@ -76,7 +90,7 @@ const Home = () => {
           {
             text: "Remover",
             onPress: async () => {
-              await deleteTransaction(item.id);
+              await deleteTransaction(id);
               getResumeData();
             },
             style: "destructive",
@@ -86,16 +100,23 @@ const Home = () => {
     };
 
     return (
-      <ItemExpanses
-        type={item.type}
-        title={item.name}
-        category={item.category.name}
-        color={item.category.color}
-        icon={item.category.icon}
-        value={item.value}
-        onPress={handlePress}
-        onLongPress={handleLongPress}
-      />
+      <>
+        <SectionHeader date={item.section.date} value={item.section.value} />
+        {item.data.map(transaction => (
+          <ItemExpanses
+            key={transaction.id}
+            type={transaction.type}
+            title={transaction.name}
+            category={transaction.category.name}
+            color={transaction.category.color}
+            icon={transaction.category.icon}
+            value={transaction.value}
+            isRecurrence={transaction.isRecurrence}
+            onPress={() => handlePress(transaction)}
+            onLongPress={() => handleLongPress(transaction.id)}
+          />
+        ))}
+      </>
     );
   };
 
@@ -109,12 +130,6 @@ const Home = () => {
     }
     hideDatePicker();
   };
-
-  const getResumeData = useCallback(() => {
-    const currentDate = new Date();
-    setDateFilter(currentDate);
-    getData(Util.getMonthIndex(currentDate), currentDate.getFullYear());
-  }, [getData]);
 
   useFocusEffect(
     useCallback(() => {
@@ -131,9 +146,10 @@ const Home = () => {
       <View style={{ flex: 1, backgroundColor: theme.mode }}>
         <NavBar imageCentral={images.brandCrown} />
 
-        <SectionList
+        <FlatList
           ListHeaderComponent={
             <HeaderInfo
+              onResetDate={handleResetDate}
               onFilterDate={handleFilterDate}
               onTapDate={showDatePicker}
               dateFilter={dateFilter}
@@ -142,8 +158,8 @@ const Home = () => {
               incomesBalance={data?.balanceResume.monthlyIncomes ?? 0}
             />
           }
-          sections={data?.transactions ?? []}
-          keyExtractor={item => item.id}
+          data={data?.transactions ?? []}
+          keyExtractor={(_, index) => index}
           renderItem={renderItem}
           ListEmptyComponent={
             <>
@@ -169,12 +185,6 @@ const Home = () => {
               )}
             </>
           }
-          renderSectionHeader={({ section: dataSection }) => (
-            <SectionHeader
-              date={dataSection.section.date}
-              value={dataSection.section.value}
-            />
-          )}
         />
       </View>
       {stateDatePicker && (

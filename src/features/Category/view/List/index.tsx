@@ -20,10 +20,12 @@ import CategoryIcon from "@app/components/molecules/CategoryIcon";
 import Loading from "@app/components/molecules/Loading";
 
 import { Body, Caption } from "@app/components/atoms/Text";
-import { colors, dimens, getShadow } from "@app/configs/Theme";
+import { colors, dimens } from "@app/configs/Theme";
 import RootStackNavigation from "@app/types/RootStackParams";
 import EmptyStateList from "@app/components/organisms/EmptyStateList";
 import { lotties } from "@app/assets";
+import { TRANSACTION_TYPE } from "@app/constants";
+import Card from "@app/components/atoms/Card";
 
 const ListCategory = () => {
   const navigation = useNavigation<RootStackNavigation>();
@@ -75,26 +77,45 @@ const ListCategory = () => {
   const handleRenderItem = ({ item }: { item: ICategoryModel }) => {
     return (
       <TouchableOpacity
+        onPress={() => handleEditCategory(item.id)}
         style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: dimens.small,
-          ...getShadow(3),
-          backgroundColor: theme.white,
-          borderRadius: 10,
-          marginBottom: dimens.small,
-        }}
-        onPress={() => handleEditCategory(item.id)}>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <CategoryIcon color={item.color} icon={item.icon} />
-          <Body style={{ marginLeft: dimens.small }}>{item.name}</Body>
-        </View>
-        <TouchableOpacity
-          onPress={() => handleDelelete(item.id)}
-          hitSlop={{ bottom: 40, left: 40, right: 40, top: 40 }}>
-          <Icon name="trash" size={22} color={theme.primary} />
-        </TouchableOpacity>
+          marginVertical: dimens.tiny,
+        }}>
+        <Card style={{ padding: dimens.small }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <CategoryIcon color={item.color} icon={item.icon} />
+              <View style={{ marginLeft: dimens.small }}>
+                <Body>{item.name}</Body>
+                <View
+                  style={{
+                    backgroundColor:
+                      item.type === TRANSACTION_TYPE.EXPENSE
+                        ? theme.danger
+                        : theme.green,
+                    borderRadius: 10,
+                    padding: 5,
+                  }}>
+                  <Caption color="white" align="center">
+                    {item.type === TRANSACTION_TYPE.EXPENSE
+                      ? "Despesa"
+                      : "Receita"}
+                  </Caption>
+                </View>
+              </View>
+            </View>
+            <TouchableOpacity
+              onPress={() => handleDelelete(item.id)}
+              hitSlop={{ bottom: 40, left: 40, right: 40, top: 40 }}>
+              <Icon name="trash" size={22} color={theme.primary} />
+            </TouchableOpacity>
+          </View>
+        </Card>
       </TouchableOpacity>
     );
   };
@@ -108,7 +129,7 @@ const ListCategory = () => {
       getData();
     }, [getData]),
   );
-  console.log(listCategoriesData);
+
   return (
     <View style={{ flex: 1, backgroundColor: theme.mode }}>
       <NavBar
@@ -117,6 +138,7 @@ const ListCategory = () => {
         iconRight="plus"
         onClickActionRight={handlePressRightAction}
       />
+
       {isLoading ? (
         <Loading />
       ) : (
@@ -141,24 +163,25 @@ const ListCategory = () => {
             }
             ListHeaderComponent={
               <>
-                {!listCategoriesData?.length && (
-                  <TouchableOpacity
-                    onPress={handlePressSugestionCategories}
-                    style={{
-                      flexDirection: "row",
-                      backgroundColor: theme.primary,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      padding: dimens.small,
-                      marginBottom: dimens.small,
-                      borderRadius: 10,
-                    }}>
-                    <Icon name="grid" size={22} color={theme.white} />
-                    <Caption color="white" style={{ marginLeft: dimens.tiny }}>
-                      Veja algumas sugestões de categorias
-                    </Caption>
-                  </TouchableOpacity>
-                )}
+                <TouchableOpacity
+                  onPress={handlePressSugestionCategories}
+                  style={{
+                    flexDirection: "row",
+                    backgroundColor: theme.primary,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: dimens.small,
+                    marginBottom: dimens.small,
+                    borderRadius: 10,
+                  }}>
+                  <Icon name="grid" size={22} color={theme.white} />
+                  <Caption
+                    color="white"
+                    align="center"
+                    style={{ marginLeft: dimens.tiny }}>
+                    Veja algumas sugestões de categorias
+                  </Caption>
+                </TouchableOpacity>
               </>
             }
           />

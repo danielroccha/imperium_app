@@ -35,7 +35,7 @@ const BalanceInfo = () => {
               <Regular weight="semibold" color="primary">
                 (receitas - despesas)
               </Regular>{" "}
-              de meses passados. Por exemplo, se am abril de 2022 você teve um
+              de meses passados. Por exemplo, se em abril de 2022 você teve um
               total em{" "}
               <Regular weight="semibold" color="green">
                 {" "}
@@ -57,18 +57,21 @@ const BalanceInfo = () => {
             <Regular align="center">Saldo atual: (Acumulativo)</Regular>
 
             <Regular style={styles(theme).marginContent} align="center">
-              É a soma do ultimo saldo do mês passado{" "}
+              É a soma do último saldo do mês passado{" "}
               <Regular weight="semibold" color="green">
                 {" "}
                 {Util.formatToMoney(725)}{" "}
               </Regular>{" "}
               mais{" "}
               <Regular weight="semibold" color="primary">
-                (receitas - despesas)
+                {"(receitas - despesas) do mês atual. "}
+              </Regular>
+              <Regular weight="semibold">
+                Por exemplo, se em maio de 2022 você teve
               </Regular>{" "}
               <Regular weight="semibold" color="green">
                 {" "}
-                receitas de {Util.formatToMoney(1000)}{" "}
+                {`receitas de ${Util.formatToMoney(1000)}`}{" "}
               </Regular>{" "}
               e{" "}
               <Regular weight="semibold" color="danger">
@@ -88,12 +91,12 @@ const BalanceInfo = () => {
               É a subtração de{" "}
               <Regular weight="semibold" color="primary">
                 (receitas - despesas)
-              </Regular>{" "}
+              </Regular>
               . Por exemplo, se em Junho de 2022 você tem a previsão de um total
               em{" "}
               <Regular weight="semibold" color="green">
                 {" "}
-                receitas de {Util.formatToMoney(200)}{" "}
+                receitas de {Util.formatToMoney(200)}
               </Regular>{" "}
               e{" "}
               <Regular weight="semibold" color="danger">

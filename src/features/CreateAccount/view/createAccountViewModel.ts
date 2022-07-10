@@ -1,10 +1,11 @@
 import { useCallback, useState } from "react";
 
-// import { handleError } from "@app/configs/api";
+// import handleApplicationError from "@app/handles/apiError";
 import { createAccountUseCase } from "@app/features/CreateAccount/domain/useCases/createAccountUseCase";
 import { useNavigation } from "@react-navigation/native";
 import { ICreateAccountRepository } from "../data/createAccountRepository";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import RootStackNavigation from "@app/types/RootStackParams";
+import handleApplicationError from "@app/handles/apiError";
 
 export type TCreateAccountViewModel = {
   name: string;
@@ -14,7 +15,7 @@ export type TCreateAccountViewModel = {
 
 const useCreateAccountViewModel = (repository: ICreateAccountRepository) => {
   const [isLoading, setLoading] = useState(false);
-  const navigation = useNavigation<NativeStackNavigationProp<any, any>>();
+  const navigation = useNavigation<RootStackNavigation>();
 
   const createAccount = useCallback(
     async (data: TCreateAccountViewModel) => {
@@ -24,9 +25,13 @@ const useCreateAccountViewModel = (repository: ICreateAccountRepository) => {
           { createAccount: repository.createAccount },
           data,
         );
-        navigation.navigate("Login");
+        navigation.replace("VerificationCode", {
+          email: data.email,
+          emailType: "WELCOME",
+          title: "Validação de conta",
+        });
       } catch (error) {
-        // handleError(error);
+        handleApplicationError.handleError(error);
         setLoading(false);
       }
     },

@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import { createTransactionUseCase } from "@app/features/Transaction/domain/useCases/createTransactionUseCase";
 import { useNavigation } from "@react-navigation/native";
 import { OPTIONS_PERIOD, TRANSACTION_TYPE } from "@app/constants";
-import { handleError } from "@app/configs/api";
+import handleApplicationError from "@app/handles/apiError";
 import { ITransactionRepository } from "@app/features/Transaction/data/transactionRepository";
 import RootStackNavigation from "@app/types/RootStackParams";
 
@@ -32,7 +32,7 @@ const useCreateTransactionViewModel = (repository: ITransactionRepository) => {
         );
         navigation.goBack();
       } catch (error) {
-        handleError(error);
+        handleApplicationError.handleError(error);
         setLoading(false);
       }
     },

@@ -10,7 +10,7 @@ import { ICategoryModel } from "@app/features/Category/domain/models/ICategoryMo
 
 import RootStackNavigation from "@app/types/RootStackParams";
 import { TRANSACTION_TYPE } from "@app/constants";
-import { handleError } from "@app/configs/api";
+import handleApplicationError from "@app/handles/apiError";
 
 export type TEditTransactionViewModel = {
   name: string;
@@ -50,7 +50,7 @@ const useEditTransactionViewModel = (repository: ITransactionRepository) => {
         });
         setLoading(false);
       } catch (error) {
-        handleError(error);
+        handleApplicationError.handleError(error);
         setLoading(false);
       }
     },
@@ -68,7 +68,7 @@ const useEditTransactionViewModel = (repository: ITransactionRepository) => {
         );
         navigation.goBack();
       } catch (error) {
-        handleError(error);
+        handleApplicationError.handleError(error);
         setLoading(false);
       }
     },
@@ -86,7 +86,7 @@ const useEditTransactionViewModel = (repository: ITransactionRepository) => {
         );
         navigation.goBack();
       } catch (error) {
-        handleError(error);
+        handleApplicationError.handleError(error);
         setLoading(false);
       }
     },
