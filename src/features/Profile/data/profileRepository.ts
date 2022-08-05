@@ -1,6 +1,8 @@
 import { useCallback } from "react";
-import IProfileEntity from "./IProfileEntity";
+
+import IProfileEntity from "@app/features/Profile/data/IProfileEntity";
 import { IUserService } from "@app/services/user";
+
 import { TForgotPasswordRemote } from "@app/services/user/remoteTypes/ForgotPasswordRemote";
 import { TVerificationCodeRemote } from "@app/services/user/remoteTypes/VerificationCodeRemote";
 import { TChangePasswordRemote } from "@app/services/user/remoteTypes/ChangePasswordRemote";
@@ -12,6 +14,7 @@ export interface IProfileRepository {
   verificationCode(data: TVerificationCodeRemote): Promise<void>;
   resendVerificationCode(data: TResendVerificationCodeRemote): Promise<void>;
   changePassword(data: TChangePasswordRemote): Promise<void>;
+  resetBalance(): Promise<void>;
 }
 
 const useProfileRepository = (service: IUserService): IProfileRepository => {
@@ -47,6 +50,9 @@ const useProfileRepository = (service: IUserService): IProfileRepository => {
     },
     [service],
   );
+  const resetBalance = useCallback(async () => {
+    await service.resetBalanceService();
+  }, [service]);
 
   return {
     getProfile,
@@ -54,6 +60,7 @@ const useProfileRepository = (service: IUserService): IProfileRepository => {
     verificationCode,
     resendVerificationCode,
     changePassword,
+    resetBalance,
   };
 };
 

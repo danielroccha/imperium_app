@@ -1,5 +1,6 @@
 import { TRANSACTION_TYPE } from "@app/constants";
 import { ICategoryModel } from "@app/features/Category/domain/models/ICategoryModel";
+import IRecurrenceModel from "@app/features/Recurrence/domain/models/IRecurrenceModel";
 
 export default interface IBalanceResumeModel {
   balanceResume: IBalanceModel;
@@ -27,4 +28,6 @@ export interface ITransactionModel {
   categoryId: string;
   isRecurrence: boolean;
   category: ICategoryModel;
+  recurrence?: IRecurrenceModel;
+  isInstallment: boolean;
 }

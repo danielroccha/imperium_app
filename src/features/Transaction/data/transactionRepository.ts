@@ -6,12 +6,16 @@ import { TRANSACTION_TYPE } from "@app/constants";
 import ITransactionByCategoryEntity from "./ITransactionsByCategoryEntity";
 import IBalanceResumeEntity from "@app/features/Home/data/IBalanceResumeEntity";
 import { TEditTransactionRemote } from "@app/services/transaction/remoteTypes/EditTransactionRemote";
+import { TDeleteHeaderTransaction } from "@app/services/transaction/remoteTypes/DeleteTransactionRemote";
 
 export interface ITransactionRepository {
   createTransaction(data: TCreateTransactionRemote): Promise<void>;
   editTransaction(data: TEditTransactionRemote): Promise<void>;
   getTransaction(transactionId: string): Promise<ITransactionEntity>;
-  deleteTransaction(transactionId: string): Promise<void>;
+  deleteTransaction(
+    transactionId: string,
+    headers?: TDeleteHeaderTransaction,
+  ): Promise<void>;
   getTransactionsGroupByCategory(
     monthId: number,
     year: number,
@@ -50,8 +54,11 @@ const useTransactionRepository = (
   );
 
   const deleteTransaction = useCallback(
-    async (categoryId: string) => {
-      const response = await service.deleteTransactionService(categoryId);
+    async (transactionId: string, headers?: TDeleteHeaderTransaction) => {
+      const response = await service.deleteTransactionService(
+        transactionId,
+        headers,
+      );
       return response;
     },
     [service],

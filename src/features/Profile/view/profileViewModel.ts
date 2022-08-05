@@ -3,8 +3,10 @@ import { useSelector } from "react-redux";
 
 import handleApplicationError from "@app/handles/apiError";
 import { getProfileUseCase } from "@app/features/Profile/domain/useCases/GetProfileUseCase";
+import { resetBalanceUseCase } from "@app/features/Profile/domain/useCases/ResetBalanceUseCase";
 import { IProfileRepository } from "@app/features/Profile/data/profileRepository";
 import { RootState } from "@app/configs/store";
+import { Alert } from "react-native";
 
 export type TLoginViewModel = {
   email: string;
@@ -24,7 +26,22 @@ const useProfileViewModel = (repository: IProfileRepository) => {
     }
   }, [repository.getProfile]);
 
-  return { getData, loading, profile };
+  const resetBalance = useCallback(async () => {
+    try {
+      await resetBalanceUseCase({
+        resetBalance: repository.resetBalance,
+      });
+      Alert.alert(
+        "Pronto para começar!!!",
+        "Seu histórico financeiro foi resetado com sucesso.",
+        [{ text: "Ok" }],
+      );
+    } catch (error) {
+      handleApplicationError.handleError(error);
+    }
+  }, [repository.resetBalance]);
+
+  return { getData, resetBalance, loading, profile };
 };
 
 export { useProfileViewModel };

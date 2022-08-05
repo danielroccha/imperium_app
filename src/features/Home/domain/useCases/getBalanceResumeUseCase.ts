@@ -34,6 +34,8 @@ const mapBalanceResumeToDomain = (data: IBalanceResumeEntity) => {
             value: transaction.value,
             category: transaction.category,
             isRecurrence: transaction.isRecurrence,
+            recurrence: transaction.recurrence,
+            isInstallment: transaction.isInstallment,
           };
         },
       );

@@ -11,6 +11,7 @@ const USER_SERVICES = {
   VERIFICATION_CODE: "/user/verification-code",
   RESEND_EMAIL: "/user/resend-email",
   CHANGE_PASSWORD: "/user/change-password",
+  RESET_BALANCE: "/user/reset-balance",
 };
 
 const SIGN_UP_SERVICES = {

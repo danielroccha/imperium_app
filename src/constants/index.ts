@@ -56,6 +56,21 @@ export const months = [
   "Dezembro",
 ];
 
+export const profileMenu: {
+  icon: string;
+  name: string;
+  action: (action?: () => void) => void | null;
+}[] = [
+  {
+    icon: "log-out",
+    name: "Sair",
+    action: (callback: () => void) => {
+      if (callback) return callback();
+      return null;
+    },
+  },
+];
+
 export const expensesCategorySugestion: TCategorySugestion[] = [
   {
     name: "Alimentação",

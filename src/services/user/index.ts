@@ -14,6 +14,7 @@ export interface IUserService {
   verificationCodeService: (data: TVerificationCodeRemote) => Promise<void>;
   resendEmailService: (data: TResendVerificationCodeRemote) => Promise<void>;
   changePasswordService: (data: TChangePasswordRemote) => Promise<void>;
+  resetBalanceService: () => Promise<void>;
 }
 
 const profileService = async (): Promise<IProfileEntity> =>
@@ -45,12 +46,16 @@ const changePasswordService = async (
     .post(API_SERVICES.USER_SERVICES.CHANGE_PASSWORD, data)
     .then(res => res.data);
 
+const resetBalanceService = async (): Promise<void> =>
+  api.post(API_SERVICES.USER_SERVICES.RESET_BALANCE).then(res => res.data);
+
 const userService: IUserService = {
   profileService,
   forgotPasswordService,
   verificationCodeService,
   changePasswordService,
   resendEmailService,
+  resetBalanceService,
 };
 
 export default userService;

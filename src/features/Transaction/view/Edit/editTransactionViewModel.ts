@@ -23,6 +23,11 @@ export type TEditTransactionViewModel = {
   id: string;
 };
 
+export type TDelteTransactionOptions = {
+  deleteAll: boolean;
+  transactionDate: string;
+};
+
 const useEditTransactionViewModel = (repository: ITransactionRepository) => {
   const [isLoading, setLoading] = useState(false);
   const [transactionData, setTransactionData] =
@@ -42,7 +47,7 @@ const useEditTransactionViewModel = (repository: ITransactionRepository) => {
           id: result.id,
           categoryId: result.categoryId,
           date: result.date,
-          isInstallment: false,
+          isInstallment: result.isInstallment,
           name: result.name,
           type: result.type,
           value: result.value,
@@ -77,12 +82,13 @@ const useEditTransactionViewModel = (repository: ITransactionRepository) => {
   );
 
   const deleteTransaction = useCallback(
-    async (transactionId: string) => {
+    async (transactionId: string, options?: TDelteTransactionOptions) => {
       try {
         setLoading(true);
         await deleteTransactionUseCase(
           { deleteTransaction: repository.deleteTransaction },
           transactionId,
+          options,
         );
         navigation.goBack();
       } catch (error) {

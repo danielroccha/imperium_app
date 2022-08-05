@@ -58,7 +58,7 @@ const CreateAccount = () => {
         <Divide />
         <TouchableOpacity onPress={handleNavigateCreateAccount}>
           <Caption align="center" color="black">
-            Se você ja tem uma conta é só fazer seu login:)
+            Se você já tem uma conta é só fazer seu login:)
           </Caption>
         </TouchableOpacity>
       </KeyboardAvoidingView>

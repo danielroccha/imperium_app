@@ -9,6 +9,7 @@ import CreateTransaction from "@app/features/Transaction/view/Create";
 import EditTransaction from "@app/features/Transaction/view/Edit";
 import TransactionGroupByCategory from "@app/features/Transaction/view/TransactionGroupByCategory";
 import CreateCategory from "@app/features/Category/view/Create";
+import EditRecurrence from "@app/features/Recurrence/view/Edit";
 
 import Profile from "@app/features/Profile/view";
 
@@ -62,6 +63,11 @@ const HomeStack = () => {
         }}
         name="EditTransaction"
         component={EditTransaction}
+      />
+      <Stack.Screen
+        options={{ headerShown: false, presentation: "modal" }}
+        name="EditRecurrence"
+        component={EditRecurrence}
       />
       <Stack.Screen
         options={{

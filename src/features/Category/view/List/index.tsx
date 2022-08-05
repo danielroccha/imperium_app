@@ -92,21 +92,16 @@ const ListCategory = () => {
               <CategoryIcon color={item.color} icon={item.icon} />
               <View style={{ marginLeft: dimens.small }}>
                 <Body>{item.name}</Body>
-                <View
-                  style={{
-                    backgroundColor:
-                      item.type === TRANSACTION_TYPE.EXPENSE
-                        ? theme.danger
-                        : theme.green,
-                    borderRadius: 10,
-                    padding: 5,
-                  }}>
-                  <Caption color="white" align="center">
-                    {item.type === TRANSACTION_TYPE.EXPENSE
-                      ? "Despesa"
-                      : "Receita"}
-                  </Caption>
-                </View>
+
+                <Caption
+                  color={
+                    item.type === TRANSACTION_TYPE.EXPENSE ? "danger" : "green"
+                  }
+                  align="left">
+                  {item.type === TRANSACTION_TYPE.EXPENSE
+                    ? "Despesa"
+                    : "Receita"}
+                </Caption>
               </View>
             </View>
             <TouchableOpacity

@@ -71,12 +71,19 @@ const EditTransaction = () => {
     }
   };
 
-  const handleDeleteTransaction = () => {
+  const handleDelete = () => {
+    if (transactionData?.isInstallment) {
+      showDeleteTransactionInstallmentAlert();
+    } else {
+      showDeleteTransactionAlert();
+    }
+  };
+
+  const showDeleteTransactionAlert = () => {
     Alert.alert(
-      "Apagar lançamento",
+      "Remover lançamento",
       "Tem certeza que deseja remover esse lançamento ?",
       [
-        { text: "Cancelar", onPress: () => console.log("OK Pressed") },
         {
           text: "Remover",
           onPress: () => {
@@ -86,6 +93,37 @@ const EditTransaction = () => {
           },
           style: "destructive",
         },
+        { text: "Cancelar", onPress: () => console.log("OK Pressed") },
+      ],
+    );
+  };
+
+  const showDeleteTransactionInstallmentAlert = () => {
+    Alert.alert(
+      "Apagar lançamento",
+      "Tem certeza que deseja remover esse lançamento ?",
+      [
+        {
+          text: "Remover todas a partir desta",
+          onPress: () => {
+            if (transactionData && transactionData.id) {
+              deleteTransaction(transactionData.id, {
+                transactionDate: transactionData.date.toLocaleString(),
+                deleteAll: true,
+              });
+            }
+          },
+          style: "destructive",
+        },
+        {
+          text: "Remover apenas esta",
+          onPress: () => {
+            if (transactionData && transactionData.id) {
+              deleteTransaction(transactionData.id);
+            }
+          },
+        },
+        { text: "Cancelar", onPress: () => console.log("OK Pressed") },
       ],
     );
   };
@@ -106,7 +144,7 @@ const EditTransaction = () => {
           iconLeft="trash"
           title="Editar transação"
           onClickActionRight={handleClose}
-          onClickActionLeft={handleDeleteTransaction}
+          onClickActionLeft={handleDelete}
         />
         {isLoading ? (
           <Loading />

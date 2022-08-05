@@ -1,5 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { View, TouchableWithoutFeedback, Alert, FlatList } from "react-native";
+import {
+  View,
+  TouchableWithoutFeedback,
+  Alert,
+  FlatList,
+  Platform,
+} from "react-native";
 
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
@@ -68,16 +74,18 @@ const Home = () => {
 
   const renderItem = ({ item }: { item: ITransactionSectionDateModel }) => {
     const handlePress = (transaction: ITransactionModel) => {
-      if (!transaction.isRecurrence) {
+      if (transaction.isRecurrence && transaction.recurrence) {
+        navigation.navigate("EditRecurrence", {
+          recurrenceId: transaction.recurrence.id,
+        });
+      } else {
+        // Alert.alert(
+        //   "Atenção!!!",
+        //   "Esse mês ainda não chegou, portanto você não poderá editar as recorrencias ou quelquer ou coisa tendeu ??",
+        // );
         navigation.navigate("EditTransaction", {
           transactionId: transaction.id,
         });
-      } else {
-        Alert.alert(
-          "Ops!!!",
-          "Essa transação é uma recorrência, para fazer a edição entre no menu recorrências.",
-          [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-        );
       }
     };
 
@@ -121,6 +129,7 @@ const Home = () => {
   };
 
   const handleDateChange = (event: EventTypes, newDate: Date) => {
+    hideDatePicker();
     switch (event) {
       case "dateSetAction":
         handleFilterDate(newDate);
@@ -128,7 +137,6 @@ const Home = () => {
       case "dismissedAction":
         break;
     }
-    hideDatePicker();
   };
 
   useFocusEffect(
@@ -189,18 +197,20 @@ const Home = () => {
       </View>
       {stateDatePicker && (
         <>
-          <TouchableWithoutFeedback onPress={hideDatePicker}>
-            <View
-              style={{
-                backgroundColor: theme.mode,
-                height: SCREEN_HEIGHT,
-              }}>
-              <EmptyStateList
-                lottie={lotties.calendar}
-                text="Selecione um mês"
-              />
-            </View>
-          </TouchableWithoutFeedback>
+          {Platform.OS === "ios" && (
+            <TouchableWithoutFeedback onPress={hideDatePicker}>
+              <View
+                style={{
+                  backgroundColor: theme.mode,
+                  height: SCREEN_HEIGHT,
+                }}>
+                <EmptyStateList
+                  lottie={lotties.calendar}
+                  text="Selecione um mês"
+                />
+              </View>
+            </TouchableWithoutFeedback>
+          )}
           <MonthPicker
             onChange={handleDateChange}
             value={dateFilter}
@@ -210,7 +220,7 @@ const Home = () => {
             autoTheme={false}
             okButton="Confirmar"
             cancelButton="Cancelar"
-            mode="full"
+            mode="number"
           />
         </>
       )}

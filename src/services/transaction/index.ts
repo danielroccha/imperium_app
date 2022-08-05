@@ -6,6 +6,7 @@ import ITransactionEntity from "@app/features/Transaction/data/ITransactionEntit
 import ITransactionByCategoryEntity from "@app/features/Transaction/data/ITransactionsByCategoryEntity";
 import { TCreateTransactionRemote } from "@app/services/transaction/remoteTypes/CreateTransactionRemote";
 import { TEditTransactionRemote } from "@app/services/transaction/remoteTypes/EditTransactionRemote";
+import { TDeleteHeaderTransaction } from "@app/services/transaction/remoteTypes/DeleteTransactionRemote";
 
 export interface ITransactionService {
   getBalanceService: (
@@ -14,7 +15,10 @@ export interface ITransactionService {
   ) => Promise<IBalanceResumeEntity>;
   createTransactionService: (data: TCreateTransactionRemote) => Promise<void>;
   getTransactionService: (transactionId: string) => Promise<ITransactionEntity>;
-  deleteTransactionService: (transactionId: string) => Promise<void>;
+  deleteTransactionService: (
+    transactionId: string,
+    headers?: TDeleteHeaderTransaction,
+  ) => Promise<void>;
   editTransactionService: (data: TEditTransactionRemote) => Promise<void>;
   getTransactionsGroupByCategory: (
     monthId: number,
@@ -31,10 +35,18 @@ const getBalanceService = async (
     .get(API_SERVICES.TRANSACTION_SERVICES.BALANCE_RESUME(monthId, year))
     .then(res => res.data);
 
-const deleteTransactionService = async (transactionId: string): Promise<void> =>
-  api
-    .delete(API_SERVICES.TRANSACTION_SERVICES.DELETE_TRANSACTION(transactionId))
+const deleteTransactionService = async (
+  transactionId: string,
+  headers?: TDeleteHeaderTransaction,
+): Promise<void> => {
+  console.log(headers);
+  return api
+    .delete(
+      API_SERVICES.TRANSACTION_SERVICES.DELETE_TRANSACTION(transactionId),
+      { headers },
+    )
     .then(res => res.data);
+};
 
 const createTransactionService = (
   data: TCreateTransactionRemote,

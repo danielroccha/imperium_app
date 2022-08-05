@@ -5,6 +5,7 @@ import ListRecurrence from "@app/features/Recurrence/view/List";
 import CreateRecurrence from "@app/features/Recurrence/view/Create";
 import EditRecurrence from "@app/features/Recurrence/view/Edit";
 import SelectCategory from "@app/features/Category/view/SelectCategory";
+import CreateCategory from "@app/features/Category/view/Create";
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +37,14 @@ const RecurrenceStack = () => {
         }}
         name="SelectCategory"
         component={SelectCategory}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          presentation: "modal",
+        }}
+        name="CreateCategory"
+        component={CreateCategory}
       />
     </Stack.Navigator>
   );

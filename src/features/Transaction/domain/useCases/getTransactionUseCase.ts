@@ -22,6 +22,8 @@ const mapTransactionToDomain = (
     type: transaction.type,
     userId: transaction.userId,
     value: transaction.value,
+    isInstallment: transaction.isInstallment,
+    isRecurrence: transaction.isRecurrence,
   };
 };
 

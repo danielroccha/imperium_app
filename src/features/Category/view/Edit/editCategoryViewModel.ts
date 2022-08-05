@@ -37,7 +37,7 @@ const useEditCategoryViewModel = (repository: ICategoryRepository) => {
         setLoadingEdit(false);
       } catch (error) {
         setLoadingEdit(false);
-        handleApplicationError.handleError(error);
+        handleApplicationError.handleError(error, "ALERT");
       }
     },
     [repository.editCategory, navigation],

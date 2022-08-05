@@ -62,11 +62,15 @@ const ListRecurrence = () => {
         "Tem certeza que deseja remover essa recorrência?",
         [
           {
+            text: "Remover",
+            onPress: () => deleteRecurrence(item.id),
+            style: "destructive",
+          },
+          {
             text: "Cancelar",
             onPress: () => console.log("Cancel Pressed"),
             style: "cancel",
           },
-          { text: "Sim", onPress: () => deleteRecurrence(item.id) },
         ],
       );
     };

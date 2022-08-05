@@ -19,10 +19,9 @@ const useLoginViewModel = (repository: IUseLoginRepository) => {
 
   const tryLogin = useCallback(
     async (data: TLoginViewModel) => {
+      setLoading(true);
       try {
-        setLoading(true);
         await loginUseCase({ login: repository.login }, data);
-        setLoading(false);
       } catch (error) {
         setLoading(false);
         if (
