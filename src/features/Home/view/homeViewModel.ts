@@ -5,6 +5,7 @@ import { ITransactionRepository } from "@app/features/Transaction/data/transacti
 import { getBalanceResumeUseCase } from "@app/features/Home/domain/useCases/getBalanceResumeUseCase";
 import IBalanceResumeModel from "@app/features/Home/domain/models/IBalanceResumeModel";
 import { deleteTransactionUseCase } from "@app/features/Transaction/domain/useCases/deleteTransactionUseCase";
+import { TDelteTransactionOptions } from "@app/features/Transaction/view/Edit/editTransactionViewModel";
 
 export type TLoginViewModel = {
   email: string;
@@ -36,12 +37,13 @@ const useHomeViewModel = (repository: ITransactionRepository) => {
   );
 
   const deleteTransaction = useCallback(
-    async (transactionId: string) => {
+    async (transactionId: string, options?: TDelteTransactionOptions) => {
       try {
         setLoading(true);
         await deleteTransactionUseCase(
           { deleteTransaction: repository.deleteTransaction },
           transactionId,
+          options,
         );
       } catch (error) {
         handleApplicationError.handleError(error);

@@ -1,16 +1,13 @@
 import React from "react";
-import {
-  View,
-  Image,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { View, Image, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import DismissKeyboard from "@app/components/atoms/DismissKeyboard";
 import Divide from "@app/components/atoms/Divide";
 import { Caption } from "@app/components/atoms/Text";
+import NavBar from "@app/components/organisms/Navbar";
+
+import I18n from "@app/languages/I18n";
 
 import CreateAccountForm from "@app/features/CreateAccount/view/Form";
 import {
@@ -21,7 +18,7 @@ import useCreateAccountRepository from "@app/features/CreateAccount/data/createA
 import signUpService from "@app/services/createAccout";
 
 import { images } from "@app/assets";
-import { colors } from "@app/configs/Theme";
+import { colors, dimens } from "@app/configs/Theme";
 
 import styles from "./styles";
 
@@ -35,7 +32,7 @@ const CreateAccount = () => {
     createAccountRepository,
   );
 
-  const handleNavigateCreateAccount = () => {
+  const handleBack = () => {
     navigation.goBack();
   };
 
@@ -45,23 +42,26 @@ const CreateAccount = () => {
 
   return (
     <DismissKeyboard>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles(theme).container}>
-        <View>
-          <Image source={images.brandLettering} style={styles(theme).image} />
-          <CreateAccountForm
-            loading={isLoading}
-            onValidateSuccess={handleSuccessFormCreateAccount}
-          />
-        </View>
-        <Divide />
-        <TouchableOpacity onPress={handleNavigateCreateAccount}>
-          <Caption align="center" color="black">
-            Se você já tem uma conta é só fazer seu login:)
-          </Caption>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
+      <View style={{ flex: 1 }}>
+        <NavBar iconRight="x" onClickActionRight={handleBack} />
+        <ScrollView
+          style={{ backgroundColor: colors().mode }}
+          contentContainerStyle={{ padding: dimens.small }}>
+          <View>
+            <Image source={images.brandLettering} style={styles(theme).image} />
+            <CreateAccountForm
+              loading={isLoading}
+              onValidateSuccess={handleSuccessFormCreateAccount}
+            />
+          </View>
+          <Divide stylesDivide={{ marginVertical: dimens.medium }} />
+          <TouchableOpacity onPress={handleBack}>
+            <Caption align="center" color="black">
+              {I18n.t("create_account.back_to_login")}
+            </Caption>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
     </DismissKeyboard>
   );
 };

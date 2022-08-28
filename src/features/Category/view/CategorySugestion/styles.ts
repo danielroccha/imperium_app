@@ -13,7 +13,7 @@ export default (theme: AvailableColors) =>
       borderWidth: 2,
       padding: dimens.tiny,
       borderRadius: 10,
-      borderColor: theme.white,
+      borderColor: theme.contrastMode,
       ...getShadow(2),
     },
   });

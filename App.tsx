@@ -1,7 +1,15 @@
 import "intl";
 import "intl/locale-data/jsonp/en";
-import React, { useRef, useState } from "react";
-import { SafeAreaView, StatusBar, useColorScheme, LogBox } from "react-native";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import {
+  SafeAreaView,
+  StatusBar,
+  useColorScheme,
+  LogBox,
+  Platform,
+  Appearance,
+} from "react-native";
+
 import {
   NavigationContainer,
   useNavigationContainerRef,
@@ -13,6 +21,8 @@ import Routes from "@app/routes";
 import { store } from "@app/configs/store";
 import { colors } from "@app/configs/Theme";
 import { Axios } from "@app/configs/api";
+import storage from "@app/configs/storage";
+
 LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
@@ -25,6 +35,9 @@ const App = () => {
   const routeNameRef = useRef<string | undefined>();
   const navigationRef = useNavigationContainerRef();
   const [currentRoute, setCurrentRoute] = useState("");
+  const [barStyle, setBarStyle] = useState<
+    "light-content" | "dark-content" | "default" | undefined
+  >(Appearance.getColorScheme() === "dark" ? "dark-content" : "light-content");
 
   const handleStateChange = () => {
     // const previousRouteName = routeNameRef.current;
@@ -38,15 +51,31 @@ const App = () => {
     routeNameRef.current = currentRouteName;
   };
 
+  const themeDark = useCallback(async () => {
+    const value = await storage.getAppearance();
+    if (value) {
+      if (value === "dark") return setBarStyle("light-content");
+      return setBarStyle("dark-content");
+    }
+    if (Appearance.getColorScheme() === "dark") setBarStyle("light-content");
+    else setBarStyle("dark-content");
+  }, []);
+
+  useEffect(() => {
+    // themeDark();
+  });
+
   return (
     <NotifierWrapper>
       <Provider store={store}>
         <SafeAreaView
           style={{
-            backgroundColor: theme.mode,
+            backgroundColor: theme.contrastMode,
             flex: 1,
           }}>
-          <StatusBar barStyle={"dark-content"} />
+          <StatusBar
+            barStyle={Platform.OS === "ios" ? "dark-content" : undefined}
+          />
           <NavigationContainer
             ref={navigationRef}
             onStateChange={handleStateChange}>

@@ -9,6 +9,7 @@ import { editRecurrenceUseCase } from "@app/features/Recurrence/domain/useCases/
 import handleApplicationError from "@app/handles/apiError";
 import { TRANSACTION_TYPE } from "@app/constants";
 import { ICategoryModel } from "@app/features/Category/domain/models/ICategoryModel";
+import { deleteRecurrenceUseCase } from "../../domain/useCases/deleteRecurrenceUseCase";
 
 export type EditRecurrenceViewModel = {
   name: string;
@@ -61,7 +62,30 @@ const useEditRecurrenceViewModel = (repository: IRecurrenceRepository) => {
     [repository.getRecurrence],
   );
 
-  return { getRecurrence, editRecurrence, isLoading, recurrence };
+  const deleteRecurrence = useCallback(
+    async (recurrenceId: string) => {
+      try {
+        await deleteRecurrenceUseCase(
+          {
+            deleteRecurrence: repository.deleteRecurrence,
+          },
+          recurrenceId,
+        );
+      } catch (error) {
+        setLoading(false);
+        handleApplicationError.handleError(error);
+      }
+    },
+    [repository.deleteRecurrence],
+  );
+
+  return {
+    getRecurrence,
+    editRecurrence,
+    deleteRecurrence,
+    isLoading,
+    recurrence,
+  };
 };
 
 export { useEditRecurrenceViewModel };

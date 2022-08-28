@@ -19,6 +19,8 @@ import Loading from "@app/components/molecules/Loading";
 import { TRANSACTION_TYPE } from "@app/constants";
 import CustomButton from "@app/components/atoms/Button";
 import RootStackNavigation from "@app/types/RootStackParams";
+import EmptyStateList from "@app/components/organisms/EmptyStateList";
+import { lotties } from "@app/assets";
 
 type SelectCategoryParamList = {
   Detail: {
@@ -60,7 +62,7 @@ const SelectCategory = () => {
     <View style={{ flex: 1, backgroundColor: theme.blackTransparent }}>
       <View
         style={{
-          backgroundColor: theme.white,
+          backgroundColor: theme.mode,
           position: "absolute",
           bottom: 0,
           left: 0,
@@ -76,30 +78,40 @@ const SelectCategory = () => {
           <Loading />
         ) : (
           <View style={{ flex: 1 }}>
-            <FlatList
-              contentContainerStyle={{ padding: dimens.small }}
-              data={listCategoriesData}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    marginVertical: dimens.tiny,
-                    backgroundColor: theme.white,
-                    padding: dimens.small,
-                    borderRadius: 10,
-                    ...getShadow(3),
-                  }}
-                  onPress={() => handleSelectCategory(item)}>
-                  <>
-                    <CategoryIcon color={item.color} icon={item.icon} />
-                    <Caption style={{ marginLeft: dimens.base }}>
-                      {item.name}
-                    </Caption>
-                  </>
-                </TouchableOpacity>
-              )}
-            />
+            {listCategoriesData?.length === 0 ? (
+              <View style={{ flex: 1 }}>
+                <EmptyStateList
+                  text="Nenhuma categoria cadastrada ainda."
+                  lottie={lotties.empty}
+                />
+              </View>
+            ) : (
+              <FlatList
+                contentContainerStyle={{ padding: dimens.small }}
+                data={listCategoriesData}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginVertical: dimens.tiny,
+                      backgroundColor: theme.contrastMode,
+                      padding: dimens.small,
+                      borderRadius: 10,
+                      ...getShadow(3),
+                    }}
+                    onPress={() => handleSelectCategory(item)}>
+                    <>
+                      <CategoryIcon color={item.color} icon={item.icon} />
+                      <Caption style={{ marginLeft: dimens.base }}>
+                        {item.name}
+                      </Caption>
+                    </>
+                  </TouchableOpacity>
+                )}
+              />
+            )}
+
             <CustomButton
               title="Criar nova categoria"
               onPress={handleOpenCreateCategory}

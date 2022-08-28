@@ -11,9 +11,11 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Feather";
 import Dialog from "react-native-dialog";
+import DeviceInfo from "react-native-device-info";
+import I18n from "@app/languages/I18n";
 
 import Loading from "@app/components/molecules/Loading";
-import { Caption, HeadLine, Regular } from "@app/components/atoms/Text";
+import { Caption, HeadLine, Regular, Small } from "@app/components/atoms/Text";
 import NavBar from "@app/components/organisms/Navbar";
 import Card from "@app/components/atoms/Card";
 import { logOut } from "@app/features/Login/data/loginActions";
@@ -24,11 +26,12 @@ import { colors, dimens } from "@app/configs/Theme";
 import userService from "@app/services/user";
 import { images } from "@app/assets";
 import Util from "@app/util";
+import RootStackNavigation from "@app/types/RootStackParams";
 
 const Profile = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [eraseText, setEraseText] = useState("");
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootStackNavigation>();
   const theme = colors();
 
   const profileRepository = useProfileRepository(userService);
@@ -54,26 +57,37 @@ const Profile = () => {
   };
 
   const handleDelete = () => {
-    if (eraseText === "APAGAR") {
+    if (eraseText === I18n.t("buttons.erase")) {
       resetBalance();
       setShowDialog(false);
     }
   };
+
   const handleChangeValue = (
     e: NativeSyntheticEvent<TextInputChangeEventData>,
   ) => {
     setEraseText(e.nativeEvent.text);
   };
 
+  const handleNavigation = () => {
+    navigation.navigate("CurrencyList");
+  };
+
   const profileOptions = [
     {
-      name: "Resetar saldo",
+      name: I18n.t("profile.reset_data"),
       iconColor: theme.danger,
       icon: "refresh-cw",
       action: () => handleResetBalance(),
     },
     {
-      name: "Sair",
+      name: I18n.t("profile.change_currency"),
+      iconColor: theme.primary,
+      icon: "dollar-sign",
+      action: () => handleNavigation(),
+    },
+    {
+      name: I18n.t("profile.logout"),
       iconColor: theme.primary,
       icon: "log-out",
       action: () => handleLogout(),
@@ -90,22 +104,28 @@ const Profile = () => {
           <Dialog.Container visible={showDialog} onBackdropPress={handleCancel}>
             <Dialog.Title>Resetar saldo</Dialog.Title>
             <Dialog.Description>
-              Você tem certeza que quer resetar seu saldo? Essa ação não poderá
-              ser desfeita e você perderá todo o seus lançamentos e histórico
-              financeiro.
+              {I18n.t("profile.dialog_description")}
             </Dialog.Description>
             <Dialog.Description>
-              <Caption>
+              <Caption color="contrast">
                 Se deseja continuar digite
-                <Caption color="danger"> APAGAR</Caption> no campo abaixo.
+                <Caption color="danger"> {I18n.t("buttons.erase")}</Caption> no
+                campo abaixo.
               </Caption>
             </Dialog.Description>
             <Dialog.Input onChange={handleChangeValue} />
-            <Dialog.Button label="Cancel" onPress={handleCancel} />
             <Dialog.Button
-              label="Delete"
-              disabled={eraseText !== "APAGAR"}
-              color={eraseText === "APAGAR" ? theme.danger : theme.grey}
+              label={I18n.t("buttons.cancel")}
+              onPress={handleCancel}
+            />
+            <Dialog.Button
+              label={I18n.t("buttons.remove")}
+              disabled={eraseText !== I18n.t("buttons.erase")}
+              color={
+                eraseText === I18n.t("buttons.erase")
+                  ? theme.danger
+                  : theme.grey
+              }
               onPress={handleDelete}
             />
           </Dialog.Container>
@@ -171,6 +191,11 @@ const Profile = () => {
                 </TouchableOpacity>
               ))}
             </Card>
+            <Small align="right" color="grey">
+              {`${I18n.t(
+                "profile.version",
+              )}: ${DeviceInfo.getVersion()}(${DeviceInfo.getBuildNumber()})`}
+            </Small>
           </View>
         </ScrollView>
       )}

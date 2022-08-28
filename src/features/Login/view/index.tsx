@@ -20,6 +20,7 @@ import useLoginRepository from "../data/loginRepository";
 import { TLoginViewModel, useLoginViewModel } from "./loginViewModel";
 import LoginForm from "./Form";
 import RootStackNavigation from "@app/types/RootStackParams";
+import I18n from "@app/languages/I18n";
 
 const Login = () => {
   const navigation = useNavigation<RootStackNavigation>();
@@ -53,12 +54,12 @@ const Login = () => {
 
         <TouchableOpacity onPress={handleNavigateForgotPassword}>
           <Caption align="center" color="primary">
-            Esqueci minha senha
+            {I18n.t("login.forgot_password")}
           </Caption>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleNavigateCreateAccount}>
-          <Caption align="center" color="black">
-            É novo por aqui? Crie sua conta agora.
+          <Caption align="center" color="contrast">
+            {I18n.t("login.create_account")}
           </Caption>
         </TouchableOpacity>
       </KeyboardAvoidingView>

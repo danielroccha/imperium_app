@@ -4,6 +4,7 @@ import { ScrollView, TouchableOpacity, View } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Icon from "react-native-vector-icons/Feather";
+import I18n from "@app/languages/I18n";
 
 import SwitchTransactionType from "@app/components/molecules/SwitchTransactionType";
 import CustomButton from "@app/components/atoms/Button";
@@ -44,7 +45,7 @@ export type TTransactionForm = {
 type TransactionFormProps = {
   onValidateSuccess: (data: TTransactionForm) => void;
   loading: boolean;
-  showAdvancedOptions: boolean;
+  showAdvancedOptions?: boolean;
   dataForm?: TTransactionForm;
   edit?: boolean;
 };
@@ -192,8 +193,8 @@ const TransactionForm = ({
                     {
                       text:
                         dataForm?.transactionType === TRANSACTION_TYPE.EXPENSE
-                          ? "Despesa"
-                          : "Receita",
+                          ? I18n.t("common.expense")
+                          : I18n.t("common.income"),
                       value:
                         dataForm?.transactionType ?? TRANSACTION_TYPE.EXPENSE,
                       color:
@@ -250,7 +251,7 @@ const TransactionForm = ({
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                backgroundColor: theme.white,
+                backgroundColor: theme.contrastMode,
                 ...getShadow(3),
                 padding: dimens.tiny,
                 borderRadius: 10,
@@ -297,7 +298,7 @@ const TransactionForm = ({
 
             <CustomButton
               loading={loading}
-              title={edit ? "Alterar" : "Registrar"}
+              title={edit ? I18n.t("buttons.update") : I18n.t("buttons.save")}
               backgroundColor={
                 transactionType === TRANSACTION_TYPE.EXPENSE
                   ? "danger"

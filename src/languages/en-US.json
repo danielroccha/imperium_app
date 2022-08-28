@@ -23,6 +23,9 @@
     "are_you_enjoying_our_app":"Are you enjoying our app?",
     "your_feedback_is_very_important_for_future_improvements":"Your feedback is very important for future improvements."
   },
+  "login":{
+    "forgot_password": "Esqueci minha senha"
+  },
   "classes": {
     "my_profile":"My profile",
     "fill_data_profile":"Fill in your profile details",

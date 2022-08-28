@@ -6,7 +6,7 @@ import enviroments from "@app/configs/enviroment";
 import { logOut } from "@app/features/Login/data/loginActions";
 
 const api = axios.create({
-  baseURL: enviroments.baseURL,
+  baseURL: enviroments().api,
 });
 
 export class Axios {
@@ -48,7 +48,7 @@ export class Axios {
               const refreshToken = Storage.getRefreshToken();
               const body = { accessToken, refreshToken };
               const response = await axios.post(
-                `${enviroments.baseURL}/authentication/refresh-token`,
+                `${enviroments().api}/authentication/refresh-token`,
                 body,
               );
               if (response.status === 200) {

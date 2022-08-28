@@ -3,6 +3,7 @@ import { View } from "react-native";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import I18n from "@app/languages/I18n";
 
 import Input from "@app/components/atoms/Input";
 import { dimens } from "@app/configs/Theme";
@@ -26,9 +27,11 @@ const LoginForm = ({ onValidateSuccess, loading }: LoginFormProps) => {
       yup.object().shape({
         email: yup
           .string()
-          .email("Digite um email válido")
-          .required("Preencha o campo email"),
-        password: yup.string().required("Preencha o campo senha"),
+          .email(I18n.t("fields_validation.email_error"))
+          .required(I18n.t("fields_validation.email_empty")),
+        password: yup
+          .string()
+          .required(I18n.t("fields_validation.password_empty")),
       }),
     ),
   });
@@ -45,8 +48,8 @@ const LoginForm = ({ onValidateSuccess, loading }: LoginFormProps) => {
           name="email"
           icon="mail"
           control={control}
-          label="Email"
-          placeholder={"Digite seu email"}
+          label={I18n.t("fields.email")}
+          placeholder={I18n.t("placeholders.email")}
           keyboardType="email-address"
           autoCapitalize="none"
           errorMessage={errors.email?.message}
@@ -57,8 +60,8 @@ const LoginForm = ({ onValidateSuccess, loading }: LoginFormProps) => {
             name="password"
             icon="key"
             control={control}
-            label="Senha"
-            placeholder="Digite sua senha"
+            label={I18n.t("fields.password")}
+            placeholder={I18n.t("placeholders.password")}
             secureTextEntry
             errorMessage={errors.password?.message}
           />
@@ -67,7 +70,7 @@ const LoginForm = ({ onValidateSuccess, loading }: LoginFormProps) => {
 
       <CustomButton
         loading={loading}
-        title="Entrar"
+        title={I18n.t("buttons.enter")}
         onPress={handleSubmit(onSubmit)}
         styleButton={{ marginTop: dimens.xlarge }}
       />

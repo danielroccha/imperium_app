@@ -4,6 +4,7 @@ import { ScrollView, View } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
+import I18n from "@app/languages/I18n";
 
 import Input from "@app/components/atoms/Input";
 import { dimens } from "@app/configs/Theme";
@@ -53,7 +54,7 @@ const CategoryForm = ({
   } = useForm<TCategoryFormYup>({
     resolver: yupResolver(
       yup.object().shape({
-        name: yup.string().required("Preencha o campo nome categoria"),
+        name: yup.string().required(I18n.t("fields_validation.category_name")),
       }),
     ),
   });
@@ -88,13 +89,19 @@ const CategoryForm = ({
     (dataForm: TCategoryFormYup) => {
       if (transactionTypeSelected === "") {
         Util.showAlertError(
-          "Preencha os campos",
-          "Escolha o tipo da categoria",
+          I18n.t("fields.fill_fields"),
+          I18n.t("fields.choose_a_type"),
         );
       } else if (colorSelected === "") {
-        Util.showAlertError("Preencha os campos", "Escolha uma cor");
+        Util.showAlertError(
+          I18n.t("fields.fill_fields"),
+          I18n.t("fields.choose_a_color"),
+        );
       } else if (imageSelected === "") {
-        Util.showAlertError("Preencha os campos", "Escolha uma imagem");
+        Util.showAlertError(
+          I18n.t("fields.fill_fields"),
+          I18n.t("fields.choose_a_image"),
+        );
       } else {
         onValidateSuccess({
           ...dataForm,
@@ -139,8 +146,8 @@ const CategoryForm = ({
             name="name"
             control={control}
             autoFocus
-            label="Nome da categoria"
-            placeholder={"Escreva o nome da nova categoria"}
+            label={I18n.t("fields.category")}
+            placeholder={I18n.t("placeholders.category")}
             errorMessage={errors.name?.message}
           />
         </View>
@@ -157,7 +164,7 @@ const CategoryForm = ({
 
           <CustomButton
             loading={loading}
-            title="Salvar"
+            title={I18n.t("buttons.save")}
             onPress={handleSubmit(onSubmit)}
             backgroundColor={getColorButton()}
             styleButton={{ marginTop: dimens.base }}

@@ -8,7 +8,7 @@ export default (theme?: AvailableColors) =>
       flexDirection: "row",
       justifyContent: "space-evenly",
       width: SCREEN_WIDTH,
-      backgroundColor: theme?.white,
+      backgroundColor: theme?.mode,
       borderTopLeftRadius: 10,
       borderTopRightRadius: 10,
       height: 85,

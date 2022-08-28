@@ -12,12 +12,12 @@ import {
   Cursor,
   useBlurOnFulfill,
 } from "react-native-confirmation-code-field";
-import AnimatedLottieView from "lottie-react-native";
 
 import useProfileRepository from "@app/features/Profile/data/profileRepository";
 import userService from "@app/services/user";
 import { useVerificationCodeViewModel } from "@app/features/VerificationCode/view/verificationCodeViewModel";
 
+import LottieViewComponent from "@app/components/molecules/LottieViewComponent";
 import CustomButton from "@app/components/atoms/Button";
 import CountDown from "@app/components/organisms/CountDown";
 import Card from "@app/components/atoms/Card";
@@ -25,9 +25,9 @@ import { Body, Caption, Regular, Subtitle } from "@app/components/atoms/Text";
 import { colors, dimens } from "@app/configs/Theme";
 
 import { lotties } from "@app/assets";
-import styles from "./styles";
 import DismissKeyboard from "@app/components/atoms/DismissKeyboard";
 import { TEMAIL_TEMPLATE } from "@app/types";
+import styles from "./styles";
 
 const CELL_COUNT = 6;
 
@@ -73,11 +73,7 @@ const VerificationCode = () => {
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles(theme).root}>
-        <AnimatedLottieView
-          source={lotties.verificationCode}
-          style={{ width: 80, alignSelf: "center" }}
-          autoPlay
-        />
+        <LottieViewComponent animation={lotties.verificationCode} size={100} />
         <Subtitle align="center">{title}</Subtitle>
         <Regular style={{ marginTop: dimens.small }} align="center">
           Um código de verificação foi enviado para seu email.
@@ -127,6 +123,12 @@ const VerificationCode = () => {
             {showCountDown && (
               <CountDown initialValue={60} onFinish={handleFinishCountDown} />
             )}
+          </View>
+          <LottieViewComponent animation={lotties.emailPlane} size={70} />
+          <View style={{ marginTop: dimens.base }}>
+            <Caption align="center" color="secondary">
+              Verifique sua caixa de spam ou promoções
+            </Caption>
           </View>
         </Card>
         <CustomButton

@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 
+import I18n from "@app/languages/I18n";
+
 import { Body, Caption } from "@app/components/atoms/Text";
 import { dimens } from "@app/configs/Theme";
 import { colorsSugestion } from "@app/constants";
@@ -45,10 +47,10 @@ const ColorsSugestion = ({ onChange, error, value }: ColorsSugestionProps) => {
   return (
     <>
       <View style={{ marginVertical: dimens.small }}>
-        <Body align="center">Selecione a cor</Body>
+        <Body align="center">{I18n.t("fields.choose_a_color")}</Body>
         {error && (
           <Caption align="center" color="danger">
-            Escolha uma cor
+            {I18n.t("fields.choose_a_color")}
           </Caption>
         )}
       </View>

@@ -87,7 +87,7 @@ const SelectPeriod = ({
             <View key={item.text}>
               <Pill
                 text={getText(item.text)}
-                color={period === item.text ? "primary" : "secondary"}
+                color={period === item.text ? "primary" : "grey"}
                 onTap={() => handleTapPeriod(item)}
               />
             </View>

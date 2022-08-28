@@ -1,25 +1,43 @@
-import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React, { useEffect } from "react";
 
+import NetInfo from "@react-native-community/netinfo";
+
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CategoryStack from "@app/routes/stacks/CategoryStack";
 import RecurrenceStack from "@app/routes/stacks/RecurrenceStack";
+import ProfileStack from "@app/routes/stacks/ProfileStack";
 
 import Home from "@app/features/Home/view";
+import NoConnection from "@app/components/pages/NoConnection";
 import CreateTransaction from "@app/features/Transaction/view/Create";
 import EditTransaction from "@app/features/Transaction/view/Edit";
 import TransactionGroupByCategory from "@app/features/Transaction/view/TransactionGroupByCategory";
 import CreateCategory from "@app/features/Category/view/Create";
 import EditRecurrence from "@app/features/Recurrence/view/Edit";
 
-import Profile from "@app/features/Profile/view";
-
 import BalanceInfo from "@app/components/pages/BalanceInfo";
 
 import SelectCategory from "@app/features/Category/view/SelectCategory";
+import { useNavigation } from "@react-navigation/native";
+import RootStackNavigation from "@app/types/RootStackParams";
 
 const Stack = createNativeStackNavigator();
 
 const HomeStack = () => {
+  const navigation = useNavigation<RootStackNavigation>();
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (state.isConnected === false) {
+        navigation.navigate("NoConnection");
+      } else {
+        navigation.goBack();
+      }
+    });
+
+    return () => unsubscribe();
+  }, [navigation]);
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -74,8 +92,8 @@ const HomeStack = () => {
           headerShown: false,
           presentation: "modal",
         }}
-        name="Profile"
-        component={Profile}
+        name="ProfileStack"
+        component={ProfileStack}
       />
       <Stack.Screen
         options={{
@@ -100,6 +118,14 @@ const HomeStack = () => {
         }}
         name="TransactionGroupByCategory"
         component={TransactionGroupByCategory}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          presentation: "fullScreenModal",
+        }}
+        name="NoConnection"
+        component={NoConnection}
       />
     </Stack.Navigator>
   );

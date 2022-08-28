@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { View, TouchableOpacity } from "react-native";
 
 import { Body, Small } from "@app/components/atoms/Text";
-import { colors } from "@app/configs/Theme";
+import { colors, SCREEN_WIDTH } from "@app/configs/Theme";
 import styles from "./styles";
 import TextMoney from "@app/components/atoms/TextMoney";
 import { TRANSACTION_TYPE } from "@app/constants";
@@ -46,8 +46,10 @@ const ItemExpanses = ({
       <View style={styles(theme).container}>
         <CategoryIcon icon={icon} color={color} />
         <View style={styles(theme).content}>
-          <View style={{ width: 200 }}>
-            <Body>{title}</Body>
+          <View style={{ width: SCREEN_WIDTH * 0.25 }}>
+            <Body numberOfLines={2} ellipsizeMode="tail">
+              {title}
+            </Body>
             <Small>{category}</Small>
             {isRecurrence && <Small color="secondary">Recorrência</Small>}
           </View>

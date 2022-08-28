@@ -93,7 +93,11 @@ const EditTransaction = () => {
           },
           style: "destructive",
         },
-        { text: "Cancelar", onPress: () => console.log("OK Pressed") },
+        {
+          text: "Cancelar",
+          onPress: () => console.log("OK Pressed"),
+          style: "cancel",
+        },
       ],
     );
   };
@@ -123,7 +127,11 @@ const EditTransaction = () => {
             }
           },
         },
-        { text: "Cancelar", onPress: () => console.log("OK Pressed") },
+        {
+          text: "Cancelar",
+          onPress: () => console.log("OK Pressed"),
+          style: "cancel",
+        },
       ],
     );
   };

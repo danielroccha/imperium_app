@@ -45,7 +45,7 @@ const CreateTransaction = () => {
     }
 
     createTransaction({
-      categoryId: category.id,
+      categoryId: category?.id ?? "",
       date,
       isInstallment,
       name: description,

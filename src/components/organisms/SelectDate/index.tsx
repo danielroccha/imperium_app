@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/Feather";
 import { Body, Caption } from "@app/components/atoms/Text";
 import Pill from "@app/components/molecules/Pill";
 import { colors, dimens } from "@app/configs/Theme";
+import I18n from "i18n-js";
 
 enum DATES_OPTIONS {
   TODAY = "Hoje",
@@ -100,7 +101,7 @@ const SelectDate = ({ onChangeDate, initialDate }: SelectDateProps) => {
     <>
       <View>
         <Caption style={{ marginBottom: dimens.small }}>
-          Selecione a data
+          {I18n.t("fields.choose_a_date")}
         </Caption>
       </View>
       {otherDate ? (
@@ -123,14 +124,14 @@ const SelectDate = ({ onChangeDate, initialDate }: SelectDateProps) => {
                   selectedDate.toLocaleDateString() ===
                     item.date().toLocaleDateString() && !showDatePicker
                     ? "primary"
-                    : "secondary"
+                    : "grey"
                 }
                 onTap={() => handleTapDate(index)}
               />
             ))}
             <Pill
               text={DATES_OPTIONS.OTHER}
-              color={showDatePicker ? "primary" : "secondary"}
+              color={showDatePicker ? "primary" : "grey"}
               onTap={openDatePicker}
             />
           </ScrollView>
@@ -142,10 +143,13 @@ const SelectDate = ({ onChangeDate, initialDate }: SelectDateProps) => {
         date={new Date()}
         onConfirm={handleConfirmDatePicker}
         mode="date"
-        title="Selecione a data"
+        title={I18n.t("fields.choose_a_date")}
         locale="PT-BR"
         onCancel={hideDatePicker}
         theme="light"
+        textColor={theme.contrast}
+        confirmText={I18n.t("buttons.confirm")}
+        cancelText={I18n.t("buttons.cancel")}
       />
     </>
   );

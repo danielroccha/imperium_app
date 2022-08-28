@@ -93,7 +93,7 @@ const Input = ({
               {
                 borderColor: error ? theme.danger : theme[borderColor],
                 fontSize: size ? fontSize[size] : fontSize.body,
-                color: color ? color : theme.black,
+                color: color ? color : theme.contrast,
               },
             ]}
           />

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { View } from "react-native";
 
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import I18n from "@app/languages/I18n";
 
 import CategoryForm, {
   TCategoryFullForm,
@@ -46,7 +47,7 @@ const EditCategory = () => {
   return (
     <>
       <NavBar
-        title="Editar Categoria"
+        title={I18n.t("categories.edit_category")}
         iconRight="x"
         onClickActionRight={handleClose}
       />

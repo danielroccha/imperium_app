@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 
+import I18n from "@app/languages/I18n";
+
 import {
   expensesCategorySugestion,
   incomesCategorySugestion,
@@ -64,7 +66,7 @@ const CategorySugestion = () => {
     return {
       backgroundColor: selectedSugestions.includes(item)
         ? item.color
-        : theme.white,
+        : theme.contrastMode,
     };
   };
 
@@ -85,7 +87,7 @@ const CategorySugestion = () => {
   return (
     <View style={{ backgroundColor: theme.mode, flex: 1 }}>
       <NavBar
-        title="Sugestões de categorias"
+        title={I18n.t("categories.categories_suggestions")}
         iconRight="x"
         onClickActionRight={handleClose}
       />
@@ -95,12 +97,12 @@ const CategorySugestion = () => {
           <Switch
             options={[
               {
-                text: "Despesa",
+                text: I18n.t("common.expense"),
                 value: TRANSACTION_TYPE.EXPENSE,
                 color: theme.danger,
               },
               {
-                text: "Receita",
+                text: I18n.t("common.income"),
                 value: TRANSACTION_TYPE.INCOME,
                 color: theme.green,
               },
@@ -144,7 +146,7 @@ const CategorySugestion = () => {
         </View>
       </ScrollView>
       <CustomButton
-        title={!!selectedSugestions.length ? "Salvar" : "Próximo"}
+        title={I18n.t("buttons.save")}
         disabled={!selectedSugestions.length}
         styleButton={{
           margin: dimens.small,

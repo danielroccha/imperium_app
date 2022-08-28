@@ -7,7 +7,6 @@ export default (theme: AvailableColors) =>
     container: {
       backgroundColor: theme.mode,
       flex: 1,
-      justifyContent: "space-evenly",
       padding: dimens.small,
     },
     image: {

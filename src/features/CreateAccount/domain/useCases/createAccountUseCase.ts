@@ -9,7 +9,7 @@ const createAccountUseCase = async (
 ) => {
   const { email, password, name } = data;
 
-  const names = name.split(" ");
+  const names = name.split(" ").filter(i => i !== "");
   const [firstname] = names;
 
   const platform: OS = Platform.OS === "ios" ? "ios" : "android";

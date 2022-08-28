@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import I18n from "@app/languages/I18n";
 
 import { Body, Caption } from "@app/components/atoms/Text";
 import styles from "./styles";
@@ -56,10 +57,10 @@ const ImagesSugestion = ({
   return (
     <>
       <View style={{ marginVertical: dimens.small }}>
-        <Body align="center">Selecione uma imagem</Body>
+        <Body align="center">{I18n.t("fields.choose_a_image")}</Body>
         {error && (
           <Caption align="center" color="danger">
-            Escolha uma imagem
+            {I18n.t("fields.choose_a_image")}
           </Caption>
         )}
       </View>

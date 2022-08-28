@@ -7,7 +7,7 @@ export default (theme: AvailableColors) =>
   StyleSheet.create({
     container: {
       height: 40,
-      backgroundColor: theme.white,
+      backgroundColor: theme.contrastMode,
       flexDirection: "row",
       justifyContent: "center",
       borderRadius: 10,

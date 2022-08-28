@@ -17,11 +17,9 @@ const SectionHeader = ({ date, value }: SectionHeaderProps) => {
 
   const dateObj = new Date(date);
   return (
-    <View>
-      <View style={styles(theme).container}>
-        <Caption color="grey">{new Date(dateObj).toLocaleDateString()}</Caption>
-        <Caption color="grey">{Util.formatToMoney(value)}</Caption>
-      </View>
+    <View style={styles(theme).container}>
+      <Caption color="grey">{new Date(dateObj).toLocaleDateString()}</Caption>
+      <Caption color="grey">{Util.formatToMoney(value)}</Caption>
     </View>
   );
 };

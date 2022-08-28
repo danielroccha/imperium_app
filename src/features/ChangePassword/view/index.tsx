@@ -7,6 +7,7 @@ import {
   Platform,
 } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import I18n from "@app/languages/I18n";
 
 import DismissKeyboard from "@app/components/atoms/DismissKeyboard";
 import Divide from "@app/components/atoms/Divide";
@@ -72,7 +73,7 @@ const ChangePassword = () => {
         <Divide />
         <TouchableOpacity onPress={handleNavigateCreateAccount}>
           <Caption align="center" color="black">
-            Se você ja tem uma conta é só fazer seu login:)
+            {I18n.t("create_account.back_to_login")}
           </Caption>
         </TouchableOpacity>
       </KeyboardAvoidingView>

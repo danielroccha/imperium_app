@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import I18n from "@app/languages/I18n";
 
 import Input from "@app/components/atoms/Input";
 import Card from "@app/components/atoms/Card";
@@ -16,7 +17,7 @@ export type TChangePasswordForm = {
   confirmPassword: string;
 };
 
-type CreateAccountFormProps = {
+type ChangePasswordFormFormProps = {
   onValidateSuccess: (data: TChangePasswordForm) => void;
   loading: boolean;
 };
@@ -24,7 +25,7 @@ type CreateAccountFormProps = {
 const ChangePasswordForm = ({
   onValidateSuccess,
   loading,
-}: CreateAccountFormProps) => {
+}: ChangePasswordFormFormProps) => {
   const {
     control,
     handleSubmit,
@@ -34,12 +35,12 @@ const ChangePasswordForm = ({
       yup.object().shape({
         password: yup
           .string()
-          .required("Preencha o campo senha")
-          .min(6, "Senha precisa ter ao menos 6 caracteres"),
+          .required(I18n.t("fields_validation.password_empty"))
+          .min(6, I18n.t("fields_validation.password_length")),
         confirmPassword: yup
           .string()
-          .required("Preencha o campo senha")
-          .min(6, "Senha precisa ter ao menos 6 caracteres"),
+          .required(I18n.t("fields_validation.confirm_password"))
+          .min(6, I18n.t("fields_validation.password_length")),
       }),
     ),
   });
@@ -61,8 +62,8 @@ const ChangePasswordForm = ({
           errorMessage={errors.password?.message}
           name="password"
           icon="key"
-          label="Nova senha"
-          placeholder="Digite seu email"
+          label={I18n.t("fields.password")}
+          placeholder={I18n.t("placeholders.password")}
           autoCapitalize="none"
           keyboardType="email-address"
           secureTextEntry
@@ -75,14 +76,14 @@ const ChangePasswordForm = ({
           errorMessage={errors.confirmPassword?.message}
           name="confirmPassword"
           icon="key"
-          label="Confirmar senha"
-          placeholder="Confirme sua senha"
+          label={I18n.t("fields.confirm_password")}
+          placeholder={I18n.t("placeholders.confirm_password")}
           secureTextEntry
         />
       </View>
       <CustomButton
         loading={loading}
-        title="Alterar senha"
+        title={I18n.t("buttons.reset_password")}
         onPress={handleSubmit(onSubmit)}
         styleButton={{ marginTop: dimens.medium }}
       />

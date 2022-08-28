@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
@@ -29,8 +29,13 @@ const EditRecurrence = () => {
 
   const recurrenceRepository = useRecurrenceRepository(recurrenceService);
 
-  const { editRecurrence, getRecurrence, recurrence, isLoading } =
-    useEditRecurrenceViewModel(recurrenceRepository);
+  const {
+    editRecurrence,
+    getRecurrence,
+    deleteRecurrence,
+    recurrence,
+    isLoading,
+  } = useEditRecurrenceViewModel(recurrenceRepository);
 
   const handleValidateSuccess = (data: TTransactionForm) => {
     const { category, date, description, transactionType, value } = data;
@@ -49,6 +54,25 @@ const EditRecurrence = () => {
     navigation.goBack();
   };
 
+  const handleDelete = () => {
+    Alert.alert(
+      "Remover essa recorrência?",
+      "Tem certeza que deseja remover essa recorrência?",
+      [
+        {
+          text: "Remover",
+          onPress: () => deleteRecurrence(recurrenceId),
+          style: "destructive",
+        },
+        {
+          text: "Cancelar",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+      ],
+    );
+  };
+
   useEffect(() => {
     getRecurrence(recurrenceId);
   }, [getRecurrence, recurrenceId]);
@@ -58,7 +82,9 @@ const EditRecurrence = () => {
       <NavBar
         title="Editar Recorrencia"
         iconRight="x"
+        iconLeft="trash"
         onClickActionRight={handleClose}
+        onClickActionLeft={handleDelete}
       />
       {isLoading ? (
         <Loading />

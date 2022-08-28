@@ -117,7 +117,7 @@ const DefaultNotification: FC<NotificationProps> = ({
     <SafeAreaView style={styles(theme).default}>
       <View style={styles(theme).container}>
         <Icon name="bell" size={30} color={theme.white} />
-        <View style={styles(colors).containerText}>
+        <View style={styles(theme).containerText}>
           <Regular color="white" style={styles(theme).title}>
             {title}
           </Regular>
@@ -156,10 +156,12 @@ const showNotification = (
 ): void =>
   Notifier.showNotification({
     title,
-    duration: 3000,
+    duration,
     description: message,
     Component: getComponent(type),
     onPress,
   });
+
+export const hideNotification = () => Notifier.hideNotification();
 
 export default showNotification;

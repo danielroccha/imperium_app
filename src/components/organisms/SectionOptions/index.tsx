@@ -6,6 +6,7 @@ import Divide from "@app/components/atoms/Divide";
 import { Small } from "@app/components/atoms/Text";
 import { colors } from "@app/configs/Theme";
 import styles from "./styles";
+import I18n from "i18n-js";
 
 type SectionOptionsProps = {
   onTapAddTransaction: () => void;
@@ -23,7 +24,7 @@ const SectionOptions = ({
     <View
       style={{
         alignItems: "center",
-        backgroundColor: theme.white,
+        backgroundColor: theme.mode,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
       }}>
@@ -34,8 +35,8 @@ const SectionOptions = ({
           <View style={styles(theme).containerIcon}>
             <Icon name="repeat" size={18} color={theme.white} />
           </View>
-          <Small color="primary" align="center">
-            Recorrências
+          <Small color="contrast" align="center">
+            {I18n.t("home.recurrences")}
           </Small>
         </TouchableOpacity>
         <TouchableOpacity
@@ -44,8 +45,8 @@ const SectionOptions = ({
           <View style={styles(theme).containerIcon}>
             <Icon name="dollar-sign" size={18} color={theme.white} />
           </View>
-          <Small color="primary" align="center">
-            Fazer lançamento
+          <Small color="contrast" align="center">
+            {I18n.t("home.create_transaction")}
           </Small>
         </TouchableOpacity>
 
@@ -55,12 +56,12 @@ const SectionOptions = ({
           <View style={styles(theme).containerIcon}>
             <Icon name="grid" size={18} color={theme.white} />
           </View>
-          <Small color="primary" align="center">
-            Categorias
+          <Small color="contrast" align="center">
+            {I18n.t("home.categories")}
           </Small>
         </TouchableOpacity>
       </View>
-      <Divide />
+      <Divide color="contrastMode" stylesDivide={{ height: 0.8 }} />
     </View>
   );
 };

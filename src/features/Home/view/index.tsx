@@ -7,8 +7,9 @@ import {
   Platform,
 } from "react-native";
 
+import I18n from "@app/languages/I18n";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import LottieView from "lottie-react-native";
+import LottieViewComponent from "@app/components/molecules/LottieViewComponent";
 import MonthPicker, { EventTypes } from "react-native-month-year-picker";
 
 import {
@@ -31,11 +32,12 @@ import Loading from "@app/components/molecules/Loading";
 import ItemExpanses from "@app/components/molecules/ItemExpanses";
 import { Caption } from "@app/components/atoms/Text";
 
-import { colors, SCREEN_HEIGHT } from "@app/configs/Theme";
+import { colors, dimens, getShadow, SCREEN_HEIGHT } from "@app/configs/Theme";
 import { images, lotties } from "@app/assets";
 import RootStackNavigation from "@app/types/RootStackParams";
 import Util from "@app/util";
 import EmptyStateList from "@app/components/organisms/EmptyStateList";
+import Divide from "@app/components/atoms/Divide";
 
 const Home = () => {
   const theme = colors();
@@ -68,65 +70,149 @@ const Home = () => {
     setStateDatePicker(false);
   };
 
-  const getResumeData = useCallback(() => {
-    getData(Util.getMonthIndex(dateFilter), dateFilter.getFullYear());
+  const getResumeData = useCallback(async () => {
+    await getData(Util.getMonthIndex(dateFilter), dateFilter.getFullYear());
   }, [getData, dateFilter]);
 
-  const renderItem = ({ item }: { item: ITransactionSectionDateModel }) => {
-    const handlePress = (transaction: ITransactionModel) => {
+  const showDeleteTransactionAlert = useCallback(
+    (id: string) => {
+      Alert.alert(
+        "Remover lançamento",
+        "Tem certeza que deseja remover esse lançamento ?",
+        [
+          {
+            text: "Remover",
+            onPress: async () => {
+              await deleteTransaction(id);
+              await getResumeData();
+            },
+            style: "destructive",
+          },
+          {
+            text: "Cancelar",
+            onPress: () => console.log("OK Pressed"),
+            style: "cancel",
+          },
+        ],
+      );
+    },
+    [deleteTransaction, getResumeData],
+  );
+
+  const showDeleteTransactionInstallmentAlert = useCallback(
+    (transaction: ITransactionModel) => {
+      Alert.alert(
+        "Remover lançamento",
+        "Tem certeza que deseja remover esse lançamento ?",
+        [
+          {
+            text: "Remover todas a partir desta",
+            onPress: async () => {
+              if (transaction && transaction.id) {
+                await deleteTransaction(transaction.id, {
+                  transactionDate: transaction.date.toLocaleString(),
+                  deleteAll: true,
+                });
+                await getResumeData();
+              }
+            },
+            style: "destructive",
+          },
+          {
+            text: "Remover apenas esta",
+            onPress: async () => {
+              if (transaction && transaction.id) {
+                await deleteTransaction(transaction.id);
+                await getResumeData();
+              }
+            },
+          },
+          {
+            text: "Cancelar",
+            onPress: () => console.log("OK Pressed"),
+            style: "cancel",
+          },
+        ],
+      );
+    },
+    [deleteTransaction, getResumeData],
+  );
+
+  const handleLongPress = useCallback(
+    (transaction: ITransactionModel) => {
+      if (transaction.isInstallment) {
+        showDeleteTransactionInstallmentAlert(transaction);
+      } else {
+        showDeleteTransactionAlert(transaction.id);
+      }
+    },
+    [showDeleteTransactionInstallmentAlert, showDeleteTransactionAlert],
+  );
+
+  const handlePress = useCallback(
+    (transaction: ITransactionModel) => {
+      console.log(transaction);
       if (transaction.isRecurrence && transaction.recurrence) {
         navigation.navigate("EditRecurrence", {
           recurrenceId: transaction.recurrence.id,
         });
       } else {
-        // Alert.alert(
-        //   "Atenção!!!",
-        //   "Esse mês ainda não chegou, portanto você não poderá editar as recorrencias ou quelquer ou coisa tendeu ??",
-        // );
-        navigation.navigate("EditTransaction", {
-          transactionId: transaction.id,
-        });
+        const currentDate = new Date();
+        const transactionDate = new Date(transaction.date);
+        const currentMonth = Util.getMonthIndex(currentDate);
+        const transactionMonth = Util.getMonthIndex(transactionDate);
+        const currentYear = currentDate;
+        const transactionYear = transactionDate;
+        if (currentMonth < transactionMonth && currentYear < transactionYear) {
+          Alert.alert(
+            "Atenção!!!",
+            "Você só pode alterar recorrências do mês atual ou de meses passsados!",
+          );
+        } else {
+          navigation.navigate("EditTransaction", {
+            transactionId: transaction.id,
+          });
+        }
       }
-    };
+    },
+    [navigation],
+  );
 
-    const handleLongPress = (id: string) => {
-      Alert.alert(
-        "Apagar lançamento",
-        "Tem certeza que deseja remover esse lançamento ?",
-        [
-          { text: "Cancelar", onPress: () => console.log("OK Pressed") },
-          {
-            text: "Remover",
-            onPress: async () => {
-              await deleteTransaction(id);
-              getResumeData();
-            },
-            style: "destructive",
-          },
-        ],
-      );
-    };
-
-    return (
+  const renderItem = useCallback(
+    ({ item }: { item: ITransactionSectionDateModel }) => (
       <>
         <SectionHeader date={item.section.date} value={item.section.value} />
-        {item.data.map(transaction => (
-          <ItemExpanses
-            key={transaction.id}
-            type={transaction.type}
-            title={transaction.name}
-            category={transaction.category.name}
-            color={transaction.category.color}
-            icon={transaction.category.icon}
-            value={transaction.value}
-            isRecurrence={transaction.isRecurrence}
-            onPress={() => handlePress(transaction)}
-            onLongPress={() => handleLongPress(transaction.id)}
-          />
-        ))}
+        <View
+          style={{
+            ...getShadow(1),
+            margin: dimens.tiny,
+            borderRadius: 10,
+            backgroundColor: colors().mode,
+          }}>
+          {item.data.map((transaction, index, array) => (
+            <>
+              <ItemExpanses
+                key={transaction.id}
+                type={transaction.type}
+                title={transaction.name}
+                category={transaction.category.name}
+                color={transaction.category.color}
+                icon={transaction.category.icon}
+                value={transaction.value}
+                isRecurrence={transaction.isRecurrence}
+                onPress={() => handlePress(transaction)}
+                onLongPress={() => handleLongPress(transaction)}
+              />
+              {array.length - 1 !== index && (
+                <Divide color="contrastMode" stylesDivide={{ height: 1.5 }} />
+              )}
+            </>
+          ))}
+        </View>
       </>
-    );
-  };
+    ),
+    [handleLongPress, handlePress],
+  );
 
   const handleDateChange = (event: EventTypes, newDate: Date) => {
     hideDatePicker();
@@ -138,6 +224,15 @@ const Home = () => {
         break;
     }
   };
+
+  const getMonthBalance = useCallback(() => {
+    if (data) {
+      return (
+        data.balanceResume.monthlyIncomes - data.balanceResume.monthlyExpenses
+      );
+    }
+    return 0;
+  }, [data]);
 
   useFocusEffect(
     useCallback(() => {
@@ -151,8 +246,8 @@ const Home = () => {
 
   return (
     <>
-      <View style={{ flex: 1, backgroundColor: theme.mode }}>
-        <NavBar imageCentral={images.brandCrown} />
+      <View style={{ flex: 1, backgroundColor: theme.contrastMode }}>
+        <NavBar imageCentral={images.brandCrown} showAvatarProfile />
 
         <FlatList
           ListHeaderComponent={
@@ -161,12 +256,13 @@ const Home = () => {
               onFilterDate={handleFilterDate}
               onTapDate={showDatePicker}
               dateFilter={dateFilter}
-              currentBalance={data?.balanceResume.currentBalance ?? 0}
+              currentBalance={getMonthBalance()}
               expensesBalance={data?.balanceResume.monthlyExpenses ?? 0}
               incomesBalance={data?.balanceResume.monthlyIncomes ?? 0}
             />
           }
           data={data?.transactions ?? []}
+          contentContainerStyle={{ backgroundColor: colors().contrastMode }}
           keyExtractor={(_, index) => index}
           renderItem={renderItem}
           ListEmptyComponent={
@@ -180,14 +276,13 @@ const Home = () => {
                   style={{
                     alignItems: "center",
                     justifyContent: "center",
+                    marginTop: dimens.large,
                   }}>
-                  <LottieView
-                    source={lotties.empty}
-                    style={{ height: 200 }}
-                    autoPlay
-                  />
-                  <Caption style={{ width: 200 }} align="center">
-                    Nenhum lançamento até o momento para esse mês
+                  <LottieViewComponent animation={lotties.empty} size={200} />
+                  <Caption
+                    style={{ width: 200, marginTop: dimens.medium }}
+                    align="center">
+                    {I18n.t("placeholders.no_transactions_until_now")}
                   </Caption>
                 </View>
               )}
@@ -206,7 +301,7 @@ const Home = () => {
                 }}>
                 <EmptyStateList
                   lottie={lotties.calendar}
-                  text="Selecione um mês"
+                  text={I18n.t("home.month_select")}
                 />
               </View>
             </TouchableWithoutFeedback>
@@ -218,8 +313,8 @@ const Home = () => {
             maximumDate={new Date(2050, Util.getMonthIndex(dateFilter))}
             locale="PT-BR"
             autoTheme={false}
-            okButton="Confirmar"
-            cancelButton="Cancelar"
+            okButton={I18n.t("buttons.confirm")}
+            cancelButton={I18n.t("buttons.cancel")}
             mode="number"
           />
         </>

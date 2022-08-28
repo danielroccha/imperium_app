@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
+import I18n from "@app/languages/I18n";
 
 import ScrollMonths from "@app/components/molecules/ScrollMonths";
-import { Regular, Body, Caption, Small } from "@app/components/atoms/Text";
-import { colors, dimens, SCREEN_WIDTH } from "@app/configs/Theme";
+import { Regular, Body, Small } from "@app/components/atoms/Text";
+import { colors, SCREEN_WIDTH } from "@app/configs/Theme";
 import SectionOptions from "@app/components/organisms/SectionOptions";
 import styles from "./styles";
 import TextMoney from "@app/components/atoms/TextMoney";
@@ -48,9 +49,9 @@ const HeaderInfo = ({
     navigation.navigate("RecurrenceStack");
   };
 
-  const handlePressBalanceInfo = () => {
-    navigation.navigate("BalanceInfo");
-  };
+  // const handlePressBalanceInfo = () => {
+  //   navigation.navigate("BalanceInfo");
+  // };
 
   const handlePressExpenses = () => {
     if (dateFilter) {
@@ -74,12 +75,12 @@ const HeaderInfo = ({
   const getLabelBalance = useCallback(() => {
     switch (monthPeriod) {
       case "CURRENT":
-        return "Saldo atual";
+        return I18n.t("home.current_balance");
       case "NEXT":
-        return "Saldo Previsto";
+        return I18n.t("home.balance_forecast");
 
       default:
-        return "Balanço do mês";
+        return I18n.t("home.month_balance");
     }
   }, [monthPeriod]);
 
@@ -121,8 +122,8 @@ const HeaderInfo = ({
           width: SCREEN_WIDTH,
         }}>
         <View>
-          <TouchableOpacity
-            onPress={handlePressBalanceInfo}
+          <View
+            // onPress={handlePressBalanceInfo}
             style={{
               flexDirection: "row",
               alignItems: "center",
@@ -131,13 +132,13 @@ const HeaderInfo = ({
             <Regular color="white" align="center">
               {getLabelBalance()}
             </Regular>
-            <Icon
+            {/* <Icon
               name="info"
               size={20}
               color={theme.mode}
               style={{ marginLeft: dimens.xtiny }}
-            />
-          </TouchableOpacity>
+            /> */}
+          </View>
           <TextMoney
             size="bigTitle"
             align="center"
@@ -166,7 +167,7 @@ const HeaderInfo = ({
               ]}>
               <Icon name="dollar-sign" size={18} color={theme.mode} />
             </View>
-            <Body color="white">Receitas</Body>
+            <Body color="white">{I18n.t("common.incomes")}</Body>
           </View>
           <TextMoney
             size="body"
@@ -186,7 +187,7 @@ const HeaderInfo = ({
               ]}>
               <Icon name="arrow-down-left" size={18} color={theme.mode} />
             </View>
-            <Body color="white">Despesas</Body>
+            <Body color="white">{I18n.t("common.expenses")}</Body>
           </View>
           <TextMoney
             size="body"

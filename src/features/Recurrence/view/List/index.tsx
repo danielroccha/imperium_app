@@ -87,7 +87,7 @@ const ListRecurrence = () => {
           justifyContent: "space-between",
           padding: dimens.small,
           ...getShadow(3),
-          backgroundColor: theme.white,
+          backgroundColor: theme.contrastMode,
           borderRadius: 10,
           marginBottom: dimens.small,
         }}

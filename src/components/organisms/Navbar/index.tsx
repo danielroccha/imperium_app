@@ -20,8 +20,8 @@ type NavBarProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   imageCentral?: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  imageProfile?: any;
   backAction?: boolean;
+  showAvatarProfile?: boolean;
   onClickActionRight?: () => void;
   onClickActionLeft?: () => void;
 };
@@ -33,6 +33,7 @@ const NavBar = ({
   onClickActionLeft,
   onClickActionRight,
   title,
+  showAvatarProfile,
   backAction,
 }: NavBarProps) => {
   const theme = colors();
@@ -50,7 +51,7 @@ const NavBar = ({
   };
 
   const openProfile = () => {
-    navigation.navigate("Profile");
+    navigation.navigate("ProfileStack");
   };
 
   const handleClickLeftAction = () => {
@@ -71,9 +72,9 @@ const NavBar = ({
   return (
     <View style={styles(theme).container}>
       <TouchableOpacity style={{ width: 40 }} onPress={handleClickLeftAction}>
-        {iconLeft && <Icon name={iconLeft} size={25} color={theme.primary} />}
+        {iconLeft && <Icon name={iconLeft} size={25} color={theme.contrast} />}
         {backAction && (
-          <Icon name={getIcon()} size={25} color={theme.primary} />
+          <Icon name={getIcon()} size={25} color={theme.contrast} />
         )}
       </TouchableOpacity>
       <View>
@@ -87,32 +88,50 @@ const NavBar = ({
           <Regular>{title}</Regular>
         )}
       </View>
-      <TouchableOpacity
+      <View
         style={{
           width: 40,
           height: 40,
           justifyContent: "center",
           alignItems: "center",
-        }}
-        onPress={handleClickRightAction}>
-        {iconRight ? (
-          <Icon name={iconRight} size={25} color={theme.primary} />
-        ) : (
-          <View
+        }}>
+        {iconRight && (
+          <TouchableOpacity
             style={{
               width: 40,
               height: 40,
-              borderRadius: 100,
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: theme.primary,
-            }}>
-            <Caption color="white">
-              {profile && Util.getInitialLetters(profile.name)}
-            </Caption>
-          </View>
+            }}
+            onPress={handleClickRightAction}>
+            <Icon name={iconRight} size={25} color={theme.contrast} />
+          </TouchableOpacity>
         )}
-      </TouchableOpacity>
+        {showAvatarProfile && (
+          <TouchableOpacity
+            style={{
+              width: 40,
+              height: 40,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onPress={handleClickRightAction}>
+            <View
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 100,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: theme.primary,
+              }}>
+              <Caption color="white">
+                {profile && Util.getInitialLetters(profile.name)}
+              </Caption>
+            </View>
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 };

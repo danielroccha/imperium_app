@@ -18,6 +18,7 @@ type RootStackParamList = {
 
   HomeStack: undefined;
   BalanceInfo: undefined;
+  NoConnection: undefined;
 
   CategoryStack: undefined;
   Category: undefined;
@@ -41,7 +42,8 @@ type RootStackParamList = {
   CreateRecurrence: undefined;
   EditRecurrence: { recurrenceId: string };
 
-  Profile: undefined;
+  ProfileStack: undefined;
+  CurrencyList: undefined;
 };
 
 type RootStackNavigation = NativeStackNavigationProp<RootStackParamList>;

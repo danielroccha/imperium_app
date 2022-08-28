@@ -52,7 +52,7 @@ const ScrollMonths = ({
       <TouchableOpacity
         onPress={handlePressLeft}
         hitSlop={{ bottom: 40, left: 40, right: 40, top: 40 }}>
-        <Icon name={"chevron-left"} size={25} color={theme.mode} />
+        <Icon name={"chevron-left"} size={25} color={theme.white} />
       </TouchableOpacity>
       <Pill
         onTap={onTapDate}
@@ -62,7 +62,7 @@ const ScrollMonths = ({
       <TouchableOpacity
         onPress={handlePressRight}
         hitSlop={{ bottom: 40, left: 40, right: 40, top: 40 }}>
-        <Icon name={"chevron-right"} size={25} color={theme.mode} />
+        <Icon name={"chevron-right"} size={25} color={theme.white} />
       </TouchableOpacity>
     </View>
   );

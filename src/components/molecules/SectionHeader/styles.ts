@@ -6,7 +6,7 @@ export default (theme: AvailableColors) =>
     container: {
       flexDirection: "row",
       justifyContent: "space-between",
-      backgroundColor: theme.mode,
+      backgroundColor: theme.contrastMode,
       padding: 15,
     },
   });

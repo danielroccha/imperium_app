@@ -2,6 +2,7 @@ import React from "react";
 import { View } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
+import I18n from "@app/languages/I18n";
 
 import CategoryForm, {
   TCategoryFullForm,
@@ -33,7 +34,7 @@ const CreateCategory = () => {
   return (
     <>
       <NavBar
-        title="Cadastrar Categoria"
+        title={I18n.t("categories.create_category")}
         iconRight="x"
         onClickActionRight={handleClose}
       />

@@ -4,6 +4,8 @@ const lotties = {
   emptyBox: require("./lotties/empty-box.json"),
   calendar: require("./lotties/calendar.json"),
   verificationCode: require("./lotties/verification-code.json"),
+  noConnection: require("./lotties/no-connection.json"),
+  emailPlane: require("./lotties/email-plane.json"),
 };
 
 const images = {

@@ -9,6 +9,7 @@ import {
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import Icon from "react-native-vector-icons/Feather";
+import I18n from "@app/languages/I18n";
 
 import { useListCategoryViewModel } from "@app/features/Category/view/List/listCategoryViewModel";
 import useCategoryRepository from "@app/features/Category/data/categoryRepository";
@@ -69,7 +70,11 @@ const ListCategory = () => {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "Sim", onPress: () => deleteCategory(categoryId) },
+        {
+          text: "Remover",
+          style: "destructive",
+          onPress: () => deleteCategory(categoryId),
+        },
       ],
     );
   };
@@ -99,8 +104,8 @@ const ListCategory = () => {
                   }
                   align="left">
                   {item.type === TRANSACTION_TYPE.EXPENSE
-                    ? "Despesa"
-                    : "Receita"}
+                    ? I18n.t("common.expense")
+                    : I18n.t("common.income")}
                 </Caption>
               </View>
             </View>
@@ -129,7 +134,7 @@ const ListCategory = () => {
     <View style={{ flex: 1, backgroundColor: theme.mode }}>
       <NavBar
         backAction
-        title="Categorias"
+        title={I18n.t("categories.categories")}
         iconRight="plus"
         onClickActionRight={handlePressRightAction}
       />
@@ -174,7 +179,7 @@ const ListCategory = () => {
                     color="white"
                     align="center"
                     style={{ marginLeft: dimens.tiny }}>
-                    Veja algumas sugestões de categorias
+                    {I18n.t("categories.see_some_categories_suggesstions")}
                   </Caption>
                 </TouchableOpacity>
               </>

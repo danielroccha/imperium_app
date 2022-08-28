@@ -4,20 +4,21 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
 import { PieChart } from "react-native-gifted-charts";
 
+import Loading from "@app/components/molecules/Loading";
+import NavBar from "@app/components/organisms/Navbar";
+import Card from "@app/components/atoms/Card";
+import { Body, Caption } from "@app/components/atoms/Text";
+import LottieViewComponent from "@app/components/molecules/LottieViewComponent";
+
 import { useTransactionGroupByViewModel } from "@app/features/Transaction/view/TransactionGroupByCategory/transactionGroupByCategoryViewModel";
 import useTransactionRepository from "@app/features/Transaction/data/transactionRepository";
-import NavBar from "@app/components/organisms/Navbar";
-import { colors, dimens } from "@app/configs/Theme";
 import transactionService from "@app/services/transaction";
+import ITransactionByCategoryModel from "@app/features/transaction/domain/models/ITransactionByCategoryModel";
+
+import { colors, dimens } from "@app/configs/Theme";
 import { TRANSACTION_TYPE } from "@app/constants";
-import { Body, Caption } from "@app/components/atoms/Text";
-import Card from "@app/components/atoms/Card";
-import Util from "@app/util";
-import ITransactionByCategoryModel from "../../domain/models/ITransactionByCategoryModel";
-import TextMoney from "@app/components/atoms/TextMoney";
-import Loading from "@app/components/molecules/Loading";
-import LottieView from "lottie-react-native";
 import { lotties } from "@app/assets";
+import Util from "@app/util";
 
 type Chart = {
   id: string;
@@ -144,11 +145,7 @@ const TransactionsGroupByCategory = () => {
                   alignItems: "center",
                   justifyContent: "center",
                 }}>
-                <LottieView
-                  source={lotties.empty}
-                  style={{ height: 200 }}
-                  autoPlay
-                />
+                <LottieViewComponent animation={lotties.empty} size={180} />
                 <Caption style={{ width: 200 }} align="center">
                   Nenhum lançamento até o momento para esse mês
                 </Caption>

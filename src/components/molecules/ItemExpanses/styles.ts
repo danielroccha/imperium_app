@@ -1,11 +1,9 @@
 import { StyleSheet } from "react-native";
 import { dimens } from "@app/configs/Theme";
-import { AvailableColors } from "@app/types/ThemeType";
 
-export default (theme: AvailableColors) =>
+export default () =>
   StyleSheet.create({
     container: {
-      backgroundColor: theme.mode,
       flexDirection: "row",
       padding: 10,
       alignItems: "center",

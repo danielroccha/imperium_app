@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { View, TouchableOpacity } from "react-native";
 
-import { Body, Caption } from "@app/components/atoms/Text";
+import I18n from "@app/languages/I18n";
+import { Body } from "@app/components/atoms/Text";
 import styles from "./styles";
 import { colors, dimens } from "@app/configs/Theme";
 import { TRANSACTION_TYPE } from "@app/constants";
@@ -98,7 +99,7 @@ const SwitchTransactionType = ({
             color={
               transactionType === TRANSACTION_TYPE.EXPENSE ? "white" : "black"
             }>
-            Despesa
+            {I18n.t("common.expense")}
           </Body>
         </TouchableOpacity>
         <TouchableOpacity
@@ -115,7 +116,7 @@ const SwitchTransactionType = ({
             color={
               transactionType === TRANSACTION_TYPE.INCOME ? "white" : "black"
             }>
-            Receita
+            {I18n.t("common.income")}
           </Body>
         </TouchableOpacity>
       </View>
