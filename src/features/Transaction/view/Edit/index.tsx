@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { View, Alert } from "react-native";
 
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import I18n from "@app/languages/I18n";
 
 import TransactionForm, {
   TTransactionForm,
@@ -81,11 +82,11 @@ const EditTransaction = () => {
 
   const showDeleteTransactionAlert = () => {
     Alert.alert(
-      "Remover lançamento",
-      "Tem certeza que deseja remover esse lançamento ?",
+      I18n.t("alerts.remove_transaction_title"),
+      I18n.t("alerts.remove_transaction_description"),
       [
         {
-          text: "Remover",
+          text: I18n.t("buttons.remove"),
           onPress: () => {
             if (transactionData && transactionData.id) {
               deleteTransaction(transactionData.id);
@@ -94,7 +95,7 @@ const EditTransaction = () => {
           style: "destructive",
         },
         {
-          text: "Cancelar",
+          text: I18n.t("buttons.cancel"),
           onPress: () => console.log("OK Pressed"),
           style: "cancel",
         },
@@ -104,11 +105,11 @@ const EditTransaction = () => {
 
   const showDeleteTransactionInstallmentAlert = () => {
     Alert.alert(
-      "Apagar lançamento",
-      "Tem certeza que deseja remover esse lançamento ?",
+      I18n.t("alerts.remove_transaction_title"),
+      I18n.t("alerts.remove_transaction_description"),
       [
         {
-          text: "Remover todas a partir desta",
+          text: I18n.t("alerts.remove_transaction_installments"),
           onPress: () => {
             if (transactionData && transactionData.id) {
               deleteTransaction(transactionData.id, {
@@ -120,7 +121,7 @@ const EditTransaction = () => {
           style: "destructive",
         },
         {
-          text: "Remover apenas esta",
+          text: I18n.t("alerts.remove_transaction_installments_only"),
           onPress: () => {
             if (transactionData && transactionData.id) {
               deleteTransaction(transactionData.id);
@@ -128,7 +129,7 @@ const EditTransaction = () => {
           },
         },
         {
-          text: "Cancelar",
+          text: I18n.t("buttons.remove"),
           onPress: () => console.log("OK Pressed"),
           style: "cancel",
         },

@@ -34,7 +34,7 @@ export const light = {
 
 export const colors = () => {
   // return Appearance.getColorScheme() === "dark" ? dark : light;
-  return dark;
+  return light;
 };
 
 export const fontSize = {

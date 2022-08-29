@@ -53,7 +53,8 @@ const Home = () => {
 
   const profileRepository = useProfileRepository(userService);
 
-  const { getData: getDataProfile } = useProfileViewModel(profileRepository);
+  const { getData: getDataProfile, profile } =
+    useProfileViewModel(profileRepository);
 
   const handleFilterDate = (date: Date) => {
     setDateFilter(new Date(date));
@@ -77,11 +78,11 @@ const Home = () => {
   const showDeleteTransactionAlert = useCallback(
     (id: string) => {
       Alert.alert(
-        "Remover lançamento",
-        "Tem certeza que deseja remover esse lançamento ?",
+        I18n.t("alerts.remove_transaction_title"),
+        I18n.t("alerts.remove_transaction_description"),
         [
           {
-            text: "Remover",
+            text: I18n.t("buttons.remove"),
             onPress: async () => {
               await deleteTransaction(id);
               await getResumeData();
@@ -89,7 +90,7 @@ const Home = () => {
             style: "destructive",
           },
           {
-            text: "Cancelar",
+            text: I18n.t("buttons.cancel"),
             onPress: () => console.log("OK Pressed"),
             style: "cancel",
           },
@@ -102,11 +103,11 @@ const Home = () => {
   const showDeleteTransactionInstallmentAlert = useCallback(
     (transaction: ITransactionModel) => {
       Alert.alert(
-        "Remover lançamento",
-        "Tem certeza que deseja remover esse lançamento ?",
+        I18n.t("alerts.remove_transaction_title"),
+        I18n.t("alerts.remove_transaction_description"),
         [
           {
-            text: "Remover todas a partir desta",
+            text: I18n.t("alerts.remove_transaction_installments"),
             onPress: async () => {
               if (transaction && transaction.id) {
                 await deleteTransaction(transaction.id, {
@@ -119,7 +120,7 @@ const Home = () => {
             style: "destructive",
           },
           {
-            text: "Remover apenas esta",
+            text: I18n.t("alerts.remove_transaction_installments_only"),
             onPress: async () => {
               if (transaction && transaction.id) {
                 await deleteTransaction(transaction.id);
@@ -128,7 +129,7 @@ const Home = () => {
             },
           },
           {
-            text: "Cancelar",
+            text: I18n.t("buttons.cancel"),
             onPress: () => console.log("OK Pressed"),
             style: "cancel",
           },
@@ -165,8 +166,8 @@ const Home = () => {
         const transactionYear = transactionDate;
         if (currentMonth < transactionMonth && currentYear < transactionYear) {
           Alert.alert(
-            "Atenção!!!",
-            "Você só pode alterar recorrências do mês atual ou de meses passsados!",
+            I18n.t("common.attention"),
+            I18n.t("alerts.recurrence_alert_description"),
           );
         } else {
           navigation.navigate("EditTransaction", {
@@ -240,9 +241,17 @@ const Home = () => {
     }, [getResumeData]),
   );
 
+  useFocusEffect(
+    useCallback(() => {
+      getDataProfile();
+    }, [getDataProfile]),
+  );
+
   useEffect(() => {
-    getDataProfile();
-  }, [getDataProfile]);
+    if (profile?.isFirstLogin) {
+      navigation.navigate("OnboardingStack");
+    }
+  }, [profile, navigation]);
 
   return (
     <>

@@ -19,10 +19,10 @@
     },
     "come_back_later_or_contact_the_person_responsible_for_the_class": "Volte mais tarde ou entre em contato com o responsável pela turma.",
     "learn":"Aprender",
-    "are_you_enjoying_our_app":"Está gostando do nosso app?",
-    "help_us_by_leaving_your_review":"Nos ajude deixando sua avaliação.",
-    "tell_us_about_your_experience":"Conte-nos sobre sua experiência",
-    "your_feedback_is_very_important_for_future_improvements":"Seu feedback é muito importante para próximas melhorias.",
+    "are_you_enjoying_our_app": "Está gostando do nosso app?",
+    "help_us_by_leaving_your_review": "Nos ajude deixando sua avaliação.",
+    "tell_us_about_your_experience": "Conte-nos sobre sua experiência",
+    "your_feedback_is_very_important_for_future_improvements": "Seu feedback é muito importante para próximas melhorias.",
     "incomes": "Receitas",
     "expenses": "Despesas",
     "income": "Receita",
@@ -120,7 +120,8 @@
     "confirm_password": "Confirmar senha",
     "new_password": "Nova senha",
     "no_transactions_until_now": "Nenhum lançamento até o momento para esse mês.",
-    "category": "Escreva o nome da nova categoria"
+    "category": "Escreva o nome da nova categoria",
+    "search_currency": "Pesquise uma moeda"
   },
   "buttons": {
     "create_account": "Criar conta",
@@ -327,6 +328,19 @@
   "notification_messages": {
   },
   "messages_loading": {
+  },
+  "alerts":{
+    "remove_transaction_title": "Eliminar Transacción",
+    "remove_transaction_description": "¿Está seguro de que desea eliminar esta transacción?",
+    "remove_recurrence_title": "¿Quitar esta recurrencia?",
+    "remove_recurrence_description": "¿Está seguro de que desea eliminar esta recurrencia?",
+    "remove_category_title": "¿Quitar esta categoría?",
+    "remove_category_description": "¿Está seguro de que desea eliminar esta categoría?",
+    "remove_transaction_installments": "Quitar todo de este",
+    "remove_transaction_installments_only": "Quitar solo este",
+    "recurrence_alert_description": "¡Solo puedes cambiar las recurrencias del mes actual o de meses anteriores!",
+    "reset_title": "¡¡¡Listo para empezar!!!",
+    "reset_description": "¡Solo puedes cambiar las recurrencias del mes actual o de meses anteriores!"
   },
   "error_messages": {
     "ERROR_LOGIN_0000": "Email ou senha inválidos."

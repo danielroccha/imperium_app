@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   FlatList,
   View,
@@ -19,19 +19,30 @@ import CategoryIcon from "@app/components/molecules/CategoryIcon";
 import { Body, Small } from "@app/components/atoms/Text";
 
 import RootStackNavigation from "@app/types/RootStackParams";
-import IRecurrenceModel from "../../domain/models/IRecurrenceModel";
-import useRecurrenceRepository from "../../data/recurrenceRepository";
+import IRecurrenceModel from "@app/features/Recurrence/domain/models/IRecurrenceModel";
+import useRecurrenceRepository from "@app/features/Recurrence/data/recurrenceRepository";
+import { useListRecurrenceViewModel } from "@app/features/Recurrence/view/List/listRecurrenceViewModel";
 import recurrenceService from "@app/services/recurrence";
-import { useListRecurrenceViewModel } from "./listRecurrenceViewModel";
 
 import { colors, dimens, getShadow } from "@app/configs/Theme";
 import { TRANSACTION_TYPE } from "@app/constants";
 import { lotties } from "@app/assets";
 import Util from "@app/util";
+import { RootState } from "@app/configs/store";
+import { useSelector } from "react-redux";
 
-const ListRecurrence = () => {
+type ListRecurrenceProps = {
+  backAction?: boolean;
+  onListChange?: (hasRecurrence: boolean) => void;
+};
+
+const ListRecurrence = ({
+  backAction = true,
+  onListChange,
+}: ListRecurrenceProps) => {
   const theme = colors();
   const navigation = useNavigation<RootStackNavigation>();
+  const { profile } = useSelector((state: RootState) => state.profile);
 
   const recurrenceRepository = useRecurrenceRepository(recurrenceService);
 
@@ -62,16 +73,16 @@ const ListRecurrence = () => {
 
     const handleDelete = () => {
       Alert.alert(
-        "Remover essa recorrência?",
-        "Tem certeza que deseja remover essa recorrência?",
+        I18n.t("alerts.remove_recurrence_title"),
+        I18n.t("alerts.remove_recurrence_description"),
         [
           {
-            text: "Remover",
+            text: I18n.t("buttons.remove"),
             onPress: () => deleteRecurrence(item.id),
             style: "destructive",
           },
           {
-            text: "Cancelar",
+            text: I18n.t("buttons.cancel"),
             onPress: () => console.log("Cancel Pressed"),
             style: "cancel",
           },
@@ -141,7 +152,7 @@ const ListRecurrence = () => {
                 color={
                   item.type === TRANSACTION_TYPE.EXPENSE ? "danger" : "green"
                 }>
-                {Util.formatToMoney(item.value)}
+                {Util.formatToMoney(item.value, profile?.currency)}
               </Body>
             </View>
           </View>
@@ -150,10 +161,17 @@ const ListRecurrence = () => {
     );
   };
 
+  useEffect(() => {
+    if (onListChange) {
+      const length = listRecurrencesData?.length ?? 0;
+      onListChange(length > 0);
+    }
+  }, [onListChange, listRecurrencesData]);
+
   return (
     <View style={{ backgroundColor: theme.mode, flex: 1 }}>
       <NavBar
-        backAction
+        backAction={backAction}
         title={I18n.t("home.recurrences")}
         iconRight="plus"
         onClickActionRight={handlePressRightAction}

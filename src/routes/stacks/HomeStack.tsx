@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CategoryStack from "@app/routes/stacks/CategoryStack";
 import RecurrenceStack from "@app/routes/stacks/RecurrenceStack";
 import ProfileStack from "@app/routes/stacks/ProfileStack";
+import OnboardingStack from "@app/routes/stacks/OnboardingStack";
 
 import Home from "@app/features/Home/view";
 import NoConnection from "@app/components/pages/NoConnection";
@@ -83,7 +84,10 @@ const HomeStack = () => {
         component={EditTransaction}
       />
       <Stack.Screen
-        options={{ headerShown: false, presentation: "modal" }}
+        options={{
+          headerShown: false,
+          presentation: "modal",
+        }}
         name="EditRecurrence"
         component={EditRecurrence}
       />
@@ -126,6 +130,15 @@ const HomeStack = () => {
         }}
         name="NoConnection"
         component={NoConnection}
+      />
+      <Stack.Screen
+        options={{
+          gestureEnabled: false,
+          headerShown: false,
+          presentation: "modal",
+        }}
+        name="OnboardingStack"
+        component={OnboardingStack}
       />
     </Stack.Navigator>
   );

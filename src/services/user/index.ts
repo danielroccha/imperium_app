@@ -7,6 +7,7 @@ import { TResendVerificationCodeRemote } from "@app/services/user/remoteTypes/Re
 
 import api from "@app/configs/api";
 import API_SERVICES from "@app/constants/api";
+import { TUpdateProfileRemote } from "./remoteTypes/UpdateProfileRemote";
 
 export interface IUserService {
   profileService: () => Promise<IProfileEntity>;
@@ -15,6 +16,7 @@ export interface IUserService {
   resendEmailService: (data: TResendVerificationCodeRemote) => Promise<void>;
   changePasswordService: (data: TChangePasswordRemote) => Promise<void>;
   resetBalanceService: () => Promise<void>;
+  updateProfileService: (data: TUpdateProfileRemote) => Promise<void>;
 }
 
 const profileService = async (): Promise<IProfileEntity> =>
@@ -49,6 +51,11 @@ const changePasswordService = async (
 const resetBalanceService = async (): Promise<void> =>
   api.post(API_SERVICES.USER_SERVICES.RESET_BALANCE).then(res => res.data);
 
+const updateProfileService = async (
+  data: TUpdateProfileRemote,
+): Promise<void> =>
+  api.put(API_SERVICES.USER_SERVICES.PROFILE, data).then(res => res.data);
+
 const userService: IUserService = {
   profileService,
   forgotPasswordService,
@@ -56,6 +63,7 @@ const userService: IUserService = {
   changePasswordService,
   resendEmailService,
   resetBalanceService,
+  updateProfileService,
 };
 
 export default userService;

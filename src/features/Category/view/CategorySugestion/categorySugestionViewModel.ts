@@ -17,15 +17,19 @@ const useCategorySugestionViewModel = (repository: ICategoryRepository) => {
   const [isLoading, setLoading] = useState(false);
 
   const createCategories = useCallback(
-    async (data: CreateCategorySugestionViewModel) => {
+    async (data: CreateCategorySugestionViewModel, callback?: () => void) => {
       try {
         setLoading(true);
         await createCategoriesBatchUseCase(
           { createCategoriesBatch: repository.createCategoriesBatch },
           data,
         );
-        navigation.goBack();
         setLoading(false);
+        if (callback) {
+          callback();
+        } else {
+          navigation.goBack();
+        }
       } catch (error) {
         setLoading(false);
         handleApplicationError.handleError(error);

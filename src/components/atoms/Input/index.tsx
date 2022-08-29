@@ -21,7 +21,7 @@ type InputProps = {
   label?: string;
   icon?: string;
   name: string;
-  control: Control<any> | undefined;
+  control?: Control<any> | undefined;
   error?: boolean;
   errorMessage?: string | undefined;
   size?: FontSizePropType;

@@ -1,6 +1,7 @@
 {
   "common": {
-    "welcome": "Bem vindo",
+    "welcome": "Seja bem vindo ao imperium",
+    "welcome_description": "Vamos começar fazendo algumas configurações, é bem rapidinho 🥰.",
     "ooops": "Ooops!",
     "success":"Sucesso",
     "example": "Exemplo",
@@ -65,6 +66,9 @@
     "tomorrow": "Amanhã",
     "yesterday": "Ontem",
     "another_day": "Outro dia"
+  },
+  "currency": {
+    "select_or_search_currency": "Escolha ou pesquise uma moeda"
   },
   "categories": {
     "categories": "Categorias",
@@ -139,7 +143,8 @@
     "new_password": "Nova senha",
     "no_transactions_until_now": "Nenhum lançamento até o momento para esse mês.",
     "category": "Escreva o nome da nova categoria",
-    "description": "Digite uma descrição"
+    "description": "Digite uma descrição",
+    "search_currency": "Pesquise uma moeda"
   },
   "buttons": {
     "create_account": "Criar conta",
@@ -152,7 +157,7 @@
     "cancel": "Cancelar",
     "finish": "Finalizar",
     "try_again": "Tentar Novamente",
-    "lets_go": "Vamos lá?",
+    "lets_go": "Tudo pronto!!!",
     "next": "Próximo",
     "skip": "Pular",
     "yes": "Sim",
@@ -347,6 +352,19 @@
   "notification_messages": {
   },
   "messages_loading": {
+  },
+  "alerts":{
+    "remove_transaction_title": "Remover lançamento",
+    "remove_transaction_description": "Tem certeza que deseja remover esse lançamento ?",
+    "remove_recurrence_title": "Remover essa recorrência?",
+    "remove_recurrence_description": "Tem certeza que deseja remover essa recorrência?",
+    "remove_category_title": "Remover essa categoria?",
+    "remove_category_description": "Tem certeza que deseja remover essa categoria?",
+    "remove_transaction_installments": "Remover todas a partir desta",
+    "remove_transaction_installments_only": "Remover apenas esta",
+    "recurrence_alert_description": "Você só pode alterar recorrências do mês atual ou de meses passsados!",
+    "reset_title": "Pronto para começar!!!",
+    "reset_description": "Você só pode alterar recorrências do mês atual ou de meses passsados!"
   },
   "error_messages": {
     "ERROR_LOGIN_0000": "Email ou senha inválidos."

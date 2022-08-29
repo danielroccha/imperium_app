@@ -62,16 +62,16 @@ const ListCategory = () => {
 
   const handleDelelete = (categoryId: string) => {
     Alert.alert(
-      "Remover essa categoria?",
-      "Tem certeza que deseja remover essa catergoria?",
+      I18n.t("alerts.remove_category_title"),
+      I18n.t("alerts.remove_category_description"),
       [
         {
-          text: "Cancelar",
+          text: I18n.t("buttons.cancel"),
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
         {
-          text: "Remover",
+          text: I18n.t("buttons.remove"),
           style: "destructive",
           onPress: () => deleteCategory(categoryId),
         },

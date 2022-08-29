@@ -1,12 +1,14 @@
 import { useCallback } from "react";
+import { Alert } from "react-native";
 import { useSelector } from "react-redux";
+
+import I18n from "@app/languages/I18n";
 
 import handleApplicationError from "@app/handles/apiError";
 import { getProfileUseCase } from "@app/features/Profile/domain/useCases/GetProfileUseCase";
 import { resetBalanceUseCase } from "@app/features/Profile/domain/useCases/ResetBalanceUseCase";
 import { IProfileRepository } from "@app/features/Profile/data/profileRepository";
 import { RootState } from "@app/configs/store";
-import { Alert } from "react-native";
 
 export type TLoginViewModel = {
   email: string;
@@ -32,9 +34,9 @@ const useProfileViewModel = (repository: IProfileRepository) => {
         resetBalance: repository.resetBalance,
       });
       Alert.alert(
-        "Pronto para começar!!!",
-        "Seu histórico financeiro foi resetado com sucesso.",
-        [{ text: "Ok" }],
+        I18n.t("alerts.reset_title"),
+        I18n.t("alerts.reset_description"),
+        [{ text: I18n.t("buttons.ok") }],
       );
     } catch (error) {
       handleApplicationError.handleError(error);

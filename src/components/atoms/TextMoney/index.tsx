@@ -9,6 +9,8 @@ import {
 } from "@app/types/ThemeType";
 import { StyleProp, TextStyle } from "react-native";
 import { TextAlign } from "../Text/Base";
+import { useSelector } from "react-redux";
+import { RootState } from "@app/configs/store";
 
 type TextMoneyProps = {
   value: number;
@@ -31,6 +33,8 @@ const TextMoney = ({
   weight,
   animation = false,
 }: TextMoneyProps) => {
+  const { profile } = useSelector((state: RootState) => state.profile);
+
   return (
     <Base
       align={align}
@@ -43,11 +47,13 @@ const TextMoney = ({
         <AnimateNumber
           initial={value * 0.95}
           value={value}
-          formatter={(val: string) => `${Util.formatToMoney(Number(val))}`}
+          formatter={(val: string) =>
+            `${Util.formatToMoney(Number(val), profile?.currency)}`
+          }
           timing="linear"
         />
       ) : (
-        Util.formatToMoney(Number(value))
+        Util.formatToMoney(Number(value), profile?.currency)
       )}
     </Base>
   );

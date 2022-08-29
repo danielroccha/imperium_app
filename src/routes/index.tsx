@@ -60,6 +60,8 @@ const RootStack = () => {
     return <LoadingPage />;
   }
 
+  // storage.removeAllKeys();
+
   return (
     <Stack.Navigator>
       {token ? (

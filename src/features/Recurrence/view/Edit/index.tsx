@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Alert, View } from "react-native";
 
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import I18n from "@app/languages/I18n";
 
 import TransactionForm, {
   TTransactionForm,
@@ -56,16 +57,16 @@ const EditRecurrence = () => {
 
   const handleDelete = () => {
     Alert.alert(
-      "Remover essa recorrência?",
-      "Tem certeza que deseja remover essa recorrência?",
+      I18n.t("alerts.remove_recurrence_title"),
+      I18n.t("alerts.remove_recurrence_description"),
       [
         {
-          text: "Remover",
+          text: I18n.t("buttons.remove"),
           onPress: () => deleteRecurrence(recurrenceId),
           style: "destructive",
         },
         {
-          text: "Cancelar",
+          text: I18n.t("buttons.cancel"),
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },

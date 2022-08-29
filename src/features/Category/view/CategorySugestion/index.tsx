@@ -23,7 +23,15 @@ import { useCategorySugestionViewModel } from "@app/features/Category/view/Categ
 import { CreateCategoryViewModel } from "@app/features/Category/view/Create/createCategoryViewModel";
 import { CreateCategorySugestionViewModel } from "@app/features/Category/view/CategorySugestion/categorySugestionViewModel";
 
-const CategorySugestion = () => {
+type CategorySugestionProps = {
+  showNavBar?: boolean;
+  onSave?: () => void;
+};
+
+const CategorySugestion = ({
+  onSave,
+  showNavBar = true,
+}: CategorySugestionProps) => {
   const navigation = useNavigation();
   const [categoriesSugestion, setCategoriesSugestion] = useState(
     expensesCategorySugestion,
@@ -81,16 +89,18 @@ const CategorySugestion = () => {
     );
     const data: CreateCategorySugestionViewModel = { data: categories };
 
-    createCategories(data);
+    createCategories(data, onSave);
   };
 
   return (
     <View style={{ backgroundColor: theme.mode, flex: 1 }}>
-      <NavBar
-        title={I18n.t("categories.categories_suggestions")}
-        iconRight="x"
-        onClickActionRight={handleClose}
-      />
+      {showNavBar && (
+        <NavBar
+          title={I18n.t("categories.categories_suggestions")}
+          iconRight="x"
+          onClickActionRight={handleClose}
+        />
+      )}
 
       <ScrollView style={{ flex: 1 }}>
         <View style={{ marginVertical: dimens.base }}>

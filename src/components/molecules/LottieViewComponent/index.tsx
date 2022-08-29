@@ -20,7 +20,7 @@ const LottieViewComponent = ({
   const lottieRef = useRef<AnimatedLottieView>(null);
 
   useEffect(() => {
-    setTimeout(() => lottieRef.current?.play(), 100);
+    setTimeout(() => lottieRef.current?.play(), 200);
   }, []);
 
   return (

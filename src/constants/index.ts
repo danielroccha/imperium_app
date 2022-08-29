@@ -66,7 +66,7 @@ export const profileMenu: {
   {
     icon: "log-out",
     name: "Sair",
-    action: (callback: () => void) => {
+    action: (callback?: () => void) => {
       if (callback) return callback();
       return null;
     },
@@ -153,7 +153,7 @@ export const expensesCategorySugestion: TCategorySugestion[] = [
     type: TRANSACTION_TYPE.EXPENSE,
   },
   {
-    name: I18n.t("categories.suggestions.bonus"),
+    name: I18n.t("categories.suggestions.other"),
     color: "#b0b0b0",
     icon: "dots-horizontal-circle",
     type: TRANSACTION_TYPE.EXPENSE,

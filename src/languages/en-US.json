@@ -1,6 +1,7 @@
 {
   "common": {
-    "welcome": "Welcome",
+    "welcome": "Welcome to Imperium",
+    "welcome_description": "Let's start making some settings, it's really quick.",
     "ooops": "Ooops!",
     "success":"Success",
     "example": "Example",
@@ -66,6 +67,9 @@
      "yesterday": "Yesterday",
      "another_day": "Another day"
    },
+  "currency": {
+    "select_or_search_currency": "Select or search a currency"
+  },
   "categories": {
     "categories": "Categories",
     "see_some_categories_suggesstions": "See some category suggestions",
@@ -139,7 +143,8 @@
     "new_password": "New password",
     "no_transactions_until_now": "No releases yet for this month.",
     "category": "Type the name of the new category",
-    "description": "Type a description"
+    "description": "Type a description",
+    "search_currency": "Search a currency"
   },
   "buttons": {
     "create_account": "Create account",
@@ -347,6 +352,19 @@
   "notification_messages": {
   },
   "messages_loading": {
+  },
+  "alerts":{
+    "remove_transaction_title": "Remove Transaction",
+    "remove_transaction_description": "Are you sure you want to remove this transaction?",
+    "remove_recurrence_title": "Remove this recurrence?",
+    "remove_recurrence_description": "Are you sure you want to remove this recurrence?",
+    "remove_category_title": "Remove this category?",
+    "remove_category_description": "Are you sure you want to remove this category?",
+    "remove_transaction_installments": "Remove all from this one",
+    "remove_transaction_installments_only": "Remove only this one",
+    "recurrence_alert_description": "You can only change recurrences from the current month or past months!",
+    "reset_title": "Ready to go!!!",
+    "reset_description": "You can only change recurrences from the current month or past months!"
   },
   "error_messages": {
     "ERROR_LOGIN_0000": "Invalid email or password."

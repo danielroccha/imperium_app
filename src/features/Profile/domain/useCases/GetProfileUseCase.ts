@@ -6,6 +6,7 @@ import {
   setLoadingProfileAction,
   setProfileAction,
 } from "@app/features/Profile/data/profileActions";
+import storage from "@app/configs/storage";
 
 const getProfileUseCase = async (
   repository: Pick<IProfileRepository, "getProfile">,
@@ -13,6 +14,7 @@ const getProfileUseCase = async (
   dispatchStore(setLoadingProfileAction(true));
   const profile = await repository.getProfile();
   const profileDomain = mapProfileToDomain(profile);
+  if (profile.currency) storage.saveCurrency(profile.currency);
   dispatchStore(setProfileAction(profileDomain));
   dispatchStore(setLoadingProfileAction(false));
 };
@@ -21,6 +23,8 @@ const mapProfileToDomain = (profile: IProfileEntity): IProfileModel => ({
   email: profile.email,
   id: profile.id,
   name: profile.name,
+  isFirstLogin: profile.isFirstLogin,
+  currency: profile.currency,
 });
 
 export { getProfileUseCase };

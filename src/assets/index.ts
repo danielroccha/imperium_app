@@ -6,6 +6,7 @@ const lotties = {
   verificationCode: require("./lotties/verification-code.json"),
   noConnection: require("./lotties/no-connection.json"),
   emailPlane: require("./lotties/email-plane.json"),
+  welcome: require("./lotties/welcome.json"),
 };
 
 const images = {

@@ -25,6 +25,7 @@ type RootStackParamList = {
   EditCategory: { categoryId: string };
   CreateCategory: undefined;
   CategorySugestion: undefined;
+  OnboardingStack: undefined;
   TransactionGroupByCategory: {
     transactionType: TRANSACTION_TYPE;
     monthId: number;

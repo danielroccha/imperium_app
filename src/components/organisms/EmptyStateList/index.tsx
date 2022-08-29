@@ -3,7 +3,7 @@ import { View } from "react-native";
 
 import LottieViewComponent from "@app/components/molecules/LottieViewComponent";
 
-import { HeadLine } from "@app/components/atoms/Text";
+import { Regular } from "@app/components/atoms/Text";
 
 type EmptyStateListProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,8 +18,8 @@ const EmptyStateList = ({ lottie, text }: EmptyStateListProps) => {
         alignItems: "center",
         justifyContent: "center",
       }}>
-      <LottieViewComponent animation={lottie} size={400} />
-      <HeadLine align="center">{text}</HeadLine>
+      <LottieViewComponent animation={lottie} size={100} />
+      <Regular align="center">{text}</Regular>
     </View>
   );
 };

@@ -5,6 +5,7 @@ export const KEYS = {
   TOKEN: "token",
   REFRESH_TOKEN: "refresh_token",
   APPEARANCE: "appearance",
+  CURRENCY: "currency",
 };
 
 const saveApiKey = (apiKey: string) => {
@@ -29,6 +30,17 @@ const saveAppearance = (value: ColorSchemeName): Promise<void> | void => {
   }
 };
 
+const getCurrency = async (): Promise<string | null> => {
+  const value = AsyncStorage.getItem(KEYS.CURRENCY);
+  return value;
+};
+
+const saveCurrency = (value: string): Promise<void> | void => {
+  if (value) {
+    AsyncStorage.setItem(KEYS.APPEARANCE, value);
+  }
+};
+
 const removeAllKeys = () => {
   try {
     AsyncStorage.multiRemove(Object.values(KEYS));
@@ -44,5 +56,7 @@ export default {
   getRefreshToken,
   getAppearance,
   saveAppearance,
+  getCurrency,
+  saveCurrency,
   removeAllKeys,
 };

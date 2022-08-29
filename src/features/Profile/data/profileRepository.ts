@@ -7,6 +7,7 @@ import { TForgotPasswordRemote } from "@app/services/user/remoteTypes/ForgotPass
 import { TVerificationCodeRemote } from "@app/services/user/remoteTypes/VerificationCodeRemote";
 import { TChangePasswordRemote } from "@app/services/user/remoteTypes/ChangePasswordRemote";
 import { TResendVerificationCodeRemote } from "@app/services/user/remoteTypes/ResendVerificationRemote";
+import { TUpdateProfileRemote } from "@app/services/user/remoteTypes/UpdateProfileRemote";
 
 export interface IProfileRepository {
   getProfile(): Promise<IProfileEntity>;
@@ -15,6 +16,7 @@ export interface IProfileRepository {
   resendVerificationCode(data: TResendVerificationCodeRemote): Promise<void>;
   changePassword(data: TChangePasswordRemote): Promise<void>;
   resetBalance(): Promise<void>;
+  updateProfile(data: TUpdateProfileRemote): Promise<void>;
 }
 
 const useProfileRepository = (service: IUserService): IProfileRepository => {
@@ -50,11 +52,20 @@ const useProfileRepository = (service: IUserService): IProfileRepository => {
     },
     [service],
   );
+
+  const updateProfile = useCallback(
+    async (data: TUpdateProfileRemote) => {
+      await service.updateProfileService(data);
+    },
+    [service],
+  );
+
   const resetBalance = useCallback(async () => {
     await service.resetBalanceService();
   }, [service]);
 
   return {
+    updateProfile,
     getProfile,
     forgotPassword,
     verificationCode,

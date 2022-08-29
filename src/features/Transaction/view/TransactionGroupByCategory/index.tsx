@@ -20,6 +20,8 @@ import { colors, dimens } from "@app/configs/Theme";
 import { TRANSACTION_TYPE } from "@app/constants";
 import { lotties } from "@app/assets";
 import Util from "@app/util";
+import { RootState } from "@app/configs/store";
+import { useSelector } from "react-redux";
 
 type Chart = {
   id: string;
@@ -38,6 +40,7 @@ type TransactionsGroupByCategoryParamList = {
 
 const TransactionsGroupByCategory = () => {
   const theme = colors();
+  const { profile } = useSelector((state: RootState) => state.profile);
   const navigation = useNavigation();
   const route = useRoute<RouteProp<TransactionsGroupByCategoryParamList>>();
   const { transactionType, monthId, year } = route.params;
@@ -78,7 +81,7 @@ const TransactionsGroupByCategory = () => {
           />
           <Body>{item.name}</Body>
         </View>
-        <Body>{`${Util.formatToMoney(item.value)}`}</Body>
+        <Body>{`${Util.formatToMoney(item.value, profile?.currency)}`}</Body>
       </Card>
     );
   };
