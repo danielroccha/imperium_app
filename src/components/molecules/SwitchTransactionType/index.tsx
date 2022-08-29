@@ -21,7 +21,7 @@ type SwitchTransactionTypeProps = {
 const SwitchTransactionType = ({
   onChange,
   error,
-  text = "Escolha o tipo",
+  text = I18n.t("fields.choose_a_type"),
   value,
   disableSwitchTypeTransaction,
   showLabel = false,

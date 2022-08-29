@@ -1,19 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { View, TouchableOpacity, ScrollView } from "react-native";
+
 import DatePicker from "react-native-date-picker";
 import Icon from "react-native-vector-icons/Feather";
+import I18n from "@app/languages/I18n";
 
 import { Body, Caption } from "@app/components/atoms/Text";
 import Pill from "@app/components/molecules/Pill";
-import { colors, dimens } from "@app/configs/Theme";
-import I18n from "i18n-js";
 
-enum DATES_OPTIONS {
-  TODAY = "Hoje",
-  TOMORROW = "Amanhã",
-  YESTERDAY = "Ontem",
-  OTHER = "Outro dia",
-}
+import { colors, dimens } from "@app/configs/Theme";
 
 type SelectDateProps = {
   onChangeDate: (date: Date) => void;
@@ -31,11 +26,11 @@ const SelectDate = ({ onChangeDate, initialDate }: SelectDateProps) => {
   const dates: { dayText: string; date: () => Date }[] = useMemo(
     () => [
       {
-        dayText: DATES_OPTIONS.TODAY,
+        dayText: I18n.t("transaction.today"),
         date: () => date,
       },
       {
-        dayText: DATES_OPTIONS.TOMORROW,
+        dayText: I18n.t("transaction.tomorrow"),
         date: () => {
           const newDate = new Date();
           newDate.setDate(newDate.getDate() + 1);
@@ -43,7 +38,7 @@ const SelectDate = ({ onChangeDate, initialDate }: SelectDateProps) => {
         },
       },
       {
-        dayText: DATES_OPTIONS.YESTERDAY,
+        dayText: I18n.t("transaction.yesterday"),
         date: () => {
           const newDate = new Date();
           newDate.setDate(newDate.getDate() - 1);
@@ -130,7 +125,7 @@ const SelectDate = ({ onChangeDate, initialDate }: SelectDateProps) => {
               />
             ))}
             <Pill
-              text={DATES_OPTIONS.OTHER}
+              text={I18n.t("transaction.another_day")}
               color={showDatePicker ? "primary" : "grey"}
               onTap={openDatePicker}
             />

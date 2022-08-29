@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { Appearance, Dimensions, Platform } from "react-native";
+import { Dimensions, Platform } from "react-native";
 
 const commomColors = {
   primaryLight: "#B95EEC",
@@ -35,7 +34,7 @@ export const light = {
 
 export const colors = () => {
   // return Appearance.getColorScheme() === "dark" ? dark : light;
-  return light;
+  return dark;
 };
 
 export const fontSize = {

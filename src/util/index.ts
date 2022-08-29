@@ -3,7 +3,7 @@ import { Alert } from "react-native";
 export const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1).toLocaleLowerCase();
 
-const formatToMoney = (value: number, currency: string): string => {
+const formatToMoney = (value: number, currency?: string): string => {
   const currencyData = currency || "BRL";
 
   try {

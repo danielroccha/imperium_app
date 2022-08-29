@@ -1,12 +1,14 @@
 import React, { useCallback } from "react";
 import { View, TouchableOpacity } from "react-native";
 
+import I18n from "@app/languages/I18n";
 import { Body, Small } from "@app/components/atoms/Text";
-import { colors, SCREEN_WIDTH } from "@app/configs/Theme";
-import styles from "./styles";
 import TextMoney from "@app/components/atoms/TextMoney";
+import CategoryIcon from "@app/components/molecules/CategoryIcon";
+
+import { SCREEN_WIDTH } from "@app/configs/Theme";
 import { TRANSACTION_TYPE } from "@app/constants";
-import CategoryIcon from "../CategoryIcon";
+import styles from "./styles";
 
 type ItemExpansesProps = {
   title: string;
@@ -39,19 +41,19 @@ const ItemExpanses = ({
     onLongPress();
   };
 
-  const theme = colors();
-
   return (
     <TouchableOpacity onPress={handleSelectItem} onLongPress={handleLongPress}>
-      <View style={styles(theme).container}>
+      <View style={styles().container}>
         <CategoryIcon icon={icon} color={color} />
-        <View style={styles(theme).content}>
+        <View style={styles().content}>
           <View style={{ width: SCREEN_WIDTH * 0.25 }}>
             <Body numberOfLines={2} ellipsizeMode="tail">
               {title}
             </Body>
             <Small>{category}</Small>
-            {isRecurrence && <Small color="secondary">Recorrência</Small>}
+            {isRecurrence && (
+              <Small color="secondary">{I18n.t("home.recurrences")}</Small>
+            )}
           </View>
           <TextMoney
             color={type === TRANSACTION_TYPE.EXPENSE ? "danger" : "green"}

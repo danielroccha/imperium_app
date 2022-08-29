@@ -1,10 +1,14 @@
-import { Regular } from "@app/components/atoms/Text";
-import Pill from "@app/components/molecules/Pill";
-import { colors, dimens } from "@app/configs/Theme";
-import { OPTIONS_PERIOD } from "@app/constants";
 import React, { useEffect, useState } from "react";
 import { View, ScrollView, TouchableOpacity } from "react-native";
+
 import Icon from "react-native-vector-icons/Feather";
+import I18n from "@app/languages/I18n";
+
+import { Regular } from "@app/components/atoms/Text";
+import Pill from "@app/components/molecules/Pill";
+
+import { colors, dimens } from "@app/configs/Theme";
+import { OPTIONS_PERIOD } from "@app/constants";
 
 const options = [
   {
@@ -51,26 +55,26 @@ const SelectPeriod = ({
   const getLabelPeriod = () => {
     switch (period) {
       case OPTIONS_PERIOD.DAILY:
-        return "dias";
+        return I18n.t("transaction.days");
       case OPTIONS_PERIOD.MONTHLY:
-        return "meses";
+        return I18n.t("transaction.months");
       case OPTIONS_PERIOD.WEEKLY:
-        return "semanas";
+        return I18n.t("transaction.weeks");
       default:
-        return "anos";
+        return I18n.t("transaction.years");
     }
   };
 
   const getText = (value: OPTIONS_PERIOD) => {
     switch (value) {
       case OPTIONS_PERIOD.DAILY:
-        return "Diariamente";
+        return I18n.t("transaction.daily");
       case OPTIONS_PERIOD.MONTHLY:
-        return "Mensalmente";
+        return I18n.t("transaction.monthly");
       case OPTIONS_PERIOD.WEEKLY:
-        return "Semanalmente";
+        return I18n.t("transaction.weekly");
       default:
-        return "Anualmente";
+        return I18n.t("transaction.yearly");
     }
   };
 
@@ -110,7 +114,9 @@ const SelectPeriod = ({
             color={times === 2 ? theme.grey : theme.secondary}
           />
         </TouchableOpacity>
-        <Regular color="primary">{`durante ${times} ${getLabelPeriod()}`}</Regular>
+        <Regular color="primary">{`${I18n.t(
+          "transaction.for",
+        )} ${times} ${getLabelPeriod()}`}</Regular>
         <TouchableOpacity
           disabled={times === 100}
           onPress={handleIncreaseTimes}

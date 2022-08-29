@@ -26,7 +26,8 @@
     "incomes": "Receitas",
     "expenses": "Despesas",
     "income": "Receita",
-    "expense": "Despesa"
+    "expense": "Despesa",
+    "value": "Value"
   },
   "login":{
     "forgot_password": "Esqueci minha senha",
@@ -48,6 +49,22 @@
     "create_transaction": "Fazer lançamento",
     "categories": "Categorias",
     "month_select": "Selecione um mês"
+  },
+  "transaction": {
+    "daily": "Diariamente",
+    "yearly": "Anualmente",
+    "monthly": "Diariamente",
+    "weekly": "Semanalmente",
+    "days": "dias",
+    "years": "anos",
+    "months": "meses",
+    "weeks": "semanas",
+    "for": "Durante",
+    "repeat": "Repetir",
+    "today": "Hoje",
+    "tomorrow": "Amanhã",
+    "yesterday": "Ontem",
+    "another_day": "Outro dia"
   },
   "categories": {
     "categories": "Categorias",
@@ -89,11 +106,6 @@
     "no_connection": "Sem Conexão com a internet.",
     "check_your_connection": "Verifique sua conexão!"
   },
-  "languages": {
-    "en": "Inglês",
-    "es": "Espanhol",
-    "fr": "Francês"
-  },
   "fields": {
     "name_and_lastname": "Nome e sobrenome",
     "email": "E-mail",
@@ -104,8 +116,10 @@
     "choose_a_color": "Selecione uma cor",
     "choose_a_image": "Selecione uma imagem",
     "choose_a_date": "Selecione uma data",
+    "choose_a_category": "Selecione uma categoria",
     "category": "Nome da categoria",
-    "fill_fields": "Preecha os campos"
+    "fill_fields": "Preecha os campos",
+    "description": "Description"
   },
   "fields_validation": {
     "email_error": "Digite um email válido",
@@ -124,7 +138,8 @@
     "confirm_password": "Confirmar senha",
     "new_password": "Nova senha",
     "no_transactions_until_now": "Nenhum lançamento até o momento para esse mês.",
-    "category": "Escreva o nome da nova categoria"
+    "category": "Escreva o nome da nova categoria",
+    "description": "Digite uma descrição"
   },
   "buttons": {
     "create_account": "Criar conta",
@@ -146,7 +161,8 @@
     "update": "Atualizar",
     "confirm": "Confirmar",
     "remove": "Remover",
-    "erase": "APAGAR"
+    "erase": "APAGAR",
+    "create_new_category": "Cria nova categoria"
   },
   "months": {
     "january":"Janeiro",

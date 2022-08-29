@@ -7,6 +7,7 @@ import {
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
+import I18n from "@app/languages/I18n";
 
 import NavBar from "@app/components/organisms/Navbar";
 import { colors, dimens, getShadow, SCREEN_HEIGHT } from "@app/configs/Theme";
@@ -71,7 +72,7 @@ const SelectCategory = () => {
         }}>
         <NavBar
           iconRight="x"
-          title="Selecione uma categoria"
+          title={I18n.t("fields.choose_a_category")}
           onClickActionRight={handleClose}
         />
         {isLoading ? (
@@ -113,7 +114,7 @@ const SelectCategory = () => {
             )}
 
             <CustomButton
-              title="Criar nova categoria"
+              title={I18n.t("buttons.create_new_category")}
               onPress={handleOpenCreateCategory}
               styleButton={{ margin: dimens.small }}
             />

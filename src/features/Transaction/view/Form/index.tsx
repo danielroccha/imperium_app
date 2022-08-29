@@ -221,7 +221,7 @@ const TransactionForm = ({
 
             <View>
               <Caption align="center" color="white">
-                Valor
+                {I18n.t("common.value")}
               </Caption>
               <InputMoney
                 defaultValue={transactionValue}
@@ -234,11 +234,11 @@ const TransactionForm = ({
           <View style={{ padding: dimens.small }}>
             <View>
               <Input
-                label="Descrição"
+                label={I18n.t("fields.description")}
                 name="description"
                 value="teste"
                 control={control}
-                placeholder="Adicione uma descrição"
+                placeholder={I18n.t("placeholders.description")}
                 error={!!errors.description}
                 errorMessage={errors.description?.message}
               />
@@ -268,7 +268,9 @@ const TransactionForm = ({
                   color={category ? category.color : theme.primary}
                 />
                 <Body style={{ marginLeft: dimens.tiny }}>
-                  {category ? category.name : "Selecione a categoria"}
+                  {category
+                    ? category.name
+                    : I18n.t("fields.choose_a_category")}
                 </Body>
               </View>
               {category && (
@@ -281,7 +283,7 @@ const TransactionForm = ({
               <Switch
                 options={[
                   {
-                    text: "Repetir",
+                    text: I18n.t("transaction.repeat"),
                     value: TRANSACTION_OPTIONS.INSTALLMENT,
                   },
                 ]}

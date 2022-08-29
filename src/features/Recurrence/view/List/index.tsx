@@ -6,24 +6,28 @@ import {
   Alert,
   RefreshControl,
 } from "react-native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+
 import Icon from "react-native-vector-icons/Feather";
+import I18n from "@app/languages/I18n";
 
 import NavBar from "@app/components/organisms/Navbar";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import RootStackNavigation from "@app/types/RootStackParams";
-import { colors, dimens, getShadow } from "@app/configs/Theme";
+import EmptyStateList from "@app/components/organisms/EmptyStateList";
+import Loading from "@app/components/molecules/Loading";
+import Pill from "@app/components/molecules/Pill";
 import CategoryIcon from "@app/components/molecules/CategoryIcon";
 import { Body, Small } from "@app/components/atoms/Text";
+
+import RootStackNavigation from "@app/types/RootStackParams";
+import IRecurrenceModel from "../../domain/models/IRecurrenceModel";
 import useRecurrenceRepository from "../../data/recurrenceRepository";
 import recurrenceService from "@app/services/recurrence";
 import { useListRecurrenceViewModel } from "./listRecurrenceViewModel";
-import IRecurrenceModel from "../../domain/models/IRecurrenceModel";
-import Loading from "@app/components/molecules/Loading";
-import Pill from "@app/components/molecules/Pill";
+
+import { colors, dimens, getShadow } from "@app/configs/Theme";
 import { TRANSACTION_TYPE } from "@app/constants";
-import Util from "@app/util";
-import EmptyStateList from "@app/components/organisms/EmptyStateList";
 import { lotties } from "@app/assets";
+import Util from "@app/util";
 
 const ListRecurrence = () => {
   const theme = colors();
@@ -123,14 +127,16 @@ const ListRecurrence = () => {
             }}>
             <Pill
               text={
-                item.type === TRANSACTION_TYPE.EXPENSE ? "Despesa" : "Receita"
+                item.type === TRANSACTION_TYPE.EXPENSE
+                  ? I18n.t("common.expense")
+                  : I18n.t("common.income")
               }
               color={
                 item.type === TRANSACTION_TYPE.EXPENSE ? "danger" : "green"
               }
             />
             <View style={{ marginLeft: dimens.small }}>
-              <Body align="right">Valor</Body>
+              <Body align="right">{I18n.t("common.value")}</Body>
               <Body
                 color={
                   item.type === TRANSACTION_TYPE.EXPENSE ? "danger" : "green"
@@ -148,7 +154,7 @@ const ListRecurrence = () => {
     <View style={{ backgroundColor: theme.mode, flex: 1 }}>
       <NavBar
         backAction
-        title="Recorrências"
+        title={I18n.t("home.recurrences")}
         iconRight="plus"
         onClickActionRight={handlePressRightAction}
       />

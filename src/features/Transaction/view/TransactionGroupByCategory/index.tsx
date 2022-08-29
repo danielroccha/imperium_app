@@ -3,6 +3,7 @@ import { FlatList, View } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
 import { PieChart } from "react-native-gifted-charts";
+import I18n from "@app/languages/I18n";
 
 import Loading from "@app/components/molecules/Loading";
 import NavBar from "@app/components/organisms/Navbar";
@@ -116,7 +117,7 @@ const TransactionsGroupByCategory = () => {
   return (
     <View style={{ backgroundColor: theme.mode, flex: 1 }}>
       <NavBar
-        title="Categorias"
+        title={I18n.t("home.categories")}
         onClickActionRight={handleClose}
         iconRight="x"
       />
@@ -138,6 +139,7 @@ const TransactionsGroupByCategory = () => {
                 donut
                 showText
                 textBackgroundRadius={20}
+                backgroundColor={theme.mode}
               />
             ) : (
               <View

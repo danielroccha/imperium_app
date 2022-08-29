@@ -154,7 +154,7 @@ const HeaderInfo = ({
           color="white"
           style={{ textDecorationLine: "underline" }}
           onPress={onResetDate}>
-          {"Voltar para mês atual".toUpperCase()}
+          {I18n.t("home.back_to_current_month").toUpperCase()}
         </Small>
       )}
       <View style={styles(theme).containerTransactionType}>
