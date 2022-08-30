@@ -59,6 +59,7 @@ const Home = () => {
   const handleFilterDate = (date: Date) => {
     setDateFilter(new Date(date));
   };
+
   const handleResetDate = () => {
     setDateFilter(new Date());
   };

@@ -44,12 +44,22 @@ const getInitialLetters = (value: string): string => {
   return initials.toUpperCase();
 };
 
+const generateDate = (date?: Date) => {
+  if (date) {
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+  const newDate = new Date().setHours(0, 0, 0, 0);
+  return newDate;
+};
+
 const Util = {
   formatToMoney,
   getMonthIndex,
   capitalize,
   showAlertError,
   getInitialLetters,
+  generateDate,
 };
 
 export default Util;
