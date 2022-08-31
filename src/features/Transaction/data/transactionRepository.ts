@@ -7,6 +7,7 @@ import ITransactionByCategoryEntity from "./ITransactionsByCategoryEntity";
 import IBalanceResumeEntity from "@app/features/Home/data/IBalanceResumeEntity";
 import { TEditTransactionRemote } from "@app/services/transaction/remoteTypes/EditTransactionRemote";
 import { TDeleteHeaderTransaction } from "@app/services/transaction/remoteTypes/DeleteTransactionRemote";
+import Util from "@app/util";
 
 export interface ITransactionRepository {
   createTransaction(data: TCreateTransactionRemote): Promise<void>;
@@ -74,6 +75,7 @@ const useTransactionRepository = (
         monthId,
         year,
         transactionType,
+        Util.getTimezoneOffset(),
       );
       return response;
     },
@@ -82,7 +84,11 @@ const useTransactionRepository = (
 
   const getBalanceResume = useCallback(
     async (monthId: number, year: number) => {
-      const response = await service.getBalanceService(monthId, year);
+      const response = await service.getBalanceService(
+        monthId,
+        year,
+        Util.getTimezoneOffset(),
+      );
       return response;
     },
     [service],

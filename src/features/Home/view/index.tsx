@@ -47,11 +47,12 @@ const Home = () => {
   const [dateFilter, setDateFilter] = useState(new Date());
 
   const transactionRepository = useTransactionRepository(transactionService);
+  const profileRepository = useProfileRepository(userService);
+
   const { data, getData, isLoading, deleteTransaction } = useHomeViewModel(
     transactionRepository,
+    profileRepository,
   );
-
-  const profileRepository = useProfileRepository(userService);
 
   const { getData: getDataProfile, profile } =
     useProfileViewModel(profileRepository);
@@ -333,7 +334,4 @@ const Home = () => {
   );
 };
 
-{
-  /*  */
-}
 export default Home;

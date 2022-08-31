@@ -1,8 +1,9 @@
 import { Dimensions, Platform } from "react-native";
 
 const commomColors = {
-  primaryLight: "#B95EEC",
+  primary: "#6700c1",
   secondary: "#2096f3",
+  primaryLight: "#B95EEC",
   secondaryLight: "#D2F4FE",
   danger: "#FF0000",
   warning: "#F4A540",
@@ -15,7 +16,6 @@ const commomColors = {
 };
 
 export const dark = {
-  primary: "#5A1BCA",
   mode: "#000",
   contrast: "#FFF",
   contrastDark: "#1c1c1d",
@@ -24,7 +24,6 @@ export const dark = {
 };
 
 export const light = {
-  primary: "#6700c1",
   mode: "#FFF",
   contrast: "#000",
   contrastDark: "#FFF",

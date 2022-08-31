@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+import DeviceInfo from "react-native-device-info";
 import { OS } from "@app/constants";
 import { IProfileRepository } from "@app/features/Profile/data/profileRepository";
 
@@ -23,7 +25,18 @@ const updateProfileUseCase = async (
   repository: Pick<IProfileRepository, "updateProfile">,
   data: TUpdateProfileViewModel,
 ) => {
-  await repository.updateProfile({ currency: data.currency });
+  const os: OS = Platform.OS === "ios" ? "ios" : "android";
+
+  await repository.updateProfile({
+    currency: data.currency,
+    appVersion: DeviceInfo.getVersion(),
+    email: data.email,
+    lastname: data.lastname,
+    name: data.name,
+    os,
+    password: data.password,
+    tokenDeviceId: data.tokenDeviceId,
+  });
 };
 
 export { updateProfileUseCase };

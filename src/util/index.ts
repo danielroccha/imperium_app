@@ -44,13 +44,8 @@ const getInitialLetters = (value: string): string => {
   return initials.toUpperCase();
 };
 
-const generateDate = (date?: Date) => {
-  if (date) {
-    date.setHours(0, 0, 0, 0);
-    return date;
-  }
-  const newDate = new Date().setHours(0, 0, 0, 0);
-  return newDate;
+const getTimezoneOffset = () => {
+  return new Date().getTimezoneOffset();
 };
 
 const Util = {
@@ -59,7 +54,7 @@ const Util = {
   capitalize,
   showAlertError,
   getInitialLetters,
-  generateDate,
+  getTimezoneOffset,
 };
 
 export default Util;

@@ -349,10 +349,6 @@
     "yemeni_rial": "Rial iemenita",
     "zambian_kwacha": "Kwacha da Zâmbia"
   },
-  "notification_messages": {
-  },
-  "messages_loading": {
-  },
   "alerts":{
     "remove_transaction_title": "Remover lançamento",
     "remove_transaction_description": "Tem certeza que deseja remover esse lançamento ?",
@@ -367,6 +363,15 @@
     "reset_description": "Você só pode alterar recorrências do mês atual ou de meses passsados!"
   },
   "error_messages": {
-    "ERROR_LOGIN_0000": "Email ou senha inválidos."
+    "SERVER_ERROR_0000": "Um problema inesperado aconteceu. Aguarde alguns minutos e tente novamente. Caso o problema continue entre em contato conosco.",
+    "SERVER_ERROR_0001": "Dado não encontrado.",
+    "SERVER_ERROR_0002": "Sessão expirada.",
+    "ERROR_LOGIN_0000": "Email ou senha inválidos.",
+    "CATEGORY_ERROR_0000": "Já existe uma categoria com esse nome",
+    "RECURRENCE_ERROR_0000": "Já existe uma recorrência com esse nome.",
+    "ERROR_USER_0000": "Email já está em uso.",
+    "ERROR_USER_0001": "Código de verificação inválido.",
+    "ERROR_USER_0002": "Senhas são diferentes.",
+    "ERROR_USER_0003": "Conta inativa."
   }
 }

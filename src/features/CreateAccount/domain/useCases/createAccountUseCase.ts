@@ -1,7 +1,9 @@
-import { OS } from "@app/constants";
+import { Platform } from "react-native";
+import DeviceInfo from "react-native-device-info";
 import { ICreateAccountRepository } from "@app/features/CreateAccount/data/createAccountRepository";
 import { TCreateAccountViewModel } from "@app/features/CreateAccount/view/createAccountViewModel";
-import { Platform } from "react-native";
+
+import { OS } from "@app/constants";
 
 const createAccountUseCase = async (
   repository: Pick<ICreateAccountRepository, "createAccount">,
@@ -20,7 +22,7 @@ const createAccountUseCase = async (
     lastname: names[names.length - 1],
     name: firstname,
     os: platform,
-    appVersion: "1.0",
+    appVersion: DeviceInfo.getVersion(),
     tokenDeviceId: "",
   });
 };

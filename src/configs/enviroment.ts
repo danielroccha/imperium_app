@@ -2,6 +2,8 @@ let ENV: "PRODUCTION" | "STAGING" | "DEBUG" = "PRODUCTION";
 
 if (__DEV__ === true) {
   ENV = "DEBUG";
+} else {
+  ENV = "PRODUCTION";
 }
 
 const enviroment = {
@@ -12,11 +14,11 @@ const enviroment = {
     api: "https://api-imperium-staging.imperiumwallet.com/api",
   },
   DEBUG: {
-    api: "http://192.168.0.6:3333/api",
+    api: "http://192.168.0.6:3334/api",
   },
 };
 
-// ENV = "PRODUCTION";
+ENV = "STAGING";
 
 export default () => {
   switch (ENV) {

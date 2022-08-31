@@ -19,8 +19,8 @@ const SIGN_UP_SERVICES = {
 };
 
 const TRANSACTION_SERVICES = {
-  BALANCE_RESUME: (monthId: number, year: number) =>
-    `/transaction/resume?monthId=${monthId}&year=${year}`,
+  BALANCE_RESUME: (monthId: number, year: number, timezoneOffset: number) =>
+    `/transaction/resume?monthId=${monthId}&year=${year}&timezoneOffset=${timezoneOffset}`,
   CREATE_TRANSACTION: "/transaction",
   GET_TRANSACTION: (transactionId: string) => `/transaction/${transactionId}`,
   EDIT_TRANSACTION: (transactionId: string) => `/transaction/${transactionId}`,
@@ -30,8 +30,9 @@ const TRANSACTION_SERVICES = {
     monthId: number,
     year: number,
     typeTrasaction: TRANSACTION_TYPE,
+    timezoneOffset: number,
   ) =>
-    `/transaction/categories?monthId=${monthId}&year=${year}&type=${typeTrasaction}`,
+    `/transaction/categories?monthId=${monthId}&year=${year}&type=${typeTrasaction}&timezoneOffset=${timezoneOffset}`,
 };
 
 const CATEGORY_SERVICES = {

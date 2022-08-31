@@ -12,6 +12,7 @@ export interface ITransactionService {
   getBalanceService: (
     monthId: number,
     year: number,
+    timezoneOffset: number,
   ) => Promise<IBalanceResumeEntity>;
   createTransactionService: (data: TCreateTransactionRemote) => Promise<void>;
   getTransactionService: (transactionId: string) => Promise<ITransactionEntity>;
@@ -24,15 +25,23 @@ export interface ITransactionService {
     monthId: number,
     year: number,
     transactionType: TRANSACTION_TYPE,
+    timezoneOffset: number,
   ) => Promise<ITransactionByCategoryEntity[]>;
 }
 
 const getBalanceService = async (
   monthId: number,
   year: number,
+  timezoneOffset: number,
 ): Promise<IBalanceResumeEntity> =>
   api
-    .get(API_SERVICES.TRANSACTION_SERVICES.BALANCE_RESUME(monthId, year))
+    .get(
+      API_SERVICES.TRANSACTION_SERVICES.BALANCE_RESUME(
+        monthId,
+        year,
+        timezoneOffset,
+      ),
+    )
     .then(res => res.data);
 
 const deleteTransactionService = async (
@@ -71,6 +80,7 @@ const getTransactionsGroupByCategory = (
   monthId: number,
   year: number,
   transactionType: TRANSACTION_TYPE,
+  timezoneOffset: number,
 ): Promise<ITransactionByCategoryEntity[]> =>
   api
     .get(
@@ -78,6 +88,7 @@ const getTransactionsGroupByCategory = (
         monthId,
         year,
         transactionType,
+        timezoneOffset,
       ),
     )
     .then(res => res.data);

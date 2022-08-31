@@ -6,13 +6,21 @@ import { getBalanceResumeUseCase } from "@app/features/Home/domain/useCases/getB
 import IBalanceResumeModel from "@app/features/Home/domain/models/IBalanceResumeModel";
 import { deleteTransactionUseCase } from "@app/features/Transaction/domain/useCases/deleteTransactionUseCase";
 import { TDelteTransactionOptions } from "@app/features/Transaction/view/Edit/editTransactionViewModel";
+import {
+  TUpdateProfileViewModel,
+  updateProfileUseCase,
+} from "@app/features/Profile/domain/useCases/UpdateProfileUseCase";
+import { IProfileRepository } from "@app/features/Profile/data/profileRepository";
 
 export type TLoginViewModel = {
   email: string;
   password: string;
 };
 
-const useHomeViewModel = (repository: ITransactionRepository) => {
+const useHomeViewModel = (
+  transactionRepository: ITransactionRepository,
+  profileRepository: IProfileRepository,
+) => {
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState<IBalanceResumeModel>();
 
@@ -21,7 +29,7 @@ const useHomeViewModel = (repository: ITransactionRepository) => {
       try {
         setLoading(true);
         const balanceResumeData = await getBalanceResumeUseCase(
-          { getBalanceResume: repository.getBalanceResume },
+          { getBalanceResume: transactionRepository.getBalanceResume },
           monthId,
           year,
         );
@@ -33,7 +41,7 @@ const useHomeViewModel = (repository: ITransactionRepository) => {
       }
     },
 
-    [repository.getBalanceResume],
+    [transactionRepository.getBalanceResume],
   );
 
   const deleteTransaction = useCallback(
@@ -41,7 +49,7 @@ const useHomeViewModel = (repository: ITransactionRepository) => {
       try {
         setLoading(true);
         await deleteTransactionUseCase(
-          { deleteTransaction: repository.deleteTransaction },
+          { deleteTransaction: transactionRepository.deleteTransaction },
           transactionId,
           options,
         );
@@ -51,10 +59,27 @@ const useHomeViewModel = (repository: ITransactionRepository) => {
       }
     },
 
-    [repository.deleteTransaction],
+    [transactionRepository.deleteTransaction],
   );
 
-  return { getData, isLoading, data, deleteTransaction };
+  const updateProfile = useCallback(
+    async (profileData: TUpdateProfileViewModel) => {
+      try {
+        setLoading(true);
+        await updateProfileUseCase(
+          { updateProfile: profileRepository.updateProfile },
+          profileData,
+        );
+      } catch (error) {
+        handleApplicationError.handleError(error);
+        setLoading(false);
+      }
+    },
+
+    [profileRepository.updateProfile],
+  );
+
+  return { getData, isLoading, data, deleteTransaction, updateProfile };
 };
 
 export { useHomeViewModel };

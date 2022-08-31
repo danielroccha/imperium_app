@@ -78,7 +78,7 @@
     "edit_category": "Edit Category",
     "suggestions": {
       "salary": "Salary",
-      "bonus": "bonus",
+      "bonus": "Bonus",
       "other": "Others",
       "digital_services": "Digital services",
       "aesthetics": "Aesthetics",
@@ -180,7 +180,7 @@
     "august": "August",
     "september": "September",
     "october": "October",
-    "November": "November",
+    "november": "November",
     "december": "December"
   },
   "currencies": {
@@ -349,10 +349,6 @@
     "yemeni_rial": "Yemeni Rial",
     "zambian_kwacha": "Kwacha from Zambia"
   },
-  "notification_messages": {
-  },
-  "messages_loading": {
-  },
   "alerts":{
     "remove_transaction_title": "Remove Transaction",
     "remove_transaction_description": "Are you sure you want to remove this transaction?",
@@ -367,6 +363,15 @@
     "reset_description": "You can only change recurrences from the current month or past months!"
   },
   "error_messages": {
-    "ERROR_LOGIN_0000": "Invalid email or password."
-  }
+    "SERVER_ERROR_0000": "An unexpected problem has occurred. Please wait a few minutes and try again. If the problem persists, please contact us.",
+    "SERVER_ERROR_0001": "Data not found.",
+    "SERVER_ERROR_0002": "Session expired.",
+    "ERROR_LOGIN_0000": "Invalid email or password.",
+    "CATEGORY_ERROR_0000": "A category with that name already exists",
+    "RECURRENCE_ERROR_0000": "A recurrence with that name already exists.",
+    "ERROR_USER_0000": "Email is already in use.",
+    "ERROR_USER_0001": "Invalid verification code.",
+    "ERROR_USER_0002": "Passwords are different.",
+    "ERROR_USER_0003": "Account inactive."
+   }
 }
