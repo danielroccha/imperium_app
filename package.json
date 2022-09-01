@@ -5,6 +5,14 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "generateBundleRelease:android": "cd android && ./gradlew bundleRelease",
+    "generateApkRelease:android": "cd android && ./gradlew assembleRelease",
+    "build:android": "cd android && ./gradlew build",
+    "upload-symbols": "./ios/Pods/FirebaseCrashlytics/upload-symbols -gsp ./ios/GoogleService-Info.plist -p ios ../../Downloads/appDsyms",
+    "bundle:android": "react-native bundle --platform android --dev false --entry-file index.tsx --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/ --reset-cache",
+    "bundle:ios": "react-native bundle --entry-file='index.tsx' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios' --sourcemap-output='./ios/index.ios.js.map' --reset-cache",
+    "clean": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
+    "podinstall": "cd ios && rm -rf Pods && rm -rf Podfile.lock && pod install",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"

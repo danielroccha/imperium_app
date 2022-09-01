@@ -46,7 +46,7 @@ const ItemExpanses = ({
       <View style={styles().container}>
         <CategoryIcon icon={icon} color={color} />
         <View style={styles().content}>
-          <View style={{ width: SCREEN_WIDTH * 0.25 }}>
+          <View style={{ width: SCREEN_WIDTH * 0.3 }}>
             <Body numberOfLines={2} ellipsizeMode="tail">
               {title}
             </Body>

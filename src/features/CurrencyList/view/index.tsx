@@ -160,6 +160,7 @@ const CurrencyList = ({
       </View>
       <FlatList
         data={currencyListData}
+        keyExtractor={item => item.code}
         renderItem={handleRenderItem}
         keyboardDismissMode="interactive"
         contentContainerStyle={{ paddingBottom: 50, padding: dimens.small }}

@@ -267,14 +267,14 @@ const Home = () => {
               onFilterDate={handleFilterDate}
               onTapDate={showDatePicker}
               dateFilter={dateFilter}
-              currentBalance={getMonthBalance()}
+              currentBalance={data?.balanceResume.currentBalance ?? 0}
               expensesBalance={data?.balanceResume.monthlyExpenses ?? 0}
               incomesBalance={data?.balanceResume.monthlyIncomes ?? 0}
             />
           }
           data={data?.transactions ?? []}
           contentContainerStyle={{ backgroundColor: colors().contrastMode }}
-          keyExtractor={(_, index) => index}
+          keyExtractor={(item, index) => item.section.date + index}
           renderItem={renderItem}
           ListEmptyComponent={
             <>

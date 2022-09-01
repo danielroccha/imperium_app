@@ -113,7 +113,11 @@ const Profile = () => {
                 campo abaixo.
               </Caption>
             </Dialog.Description>
-            <Dialog.Input onChange={handleChangeValue} />
+            <Dialog.Input
+              autoCorrect={false}
+              spellCheck={false}
+              onChange={handleChangeValue}
+            />
             <Dialog.Button
               label={I18n.t("buttons.cancel")}
               onPress={handleCancel}

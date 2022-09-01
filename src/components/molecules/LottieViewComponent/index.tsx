@@ -3,7 +3,6 @@ import { StyleProp, View, ViewStyle } from "react-native";
 
 import AnimatedLottieView from "lottie-react-native";
 
-import { colors } from "@app/configs/Theme";
 import styles from "./styles";
 
 type LottieViewComponentProps = {
@@ -29,10 +28,10 @@ const LottieViewComponent = ({
         alignItems: "center",
         justifyContent: "center",
       }}>
-      <View style={[styles().viewLottie, { width: size, height: size }]}>
+      <View style={[styles().viewLottie, { width: size, height: size }, style]}>
         <AnimatedLottieView
           ref={lottieRef}
-          style={style}
+          style={{ width: size, height: size }}
           source={animation}
           autoPlay
         />

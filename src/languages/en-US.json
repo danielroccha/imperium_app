@@ -44,7 +44,7 @@
   "home": {
     "current_balance": "Current Balance",
     "month_balance": "Month Balance",
-    "balance_forecast": "Forecast balance",
+    "balance_forecast": "Forecast Balance",
     "back_to_current_month": "Back to current month",
     "recurrences": "Recurrences",
     "create_transaction": "Create transaction",

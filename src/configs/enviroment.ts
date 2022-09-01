@@ -14,11 +14,11 @@ const enviroment = {
     api: "https://api-imperium-staging.imperiumwallet.com/api",
   },
   DEBUG: {
-    api: "http://192.168.0.6:3334/api",
+    api: "http://192.168.0.6:3333/api",
   },
 };
 
-ENV = "STAGING";
+// ENV = "STAGING";
 
 export default () => {
   switch (ENV) {

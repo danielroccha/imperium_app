@@ -5,6 +5,9 @@ import { colors } from "@app/configs/Theme";
 import styles from "./styles";
 import { ColorsPropType } from "@app/types/ThemeType";
 import { HeadLine } from "@app/components/atoms/Text";
+import { useSelector } from "react-redux";
+import { RootState } from "@app/configs/store";
+import { currencyList } from "@app/constants";
 
 type InputMoneyProps = {
   defaultValue?: string;
@@ -17,6 +20,7 @@ const InputMoney = ({
   onChangeText,
   ...props
 }: InputMoneyProps) => {
+  const { profile } = useSelector((state: RootState) => state.profile);
   const [value, setValue] = useState(defaultValue);
 
   const theme = colors();
@@ -45,6 +49,10 @@ const InputMoney = ({
     setValue("");
   };
 
+  const getCurrency = () => {
+    return currencyList.find(i => i.code === profile?.currency)?.symbol;
+  };
+
   useEffect(() => {
     if (defaultValue) {
       setValue(
@@ -63,7 +71,8 @@ const InputMoney = ({
           alignItems: "center",
           justifyContent: "center",
         }}>
-        <HeadLine color="white">R$</HeadLine>
+        {<HeadLine color="white">{getCurrency()}</HeadLine>}
+
         <TextInput
           {...props}
           value={value}
