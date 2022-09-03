@@ -157,7 +157,6 @@ const Home = () => {
 
   const handlePress = useCallback(
     (transaction: ITransactionModel) => {
-      console.log(transaction);
       if (transaction.isRecurrence && transaction.recurrence) {
         navigation.navigate("EditRecurrence", {
           recurrenceId: transaction.recurrence.id,
@@ -165,11 +164,7 @@ const Home = () => {
       } else {
         const currentDate = new Date();
         const transactionDate = new Date(transaction.date);
-        const currentMonth = Util.getMonthIndex(currentDate);
-        const transactionMonth = Util.getMonthIndex(transactionDate);
-        const currentYear = currentDate;
-        const transactionYear = transactionDate;
-        if (currentMonth < transactionMonth && currentYear < transactionYear) {
+        if (currentDate < transactionDate) {
           Alert.alert(
             I18n.t("common.attention"),
             I18n.t("alerts.recurrence_alert_description"),
@@ -236,7 +231,14 @@ const Home = () => {
   };
 
   const getMonthBalance = useCallback(() => {
-    if (dateFilter < new Date()) {
+    const date = new Date();
+    const currentMonthId = Util.getMonthIndex(date);
+    const monthIdFilter = Util.getMonthIndex(dateFilter);
+
+    const currentYear = date.getFullYear();
+    const yearFilter = dateFilter.getFullYear();
+
+    if (monthIdFilter === currentMonthId && yearFilter === currentYear) {
       if (considerFutureTransaction) {
         const transactions = data?.transactions.flatMap(i => i.data);
 

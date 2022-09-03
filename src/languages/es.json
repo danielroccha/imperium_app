@@ -52,6 +52,15 @@
     "consider_future_transactions": "Considere transacciones futuras",
     "remove_future_transactions": "No considerar transacciones futuras"
   },
+  "balance_info": {
+    "title": "Understand how your balance works:",
+    "previous_month_title": "Saldo del Mes:",
+    "previous_month": "Es la resta de (ingresos - gastos) de meses pasados. Por ejemplo, si en abril de 2022 tuviste un ingreso total de %{income} y %{expense} de gastos, tu saldo del mes será %{currentBalance}.",
+    "current_month_title": "Saldo actual:",
+    "current_month": "Es la suma del último saldo del mes pasado %{lastBalance} más (ingresos - gastos) del mes actual. Por ejemplo, si en mayo de 2022 tuviste ingresos de %{income} y %{expense} de gastos, tu saldo del mes será %{currentBalance}.",
+    "next_month_title": "Saldo de previsión:",
+    "next_month":  "Es la resta de (ingresos - gastos). Por ejemplo, si en junio de 2022 se pronostica que tendrá un ingreso total de %{income} y %{expense} de gastos, su saldo previsto será %{currentBalance}."
+  },
   "categories": {
     "categories": "Categorías",
     "see_some_categories_suggesstions": "Ver algunas categorías sugeridas",

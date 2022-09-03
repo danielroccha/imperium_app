@@ -53,6 +53,15 @@
     "consider_future_transactions": "Considerar transações futuras",
     "remove_future_transactions": "Não considerar transações futuras"
   },
+  "balance_info": {
+    "title": "Entenda como funciona o seu saldo:",
+    "previous_month_title": "Balanço do mês:",
+    "previous_month": "É a subtração de (receitas - despesas) de meses passados. Por exemplo, se em abril de 2022 você teve um total em receitas de %{income} e %{expense} de despesas, seu balanço do mês será de %{currentBalance}.",
+    "current_month_title": "Saldo atual: (Acumulativo):",
+    "current_month": "É a soma do último saldo do mês passado %{lastBalance} mais (receitas - despesas) do mês atual. Por exemplo, se em maio de 2022 você teve receitas de %{income} e %{expense} de despesas seu balanço do mês será de %{currentBalance}.",
+    "next_month_title": "Saldo previsto:",
+    "next_month": "É a subtração de (receitas - despesas). Por exemplo, se em Junho de 2022 você tem a previsão de um total em receitas de %{income} e %{expense} de despesas, seu saldo previsto será de %{currentBalance}."
+  },
   "transaction": {
     "daily": "Diariamente",
     "yearly": "Anualmente",

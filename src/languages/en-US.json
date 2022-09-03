@@ -53,6 +53,15 @@
     "consider_future_transactions":"Consider future transactions",
     "remove_future_transactions": "Do not consider future transactions"
   },
+  "balance_info": {
+    "title": "Understand how your balance works:",
+    "previous_month_title": "Month Balance:",
+    "previous_month": "It is the subtraction of (income - expenses) from past months. For example, if in April 2022 you had a total income of %{income} and %{expense} of expenses, your balance for the month will be %{currentBalance}.",
+    "current_month_title": "Current Balance:",
+    "current_month": "Is the sum of last month's last balance %{lastBalance} plus (income - expenses) of the current month. For example, if in May 2022 you had income of %{income} and %{expense} of expenses your balance for the month will be %{currentBalance}.",
+    "next_month_title": "Forecast Balance:",
+    "next_month": "It is the subtraction of (income - expenses). For example, if in June 2022 you are forecast to have a total income of %{income} and %{expense} of expenses, your forecast balance will be %{currentBalance}."
+  },
   "transaction": {
      "daily": "Daily",
      "yearly": "Annually",

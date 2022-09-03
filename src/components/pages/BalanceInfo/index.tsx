@@ -1,6 +1,7 @@
 import React from "react";
 import { Image, ScrollView, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import I18n from "@app/languages/I18n";
 
 import NavBar from "@app/components/organisms/Navbar";
 import { colors, dimens } from "@app/configs/Theme";
@@ -26,26 +27,18 @@ const BalanceInfo = () => {
           style={{
             padding: dimens.small,
           }}>
-          <Regular align="center">Entenda como funciona o seu saldo:</Regular>
+          <Regular align="center">{I18n.t("balance_info.title")}</Regular>
 
           <Card style={styles(theme).card}>
-            <Regular align="center">Balanço do mês:</Regular>
+            <Regular align="center">
+              {I18n.t("balance_info.previous_month_title")}
+            </Regular>
             <Regular style={styles(theme).marginContent} align="center">
-              É a subtração de{" "}
-              <Regular weight="semibold" color="primary">
-                (receitas - despesas)
-              </Regular>{" "}
-              de meses passados. Por exemplo, se em abril de 2022 você teve um
-              total em{" "}
-              <Regular weight="semibold" color="green">
-                {" "}
-                receitas de {Util.formatToMoney(1425)}{" "}
-              </Regular>{" "}
-              e{" "}
-              <Regular weight="semibold" color="danger">
-                {Util.formatToMoney(700)} de despesas,
-              </Regular>{" "}
-              seu balanço do mês será de {Util.formatToMoney(725)}.
+              {I18n.t("balance_info.previous_month", {
+                income: Util.formatToMoney(1425),
+                expense: Util.formatToMoney(700),
+                currentBalance: Util.formatToMoney(725),
+              })}
             </Regular>
             <Image
               source={images.balanceTutorial}
@@ -54,30 +47,17 @@ const BalanceInfo = () => {
           </Card>
 
           <Card style={{ padding: dimens.small, marginVertical: dimens.base }}>
-            <Regular align="center">Saldo atual: (Acumulativo)</Regular>
+            <Regular align="center">
+              {I18n.t("balance_info.current_month_title")}
+            </Regular>
 
             <Regular style={styles(theme).marginContent} align="center">
-              É a soma do último saldo do mês passado{" "}
-              <Regular weight="semibold" color="green">
-                {" "}
-                {Util.formatToMoney(725)}{" "}
-              </Regular>{" "}
-              mais{" "}
-              <Regular weight="semibold" color="primary">
-                {"(receitas - despesas) do mês atual. "}
-              </Regular>
-              <Regular weight="semibold">
-                Por exemplo, se em maio de 2022 você teve
-              </Regular>{" "}
-              <Regular weight="semibold" color="green">
-                {" "}
-                {`receitas de ${Util.formatToMoney(1000)}`}{" "}
-              </Regular>{" "}
-              e{" "}
-              <Regular weight="semibold" color="danger">
-                {Util.formatToMoney(72.75)} de despesas
-              </Regular>{" "}
-              seu balanço do mês será de {Util.formatToMoney(1652.25)}.
+              {I18n.t("balance_info.current_month", {
+                lastBalance: Util.formatToMoney(725),
+                income: Util.formatToMoney(1425),
+                expense: Util.formatToMoney(700),
+                currentBalance: Util.formatToMoney(1652.25),
+              })}
             </Regular>
             <Image
               source={images.currentTutorial}
@@ -86,23 +66,15 @@ const BalanceInfo = () => {
           </Card>
 
           <Card style={{ padding: dimens.small, marginVertical: dimens.base }}>
-            <Regular align="center">Saldo previsto:</Regular>
+            <Regular align="center">
+              {I18n.t("balance_info.next_month_title")}
+            </Regular>
             <Regular style={styles(theme).marginContent} align="center">
-              É a subtração de{" "}
-              <Regular weight="semibold" color="primary">
-                (receitas - despesas)
-              </Regular>
-              . Por exemplo, se em Junho de 2022 você tem a previsão de um total
-              em{" "}
-              <Regular weight="semibold" color="green">
-                {" "}
-                receitas de {Util.formatToMoney(200)}
-              </Regular>{" "}
-              e{" "}
-              <Regular weight="semibold" color="danger">
-                {Util.formatToMoney(7.42)} de despesas,
-              </Regular>{" "}
-              seu saldo previsto será de {Util.formatToMoney(192.58)}.
+              {I18n.t("balance_info.next_month", {
+                income: Util.formatToMoney(200),
+                expense: Util.formatToMoney(7.42),
+                currentBalance: Util.formatToMoney(192.58),
+              })}
             </Regular>
             <Image source={images.nextTutorial} style={styles(theme).image} />
           </Card>
