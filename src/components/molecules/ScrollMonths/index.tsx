@@ -30,7 +30,11 @@ const ScrollMonths = ({
   };
 
   const handlePressRight = () => {
+    const day = date.getDate();
     date.setMonth(date.getMonth() + 1);
+    if (date.getDate() !== day) {
+      date.setDate(0);
+    }
     onSelect(date);
     setDate(new Date(date));
   };

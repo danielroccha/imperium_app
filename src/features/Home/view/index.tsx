@@ -38,6 +38,7 @@ import RootStackNavigation from "@app/types/RootStackParams";
 import Util from "@app/util";
 import EmptyStateList from "@app/components/organisms/EmptyStateList";
 import Divide from "@app/components/atoms/Divide";
+import { TRANSACTION_TYPE } from "@app/constants";
 
 const Home = () => {
   const theme = colors();
@@ -45,6 +46,8 @@ const Home = () => {
 
   const [stateDatePicker, setStateDatePicker] = useState(false);
   const [dateFilter, setDateFilter] = useState(new Date());
+  const [considerFutureTransaction, setConsiderFutureTransaction] =
+    useState(true);
 
   const transactionRepository = useTransactionRepository(transactionService);
   const profileRepository = useProfileRepository(userService);
@@ -228,14 +231,40 @@ const Home = () => {
     }
   };
 
+  const handleConsiderFutureTransactions = () => {
+    setConsiderFutureTransaction(!considerFutureTransaction);
+  };
+
   const getMonthBalance = useCallback(() => {
-    if (data) {
-      return (
-        data.balanceResume.monthlyIncomes - data.balanceResume.monthlyExpenses
-      );
+    if (dateFilter < new Date()) {
+      if (considerFutureTransaction) {
+        const transactions = data?.transactions.flatMap(i => i.data);
+
+        const futureTransactions = transactions?.filter(
+          transaction => new Date(transaction.date) > dateFilter,
+        );
+
+        const valueToRemoveFromCurrentBalance = futureTransactions?.reduce(
+          (previousValue, futureTransaction) => {
+            if (futureTransaction.type === TRANSACTION_TYPE.INCOME) {
+              return previousValue + futureTransaction.value;
+            }
+            return previousValue - futureTransaction.value;
+          },
+          0,
+        );
+
+        if (valueToRemoveFromCurrentBalance && data?.balanceResume) {
+          return (
+            data.balanceResume.currentBalance - valueToRemoveFromCurrentBalance
+          );
+        }
+      }
+      return data?.balanceResume.currentBalance ?? 0;
     }
-    return 0;
-  }, [data]);
+
+    return data?.balanceResume.currentBalance ?? 0;
+  }, [data, dateFilter, considerFutureTransaction]);
 
   useFocusEffect(
     useCallback(() => {
@@ -267,7 +296,9 @@ const Home = () => {
               onFilterDate={handleFilterDate}
               onTapDate={showDatePicker}
               dateFilter={dateFilter}
-              currentBalance={data?.balanceResume.currentBalance ?? 0}
+              considerFutureTransactions={considerFutureTransaction}
+              onConsiderFutureTransactions={handleConsiderFutureTransactions}
+              currentBalance={getMonthBalance()}
               expensesBalance={data?.balanceResume.monthlyExpenses ?? 0}
               incomesBalance={data?.balanceResume.monthlyIncomes ?? 0}
             />

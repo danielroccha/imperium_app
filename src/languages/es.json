@@ -48,7 +48,9 @@
     "recurrences": "Recurrencias",
     "create_transaction": "Hacer liberación",
     "categories": "Categorías",
-    "month_select": "Selecciona un mes"
+    "month_select": "Selecciona un mes",
+    "consider_future_transactions": "Considere transacciones futuras",
+    "remove_future_transactions": "No considerar transacciones futuras"
   },
   "categories": {
     "categories": "Categorías",

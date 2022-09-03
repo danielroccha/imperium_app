@@ -206,7 +206,6 @@ const TransactionForm = ({
                   disableSwitchTypeTransaction
                   value={dataForm?.transactionType}
                   onChange={handleChangeTransactionOption}
-                  colorLabel="green"
                 />
               </View>
             ) : (

@@ -49,7 +49,9 @@
     "recurrences": "Recurrences",
     "create_transaction": "Create transaction",
     "categories": "Categories",
-    "month_select": "Select a month"
+    "month_select": "Select a month",
+    "consider_future_transactions":"Consider future transactions",
+    "remove_future_transactions": "Do not consider future transactions"
   },
   "transaction": {
      "daily": "Daily",

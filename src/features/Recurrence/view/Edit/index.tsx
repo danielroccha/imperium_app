@@ -103,6 +103,7 @@ const EditRecurrence = () => {
               loading={isLoading}
               showAdvancedOptions={false}
               onValidateSuccess={handleValidateSuccess}
+              edit
             />
           )}
         </View>

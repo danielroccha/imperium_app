@@ -5,7 +5,7 @@ import I18n from "@app/languages/I18n";
 
 import ScrollMonths from "@app/components/molecules/ScrollMonths";
 import { Regular, Body, Small } from "@app/components/atoms/Text";
-import { colors, SCREEN_WIDTH } from "@app/configs/Theme";
+import { colors, dimens, SCREEN_WIDTH } from "@app/configs/Theme";
 import SectionOptions from "@app/components/organisms/SectionOptions";
 import styles from "./styles";
 import TextMoney from "@app/components/atoms/TextMoney";
@@ -18,6 +18,8 @@ type HeaderInfoProps = {
   onFilterDate: (date: Date) => void;
   onResetDate: () => void;
   onTapDate: () => void;
+  onConsiderFutureTransactions: () => void;
+  considerFutureTransactions: boolean;
   dateFilter?: Date;
   currentBalance: number;
   expensesBalance: number;
@@ -28,6 +30,8 @@ const HeaderInfo = ({
   onFilterDate,
   onTapDate,
   onResetDate,
+  onConsiderFutureTransactions,
+  considerFutureTransactions,
   dateFilter,
   currentBalance,
   expensesBalance,
@@ -49,9 +53,9 @@ const HeaderInfo = ({
     navigation.navigate("RecurrenceStack");
   };
 
-  // const handlePressBalanceInfo = () => {
-  //   navigation.navigate("BalanceInfo");
-  // };
+  const handlePressBalanceInfo = () => {
+    navigation.navigate("BalanceInfo");
+  };
 
   const handlePressExpenses = () => {
     if (dateFilter) {
@@ -122,8 +126,8 @@ const HeaderInfo = ({
           width: SCREEN_WIDTH,
         }}>
         <View>
-          <View
-            // onPress={handlePressBalanceInfo}
+          <TouchableOpacity
+            onPress={handlePressBalanceInfo}
             style={{
               flexDirection: "row",
               alignItems: "center",
@@ -132,13 +136,13 @@ const HeaderInfo = ({
             <Regular color="white" align="center">
               {getLabelBalance()}
             </Regular>
-            {/* <Icon
+            <Icon
               name="info"
               size={20}
               color={theme.mode}
               style={{ marginLeft: dimens.xtiny }}
-            /> */}
-          </View>
+            />
+          </TouchableOpacity>
           <TextMoney
             size="bigTitle"
             align="center"
@@ -149,7 +153,16 @@ const HeaderInfo = ({
           />
         </View>
       </View>
-      {monthPeriod !== "CURRENT" && (
+      {monthPeriod === "CURRENT" ? (
+        <Small
+          color="white"
+          style={{ textDecorationLine: "underline" }}
+          onPress={onConsiderFutureTransactions}>
+          {considerFutureTransactions
+            ? I18n.t("home.consider_future_transactions").toUpperCase()
+            : I18n.t("home.remove_future_transactions").toUpperCase()}
+        </Small>
+      ) : (
         <Small
           color="white"
           style={{ textDecorationLine: "underline" }}
