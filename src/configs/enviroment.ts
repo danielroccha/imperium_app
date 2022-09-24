@@ -14,7 +14,7 @@ const enviroment = {
     api: "https://api-imperium-staging.imperiumwallet.com/api",
   },
   DEBUG: {
-    api: "http://192.168.0.6:3333/api",
+    api: "http://192.168.0.8:3333/api",
   },
 };
 

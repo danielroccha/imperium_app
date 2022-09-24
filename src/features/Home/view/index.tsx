@@ -1,16 +1,20 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
-  TouchableWithoutFeedback,
   Alert,
   FlatList,
   Platform,
+  TouchableOpacity,
+  Linking,
 } from "react-native";
 
+import { requestTrackingPermission } from "react-native-tracking-transparency";
 import I18n from "@app/languages/I18n";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import LottieViewComponent from "@app/components/molecules/LottieViewComponent";
-import MonthPicker, { EventTypes } from "react-native-month-year-picker";
+import semver from "semver";
+import DeviceInfo from "react-native-device-info";
+import Icon from "react-native-vector-icons/Feather";
 
 import {
   ITransactionModel,
@@ -32,19 +36,21 @@ import Loading from "@app/components/molecules/Loading";
 import ItemExpanses from "@app/components/molecules/ItemExpanses";
 import { Caption } from "@app/components/atoms/Text";
 
-import { colors, dimens, getShadow, SCREEN_HEIGHT } from "@app/configs/Theme";
+import { colors, dimens, getShadow, SCREEN_WIDTH } from "@app/configs/Theme";
 import { images, lotties } from "@app/assets";
 import RootStackNavigation from "@app/types/RootStackParams";
 import Util from "@app/util";
-import EmptyStateList from "@app/components/organisms/EmptyStateList";
 import Divide from "@app/components/atoms/Divide";
 import { TRANSACTION_TYPE } from "@app/constants";
+import DatePicker from "react-native-date-picker";
+import remoteConfigProvider from "@app/providers/remoteConfig";
 
 const Home = () => {
   const theme = colors();
   const navigation = useNavigation<RootStackNavigation>();
 
   const [stateDatePicker, setStateDatePicker] = useState(false);
+  const [showAvailableVersion, setShowAvailableVersion] = useState(false);
   const [dateFilter, setDateFilter] = useState(new Date());
   const [considerFutureTransaction, setConsiderFutureTransaction] =
     useState(true);
@@ -61,6 +67,7 @@ const Home = () => {
     useProfileViewModel(profileRepository);
 
   const handleFilterDate = (date: Date) => {
+    hideDatePicker();
     setDateFilter(new Date(date));
   };
 
@@ -215,17 +222,6 @@ const Home = () => {
     [handleLongPress, handlePress],
   );
 
-  const handleDateChange = (event: EventTypes, newDate: Date) => {
-    hideDatePicker();
-    switch (event) {
-      case "dateSetAction":
-        handleFilterDate(newDate);
-        break;
-      case "dismissedAction":
-        break;
-    }
-  };
-
   const handleConsiderFutureTransactions = () => {
     setConsiderFutureTransaction(!considerFutureTransaction);
   };
@@ -238,7 +234,11 @@ const Home = () => {
     const currentYear = date.getFullYear();
     const yearFilter = dateFilter.getFullYear();
 
-    if (monthIdFilter === currentMonthId && yearFilter === currentYear) {
+    if (
+      monthIdFilter === currentMonthId &&
+      yearFilter === currentYear &&
+      data
+    ) {
       if (considerFutureTransaction) {
         const transactions = data?.transactions.flatMap(i => i.data);
 
@@ -246,27 +246,69 @@ const Home = () => {
           transaction => new Date(transaction.date) > dateFilter,
         );
 
-        const valueToRemoveFromCurrentBalance = futureTransactions?.reduce(
+        const currentBalance = futureTransactions?.reduce(
           (previousValue, futureTransaction) => {
             if (futureTransaction.type === TRANSACTION_TYPE.INCOME) {
               return previousValue + futureTransaction.value;
             }
             return previousValue - futureTransaction.value;
           },
-          0,
+          data.balanceResume.currentBalance,
         );
 
-        if (valueToRemoveFromCurrentBalance && data?.balanceResume) {
-          return (
-            data.balanceResume.currentBalance - valueToRemoveFromCurrentBalance
-          );
-        }
+        return currentBalance;
       }
       return data?.balanceResume.currentBalance ?? 0;
     }
 
     return data?.balanceResume.currentBalance ?? 0;
   }, [data, dateFilter, considerFutureTransaction]);
+
+  const getRemoteConfigAvailableVersion = useCallback(async () => {
+    const value = await remoteConfigProvider.getRemoteConfig("latest_version");
+
+    if (semver.gt(value, DeviceInfo.getVersion())) {
+      setShowAvailableVersion(true);
+    }
+  }, []);
+
+  const getRemoteConfigDeprecatedVersion = useCallback(async () => {
+    const value = await remoteConfigProvider.getRemoteConfig(
+      "deprecated_version",
+    );
+
+    if (semver.lte(DeviceInfo.getVersion(), value)) {
+      navigation.navigate("DeprecatedVersion");
+    }
+  }, [navigation]);
+
+  const getRemoteConfigAppUrlStore = useCallback(async () => {
+    const value = await remoteConfigProvider.getRemoteConfig("app_url_store");
+
+    Linking.openURL(value);
+  }, []);
+
+  const requestPermission = useCallback(async () => {
+    if (Platform.OS === "ios") {
+      await requestTrackingPermission();
+    }
+  }, []);
+
+  const handleCloseAvailableVersion = () => {
+    setShowAvailableVersion(false);
+  };
+
+  useEffect(() => {
+    requestPermission();
+  }, [requestPermission]);
+
+  useEffect(() => {
+    getRemoteConfigAvailableVersion();
+  }, [getRemoteConfigAvailableVersion]);
+
+  useEffect(() => {
+    getRemoteConfigDeprecatedVersion();
+  }, [getRemoteConfigDeprecatedVersion]);
 
   useFocusEffect(
     useCallback(() => {
@@ -334,35 +376,61 @@ const Home = () => {
           }
         />
       </View>
-      {stateDatePicker && (
-        <>
-          {Platform.OS === "ios" && (
-            <TouchableWithoutFeedback onPress={hideDatePicker}>
+      {showAvailableVersion && (
+        <View
+          style={{
+            position: "absolute",
+            bottom: dimens.small,
+            ...getShadow(2),
+            backgroundColor: theme.mode,
+            width: SCREEN_WIDTH * 0.8,
+            alignSelf: "center",
+            padding: dimens.tiny,
+            borderRadius: 10,
+          }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}>
+            <TouchableOpacity onPress={getRemoteConfigAppUrlStore}>
               <View
                 style={{
-                  backgroundColor: theme.mode,
-                  height: SCREEN_HEIGHT,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
                 }}>
-                <EmptyStateList
-                  lottie={lotties.calendar}
-                  text={I18n.t("home.month_select")}
+                <LottieViewComponent
+                  animation={lotties.updateVersion}
+                  size={40}
                 />
+                <Caption align="center">
+                  {I18n.t("home.available_version")}
+                </Caption>
               </View>
-            </TouchableWithoutFeedback>
-          )}
-          <MonthPicker
-            onChange={handleDateChange}
-            value={dateFilter}
-            minimumDate={new Date(2020, 5)}
-            maximumDate={new Date(2050, Util.getMonthIndex(dateFilter))}
-            locale="PT-BR"
-            autoTheme={false}
-            okButton={I18n.t("buttons.confirm")}
-            cancelButton={I18n.t("buttons.cancel")}
-            mode="number"
-          />
-        </>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleCloseAvailableVersion}>
+              <Icon name="x" size={22} color={theme.contrast} />
+            </TouchableOpacity>
+          </View>
+        </View>
       )}
+
+      <DatePicker
+        modal
+        open={stateDatePicker}
+        date={dateFilter}
+        onConfirm={handleFilterDate}
+        mode="date"
+        title={I18n.t("fields.choose_a_date")}
+        locale="PT-BR"
+        onCancel={hideDatePicker}
+        theme="light"
+        textColor={theme.contrast}
+        confirmText={I18n.t("buttons.confirm")}
+        cancelText={I18n.t("buttons.cancel")}
+      />
     </>
   );
 };

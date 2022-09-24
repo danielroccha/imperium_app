@@ -12,6 +12,7 @@ const USER_SERVICES = {
   RESEND_EMAIL: "/user/resend-email",
   CHANGE_PASSWORD: "/user/change-password",
   RESET_BALANCE: "/user/reset-balance",
+  DELETE_BALANCE: "/user/delete",
 };
 
 const SIGN_UP_SERVICES = {

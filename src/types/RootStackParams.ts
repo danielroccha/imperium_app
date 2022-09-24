@@ -26,6 +26,7 @@ type RootStackParamList = {
   CreateCategory: undefined;
   CategorySugestion: undefined;
   OnboardingStack: undefined;
+  DeprecatedVersion: undefined;
   TransactionGroupByCategory: {
     transactionType: TRANSACTION_TYPE;
     monthId: number;

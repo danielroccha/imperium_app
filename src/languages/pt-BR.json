@@ -51,7 +51,8 @@
     "categories": "Categorias",
     "month_select": "Selecione um mês",
     "consider_future_transactions": "Considerar transações futuras",
-    "remove_future_transactions": "Não considerar transações futuras"
+    "remove_future_transactions": "Não considerar transações futuras",
+    "available_version": "Nova versão disponível"
   },
   "balance_info": {
     "title": "Entenda como funciona o seu saldo:",
@@ -108,14 +109,20 @@
   },
   "profile": {
     "change_currency": "Alterar moeda",
+    "instagram": "Siga-nos  no Instagram",
     "reset_data": "Resetar saldo",
     "version": "Versão",
-    "dialog_description":"Você tem certeza que quer resetar seu saldo? Essa ação não poderá ser desfeita e você perderá todo o seus lançamentos e histórico financeiro.",
-    "logout": "Sair"
+    "dialog_description_balance":"Você tem certeza que quer resetar seu saldo? Essa ação não poderá ser desfeita e você perderá todo o seus lançamentos e histórico financeiro.",
+    "dialog_description_data":"Você tem certeza que quer apagar sua conta? Essa ação não poderá ser desfeita e você perderá seu acesso ao app permanentemente.",
+    "logout": "Sair",
+    "delete_account": "Deletar conta",
+    "if_you_want_to_continue_type_erase_in_the_field_below": "Se você deseja continuar digite APAGAR no campo abaixo."
   },
   "deprecated_version": {
     "old_version": "Esta versão do aplicativo está muito antiga.",
-    "update_to_new_features": "Atualize para ter em mãos novas funcionalidades e melhorias."
+    "update_to_new_features": "Atualize para ter em mãos novas funcionalidades e melhorias.",
+    "click_the_button_below_to_update_your_app": "É só clicar no botão abaixo para atualizar seu app.",
+    "update_version": "Atualizar versão"
   },
   "connection": {
     "no_connection": "Sem Conexão com a internet.",

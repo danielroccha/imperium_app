@@ -1,4 +1,5 @@
-import { Alert } from "react-native";
+import { Alert, Platform } from "react-native";
+import { getTrackingStatus } from "react-native-tracking-transparency";
 
 export const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1).toLocaleLowerCase();
@@ -48,6 +49,20 @@ const getTimezoneOffset = () => {
   return new Date().getTimezoneOffset();
 };
 
+const shouldTrackUser = async (): Promise<boolean> => {
+  let shouldTrack = true;
+  const trackingStatus = await getTrackingStatus();
+  if (
+    Platform.OS === "ios" &&
+    trackingStatus !== "authorized" &&
+    trackingStatus !== "unavailable"
+  ) {
+    shouldTrack = false;
+  }
+
+  return shouldTrack;
+};
+
 const Util = {
   formatToMoney,
   getMonthIndex,
@@ -55,6 +70,7 @@ const Util = {
   showAlertError,
   getInitialLetters,
   getTimezoneOffset,
+  shouldTrackUser,
 };
 
 export default Util;

@@ -50,7 +50,8 @@
     "categories": "Categorías",
     "month_select": "Selecciona un mes",
     "consider_future_transactions": "Considere transacciones futuras",
-    "remove_future_transactions": "No considerar transacciones futuras"
+    "remove_future_transactions": "No considerar transacciones futuras",
+    "available_version": "Nueva versión disponible"
   },
   "balance_info": {
     "title": "Understand how your balance works:",
@@ -88,14 +89,20 @@
   },
   "profile": {
     "change_currency": "Cambiar moneda",
+    "instagram": "Síguenos en Instagram",
     "reset_data": "Restablecer saldo",
     "version": "Versión",
-    "dialog_description": "¿Está seguro de que desea restablecer su saldo? Esta acción no se puede deshacer y perderá todas sus entradas e historial financiero.",
-    "logout": "Salir"
+    "dialog_description_balance": "¿Está seguro de que desea restablecer su saldo? Esta acción no se puede deshacer y perderá todas sus entradas e historial financiero.",
+    "dialog_description_data": "¿Está seguro de que desea eliminar su cuenta? Esta acción no se puede deshacer y perderá el acceso a la aplicación de forma permanente.",
+    "logout": "Salir",
+    "delete_account": "Borrar cuenta",
+    "si_desea_continuar_escriba_eliminar_en_el_campo_de_abajo": "Si desea continuar escriba BORRAR en el campo de abajo."
   },
-  "deprecated_version": {
-    "old_version": "Esta versão do aplicativo está muito antiga.",
-    "update_to_new_features": "Atualize para ter em mãos novas funcionalidades e melhorias."
+ "deprecated_version": {
+    "old_version": "Esta versión es demasiado antigua.",
+    "update_to_new_features": "Actualice para obtener nuevas características y mejoras.",
+    "click_the_button_below_to_update_your_app": "Simplemente haga clic en el botón de abajo para actualizar su aplicación.",
+    "update_version": "Versión actualizada"
   },
   "connection": {
    "no_connection": "Sin conexión a Internet",

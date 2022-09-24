@@ -7,6 +7,7 @@ import CategoryStack from "@app/routes/stacks/CategoryStack";
 import RecurrenceStack from "@app/routes/stacks/RecurrenceStack";
 import ProfileStack from "@app/routes/stacks/ProfileStack";
 import OnboardingStack from "@app/routes/stacks/OnboardingStack";
+import DeprecatedVersion from "@app/components/pages/DeprecatedVersion";
 
 import Home from "@app/features/Home/view";
 import NoConnection from "@app/components/pages/NoConnection";
@@ -139,6 +140,15 @@ const HomeStack = () => {
         }}
         name="OnboardingStack"
         component={OnboardingStack}
+      />
+      <Stack.Screen
+        options={{
+          gestureEnabled: false,
+          headerShown: false,
+          presentation: "modal",
+        }}
+        name="DeprecatedVersion"
+        component={DeprecatedVersion}
       />
     </Stack.Navigator>
   );

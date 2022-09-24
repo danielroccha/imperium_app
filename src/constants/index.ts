@@ -17,6 +17,9 @@ export const NOTIFICATION_TYPE = {
   POINTS: "points" as TypeNotification,
 };
 
+export const INSTAGRAM_URL =
+  "https://instagram.com/walletimperium?igshid=YmMyMTA2M2Y=";
+
 export enum TRANSACTION_TYPE {
   EXPENSE = "EXPENSE",
   INCOME = "INCOME",

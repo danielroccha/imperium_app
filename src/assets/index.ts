@@ -7,6 +7,8 @@ const lotties = {
   noConnection: require("./lotties/no-connection.json"),
   emailPlane: require("./lotties/email-plane.json"),
   welcome: require("./lotties/welcome.json"),
+  updateVersion: require("./lotties/update-version.json"),
+  warningVersion: require("./lotties/warning-version.json"),
 };
 
 const images = {

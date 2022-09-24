@@ -22,6 +22,7 @@ import { store } from "@app/configs/store";
 import { colors } from "@app/configs/Theme";
 import { Axios } from "@app/configs/api";
 import storage from "@app/configs/storage";
+import analyticsProvider from "@app/providers/analytics";
 
 LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
@@ -40,14 +41,14 @@ const App = () => {
   >(Appearance.getColorScheme() === "dark" ? "dark-content" : "light-content");
 
   const handleStateChange = () => {
-    // const previousRouteName = routeNameRef.current;
+    const previousRouteName = routeNameRef.current;
     const currentRouteName = navigationRef.getCurrentRoute()?.name;
     if (currentRouteName) {
       setCurrentRoute(currentRouteName);
     }
-    // if (previousRouteName !== currentRouteName) {
-    //   Analitycs.logScreen(currentRouteName, currentRouteName);
-    // }
+    if (previousRouteName !== currentRouteName) {
+      analyticsProvider.logScreenView(currentRouteName);
+    }
     routeNameRef.current = currentRouteName;
   };
 

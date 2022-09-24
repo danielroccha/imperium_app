@@ -6,6 +6,8 @@ import {
   TextInputChangeEventData,
   TouchableOpacity,
   View,
+  Appearance,
+  Linking,
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
@@ -27,16 +29,18 @@ import userService from "@app/services/user";
 import { images } from "@app/assets";
 import Util from "@app/util";
 import RootStackNavigation from "@app/types/RootStackParams";
+import { INSTAGRAM_URL } from "@app/constants";
 
 const Profile = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [eraseText, setEraseText] = useState("");
+  const [deleteAccount, setDeleteAccount] = useState(false);
   const navigation = useNavigation<RootStackNavigation>();
   const theme = colors();
 
   const profileRepository = useProfileRepository(userService);
 
-  const { profile, loading, resetBalance } =
+  const { profile, loading, resetBalance, deleteProfile } =
     useProfileViewModel(profileRepository);
 
   const handleLogout = () => {
@@ -49,6 +53,12 @@ const Profile = () => {
 
   const handleResetBalance = () => {
     setShowDialog(true);
+    setDeleteAccount(false);
+  };
+
+  const handleDeleteData = () => {
+    setShowDialog(true);
+    setDeleteAccount(true);
   };
 
   const handleCancel = () => {
@@ -56,11 +66,58 @@ const Profile = () => {
     setEraseText("");
   };
 
-  const handleDelete = () => {
+  const handleDialogAction = () => {
+    setShowDialog(true);
     if (eraseText === I18n.t("buttons.erase")) {
-      resetBalance();
-      setShowDialog(false);
+      if (deleteAccount) {
+        deleteProfile();
+      } else {
+        resetBalance();
+      }
     }
+    setShowDialog(false);
+  };
+
+  const getDialogView = () => {
+    return (
+      <Dialog.Container visible={showDialog} onBackdropPress={handleCancel}>
+        <Dialog.Title>
+          {deleteAccount
+            ? I18n.t("profile.delete_account")
+            : I18n.t("profile.reset_data")}
+        </Dialog.Title>
+        <Dialog.Description>
+          {deleteAccount
+            ? I18n.t("profile.dialog_description_data")
+            : I18n.t("profile.dialog_description_balance")}
+        </Dialog.Description>
+        <Dialog.Description>
+          <Caption
+            color={Appearance.getColorScheme() === "dark" ? "white" : "black"}>
+            {I18n.t(
+              "profile.if_you_want_to_continue_type_erase_in_the_field_below",
+            )}
+          </Caption>
+        </Dialog.Description>
+        <Dialog.Input
+          autoCorrect={false}
+          spellCheck={false}
+          onChange={handleChangeValue}
+        />
+        <Dialog.Button
+          label={I18n.t("buttons.cancel")}
+          onPress={handleCancel}
+        />
+        <Dialog.Button
+          label={I18n.t("buttons.remove")}
+          disabled={eraseText !== I18n.t("buttons.erase")}
+          color={
+            eraseText === I18n.t("buttons.erase") ? theme.danger : theme.grey
+          }
+          onPress={handleDialogAction}
+        />
+      </Dialog.Container>
+    );
   };
 
   const handleChangeValue = (
@@ -73,10 +130,17 @@ const Profile = () => {
     navigation.navigate("CurrencyList");
   };
 
+  const handleOpenInstagramPage = async () => {
+    const canOpenURL = await Linking.canOpenURL(INSTAGRAM_URL);
+    if (canOpenURL) {
+      Linking.openURL(INSTAGRAM_URL);
+    }
+  };
+
   const profileOptions = [
     {
       name: I18n.t("profile.reset_data"),
-      iconColor: theme.danger,
+      iconColor: theme.primary,
       icon: "refresh-cw",
       action: () => handleResetBalance(),
     },
@@ -85,6 +149,18 @@ const Profile = () => {
       iconColor: theme.primary,
       icon: "dollar-sign",
       action: () => handleNavigation(),
+    },
+    {
+      name: I18n.t("profile.instagram"),
+      iconColor: theme.primary,
+      icon: "instagram",
+      action: () => handleOpenInstagramPage(),
+    },
+    {
+      name: I18n.t("profile.delete_account"),
+      iconColor: theme.danger,
+      icon: "trash",
+      action: () => handleDeleteData(),
     },
     {
       name: I18n.t("profile.logout"),
@@ -101,38 +177,7 @@ const Profile = () => {
         <Loading />
       ) : (
         <ScrollView contentContainerStyle={{ padding: dimens.small }}>
-          <Dialog.Container visible={showDialog} onBackdropPress={handleCancel}>
-            <Dialog.Title>Resetar saldo</Dialog.Title>
-            <Dialog.Description>
-              {I18n.t("profile.dialog_description")}
-            </Dialog.Description>
-            <Dialog.Description>
-              <Caption color="contrast">
-                Se deseja continuar digite
-                <Caption color="danger"> {I18n.t("buttons.erase")}</Caption> no
-                campo abaixo.
-              </Caption>
-            </Dialog.Description>
-            <Dialog.Input
-              autoCorrect={false}
-              spellCheck={false}
-              onChange={handleChangeValue}
-            />
-            <Dialog.Button
-              label={I18n.t("buttons.cancel")}
-              onPress={handleCancel}
-            />
-            <Dialog.Button
-              label={I18n.t("buttons.remove")}
-              disabled={eraseText !== I18n.t("buttons.erase")}
-              color={
-                eraseText === I18n.t("buttons.erase")
-                  ? theme.danger
-                  : theme.grey
-              }
-              onPress={handleDelete}
-            />
-          </Dialog.Container>
+          {getDialogView()}
           <View>
             <View style={{ justifyContent: "space-evenly", height: 200 }}>
               <Image

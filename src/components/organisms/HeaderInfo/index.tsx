@@ -159,8 +159,8 @@ const HeaderInfo = ({
           style={{ textDecorationLine: "underline" }}
           onPress={onConsiderFutureTransactions}>
           {considerFutureTransactions
-            ? I18n.t("home.consider_future_transactions").toUpperCase()
-            : I18n.t("home.remove_future_transactions").toUpperCase()}
+            ? I18n.t("home.remove_future_transactions").toUpperCase()
+            : I18n.t("home.consider_future_transactions").toUpperCase()}
         </Small>
       ) : (
         <Small

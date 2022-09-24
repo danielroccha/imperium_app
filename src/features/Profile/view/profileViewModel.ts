@@ -4,11 +4,15 @@ import { useSelector } from "react-redux";
 
 import I18n from "@app/languages/I18n";
 
-import handleApplicationError from "@app/handles/apiError";
 import { getProfileUseCase } from "@app/features/Profile/domain/useCases/GetProfileUseCase";
 import { resetBalanceUseCase } from "@app/features/Profile/domain/useCases/ResetBalanceUseCase";
+import { deleteProfileUseCase } from "@app/features/Profile/domain/useCases/DeleteProfileUseCase";
+
 import { IProfileRepository } from "@app/features/Profile/data/profileRepository";
+
+import handleApplicationError from "@app/handles/apiError";
 import { RootState } from "@app/configs/store";
+import { logOut } from "@app/features/Login/data/loginActions";
 
 export type TLoginViewModel = {
   email: string;
@@ -43,7 +47,18 @@ const useProfileViewModel = (repository: IProfileRepository) => {
     }
   }, [repository.resetBalance]);
 
-  return { getData, resetBalance, loading, profile };
+  const deleteProfile = useCallback(async () => {
+    try {
+      await deleteProfileUseCase({
+        deleteProfile: repository.deleteProfile,
+      });
+      logOut();
+    } catch (error) {
+      handleApplicationError.handleError(error);
+    }
+  }, [repository.deleteProfile]);
+
+  return { getData, resetBalance, deleteProfile, loading, profile };
 };
 
 export { useProfileViewModel };

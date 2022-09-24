@@ -51,7 +51,8 @@
     "categories": "Categories",
     "month_select": "Select a month",
     "consider_future_transactions":"Consider future transactions",
-    "remove_future_transactions": "Do not consider future transactions"
+    "remove_future_transactions": "Do not consider future transactions",
+    "available_version": "New available version"
   },
   "balance_info": {
     "title": "Understand how your balance works:",
@@ -108,14 +109,20 @@
   },
   "profile": {
     "change_currency": "Change currency",
+    "instagram": "Follow us on Instagram",
     "reset_data": "Reset balance",
     "version": "Version",
-    "dialog_description":"Are you sure you want to reset your balance? This action cannot be undone and you will lose all your entries and financial history.",
-    "logout": "Logout"
+    "dialog_description_balance":"Are you sure you want to reset your balance? This action cannot be undone and you will lose all your entries and financial history.",
+    "dialog_description_data":"Are you sure you want to delete your account? This action cannot be undone and you will lose your access to the app permanently.",
+    "logout": "Logout",
+    "delete_account": "Delete account",
+    "if_you_want_to_continue_type_erase_in_the_field_below": "If you want to continue type ERASE in the field below."
   },
-  "deprecated_version": {
-    "old_version": "This application version is too old.",
-    "update_to_new_features": "Update for new features and improvements."
+ "deprecated_version": {
+    "old_version": "This version is too old",
+    "update_to_new_features": "Update to get new features and improvements.",
+    "click_the_button_below_to_update_your_app": "Just click the button below to update your app.",
+    "update_version": "Update version"
   },
   "connection": {
     "no_connection": "No internet connection.",

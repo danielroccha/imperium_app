@@ -17,6 +17,7 @@ export interface IProfileRepository {
   changePassword(data: TChangePasswordRemote): Promise<void>;
   resetBalance(): Promise<void>;
   updateProfile(data: TUpdateProfileRemote): Promise<void>;
+  deleteProfile(): Promise<void>;
 }
 
 const useProfileRepository = (service: IUserService): IProfileRepository => {
@@ -64,6 +65,10 @@ const useProfileRepository = (service: IUserService): IProfileRepository => {
     await service.resetBalanceService();
   }, [service]);
 
+  const deleteProfile = useCallback(async () => {
+    await service.deleteProfileService();
+  }, [service]);
+
   return {
     updateProfile,
     getProfile,
@@ -72,6 +77,7 @@ const useProfileRepository = (service: IUserService): IProfileRepository => {
     resendVerificationCode,
     changePassword,
     resetBalance,
+    deleteProfile,
   };
 };
 
