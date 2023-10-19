@@ -6,7 +6,7 @@ import {
   setLoadingProfileAction,
   setProfileAction,
 } from "@app/features/Profile/data/profileActions";
-import storage from "@app/configs/storage";
+import storage, { KEYS } from "@app/configs/storage";
 import crashlyticsProvider from "@app/providers/crashlytics";
 
 const getProfileUseCase = async (
@@ -15,7 +15,7 @@ const getProfileUseCase = async (
   dispatchStore(setLoadingProfileAction(true));
   const profile = await repository.getProfile();
   const profileDomain = mapProfileToDomain(profile);
-  if (profile.currency) storage.saveCurrency(profile.currency);
+  if (profile.currency) storage.save(KEYS.CURRENCY, profile.currency);
   crashlyticsProvider.setAttributesFromUser(profile);
   dispatchStore(setProfileAction(profileDomain));
   dispatchStore(setLoadingProfileAction(false));

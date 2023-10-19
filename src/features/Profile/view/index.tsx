@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Image,
   NativeSyntheticEvent,
@@ -8,9 +8,10 @@ import {
   View,
   Appearance,
   Linking,
+  ImageSourcePropType,
 } from "react-native";
 
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Feather";
 import Dialog from "react-native-dialog";
 import DeviceInfo from "react-native-device-info";
@@ -30,9 +31,11 @@ import { images } from "@app/assets";
 import Util from "@app/util";
 import RootStackNavigation from "@app/types/RootStackParams";
 import { INSTAGRAM_URL } from "@app/constants";
+import storage, { KEYS } from "@app/configs/storage";
 
 const Profile = () => {
   const [showDialog, setShowDialog] = useState(false);
+  const [avatar, setAvatar] = useState("");
   const [eraseText, setEraseText] = useState("");
   const [deleteAccount, setDeleteAccount] = useState(false);
   const navigation = useNavigation<RootStackNavigation>();
@@ -130,12 +133,23 @@ const Profile = () => {
     navigation.navigate("CurrencyList");
   };
 
+  const handleNavigationAvatars = () => {
+    navigation.navigate("Avatars");
+  };
+
   const handleOpenInstagramPage = async () => {
     const canOpenURL = await Linking.canOpenURL(INSTAGRAM_URL);
     if (canOpenURL) {
       Linking.openURL(INSTAGRAM_URL);
     }
   };
+
+  const checkAvatar = useCallback(async () => {
+    const result = await storage.get(KEYS.AVATAR);
+    if (result) {
+      setAvatar(result);
+    }
+  }, []);
 
   const profileOptions = [
     {
@@ -170,6 +184,10 @@ const Profile = () => {
     },
   ];
 
+  useFocusEffect(() => {
+    checkAvatar();
+  });
+
   return (
     <View style={{ backgroundColor: theme.mode, flex: 1 }}>
       <NavBar iconRight="x" onClickActionRight={handlePressClose} />
@@ -185,20 +203,37 @@ const Profile = () => {
                 style={{ height: 50, width: 130, alignSelf: "center" }}
                 resizeMode="cover"
               />
-              <View
+              <TouchableOpacity
+                onPress={handleNavigationAvatars}
                 style={{
                   width: 85,
                   height: 85,
-                  backgroundColor: theme.primary,
-                  borderRadius: 50,
                   justifyContent: "center",
                   alignItems: "center",
                   alignSelf: "center",
                 }}>
-                <HeadLine color="white">
-                  {profile?.name && Util.getInitialLetters(profile.name)}
-                </HeadLine>
-              </View>
+                {avatar ? (
+                  <Image
+                    source={avatar as ImageSourcePropType}
+                    style={{ width: 85, height: 85 }}
+                  />
+                ) : (
+                  <View
+                    style={{
+                      backgroundColor: theme.primary,
+                      borderRadius: 50,
+                      width: 85,
+                      height: 85,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      alignSelf: "center",
+                    }}>
+                    <HeadLine color="white">
+                      {profile?.name && Util.getInitialLetters(profile.name)}
+                    </HeadLine>
+                  </View>
+                )}
+              </TouchableOpacity>
               <Regular align="center">{profile?.name}</Regular>
               <Caption align="center">{profile?.email}</Caption>
             </View>

@@ -4,4 +4,5 @@ export default interface ITransactionByCategoryEntity {
   color: string;
   icon: string;
   value: number;
+  categoryLimit?: number;
 }

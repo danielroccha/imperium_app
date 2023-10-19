@@ -6,6 +6,7 @@ import { OPTIONS_PERIOD, TRANSACTION_TYPE } from "@app/constants";
 import handleApplicationError from "@app/handles/apiError";
 import { ITransactionRepository } from "@app/features/Transaction/data/transactionRepository";
 import RootStackNavigation from "@app/types/RootStackParams";
+import useAds from "@app/hooks/useAds";
 
 export type TCreateTransactionViewModel = {
   name: string;
@@ -21,6 +22,7 @@ export type TCreateTransactionViewModel = {
 const useCreateTransactionViewModel = (repository: ITransactionRepository) => {
   const [isLoading, setLoading] = useState(false);
   const navigation = useNavigation<RootStackNavigation>();
+  const { showAdd } = useAds();
 
   const createTransaction = useCallback(
     async (data: TCreateTransactionViewModel) => {
@@ -30,14 +32,14 @@ const useCreateTransactionViewModel = (repository: ITransactionRepository) => {
           { createTransaction: repository.createTransaction },
           data,
         );
-        navigation.goBack();
+        showAdd(() => navigation.goBack());
       } catch (error) {
         handleApplicationError.handleError(error);
         setLoading(false);
       }
     },
 
-    [navigation, repository.createTransaction],
+    [navigation, repository.createTransaction, showAdd],
   );
 
   return { createTransaction, isLoading };

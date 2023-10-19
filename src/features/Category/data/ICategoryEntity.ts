@@ -6,5 +6,6 @@ export interface ICategoryEntity {
   icon: string;
   color: string;
   userId: string;
+  value?: number;
   type: TRANSACTION_TYPE;
 }

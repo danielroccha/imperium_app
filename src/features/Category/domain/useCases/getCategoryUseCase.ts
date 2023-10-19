@@ -16,6 +16,7 @@ const mapCategoryToDomain = (category: ICategoryEntity): ICategoryModel => ({
   id: category.id,
   name: category.name,
   type: category.type,
+  value: category.value,
   userId: category.userId,
 });
 

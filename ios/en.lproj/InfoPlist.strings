@@ -1,0 +1,9 @@
+/*
+  InfoPlist.strings
+  imperium_app
+
+  Created by Daniel Rocha on 18/10/23.
+  
+*/
+
+"NSUserTrackingUsageDescription"="This allow Imperium Wallet to improve your consumption experience.";

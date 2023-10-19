@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { Keyboard, ScrollView, TouchableOpacity, View } from "react-native";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -158,6 +158,10 @@ const TransactionForm = ({
     setTransactionValue(value);
   };
 
+  const handleDismiss = () => {
+    Keyboard.dismiss();
+  };
+
   useEffect(() => {
     if (dataForm) {
       setTransactionType(dataForm.transactionType);
@@ -173,7 +177,9 @@ const TransactionForm = ({
 
   return (
     <DismissKeyboard>
-      <ScrollView contentContainerStyle={{ paddingBottom: dimens.xlarge }}>
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: dimens.xlarge }}
+        onScroll={handleDismiss}>
         <View>
           <View
             style={{

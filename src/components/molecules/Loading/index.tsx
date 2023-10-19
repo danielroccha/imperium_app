@@ -19,6 +19,7 @@ const Loading = () => {
       }}>
       <View style={styles(theme).viewLoading}>
         <LottieViewComponent
+          size={50}
           animation={lotties.loading}
           style={{ borderRadius: 100 }}
         />

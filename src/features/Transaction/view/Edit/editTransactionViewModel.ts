@@ -11,6 +11,7 @@ import { ICategoryModel } from "@app/features/Category/domain/models/ICategoryMo
 import RootStackNavigation from "@app/types/RootStackParams";
 import { TRANSACTION_TYPE } from "@app/constants";
 import handleApplicationError from "@app/handles/apiError";
+import useAds from "@app/hooks/useAds";
 
 export type TEditTransactionViewModel = {
   name: string;
@@ -33,6 +34,7 @@ const useEditTransactionViewModel = (repository: ITransactionRepository) => {
   const [transactionData, setTransactionData] =
     useState<TEditTransactionViewModel>();
   const navigation = useNavigation<RootStackNavigation>();
+  const { showAdd } = useAds();
 
   const getTransaction = useCallback(
     async (transactionId: string) => {
@@ -71,14 +73,14 @@ const useEditTransactionViewModel = (repository: ITransactionRepository) => {
           { editTransaction: repository.editTransaction },
           data,
         );
-        navigation.goBack();
+        showAdd(() => navigation.goBack());
       } catch (error) {
         handleApplicationError.handleError(error);
         setLoading(false);
       }
     },
 
-    [navigation, repository.editTransaction],
+    [navigation, repository.editTransaction, showAdd],
   );
 
   const deleteTransaction = useCallback(
@@ -90,14 +92,14 @@ const useEditTransactionViewModel = (repository: ITransactionRepository) => {
           transactionId,
           options,
         );
-        navigation.goBack();
+        showAdd(() => navigation.goBack());
       } catch (error) {
         handleApplicationError.handleError(error);
         setLoading(false);
       }
     },
 
-    [navigation, repository.deleteTransaction],
+    [navigation, repository.deleteTransaction, showAdd],
   );
 
   return {

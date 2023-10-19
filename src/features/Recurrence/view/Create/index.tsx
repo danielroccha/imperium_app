@@ -25,13 +25,15 @@ const CreateRecurrence = () => {
 
   const handleValidateSuccess = (data: TTransactionForm) => {
     const { category, date, description, transactionType, value } = data;
-    createRecurrence({
-      categoryId: category.id,
-      date,
-      name: description,
-      type: transactionType,
-      value,
-    });
+    if (category) {
+      createRecurrence({
+        categoryId: category.id,
+        date,
+        name: description,
+        type: transactionType,
+        value,
+      });
+    }
   };
 
   const handleClose = () => {

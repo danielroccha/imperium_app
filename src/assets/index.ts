@@ -21,4 +21,25 @@ const images = {
   nextTutorial: require("./images/balance-tutorial/next.jpg"),
 };
 
-export { lotties, images };
+const avatars = [
+  require("./images/girl_avatar/girl_1.png"),
+  require("./images/girl_avatar/girl_2.png"),
+  require("./images/boy_avatar/boy_2.png"),
+  require("./images/girl_avatar/girl_3.png"),
+  require("./images/boy_avatar/boy_3.png"),
+  require("./images/girl_avatar/girl_4.png"),
+  require("./images/boy_avatar/boy_4.png"),
+  require("./images/girl_avatar/girl_5.png"),
+  require("./images/boy_avatar/boy_5.png"),
+  require("./images/girl_avatar/girl_6.png"),
+  require("./images/boy_avatar/boy_6.png"),
+  require("./images/girl_avatar/girl_7.png"),
+  require("./images/boy_avatar/boy_7.png"),
+  require("./images/girl_avatar/girl_8.png"),
+  require("./images/boy_avatar/boy_8.png"),
+  require("./images/girl_avatar/girl_9.png"),
+  require("./images/boy_avatar/boy_9.png"),
+  require("./images/girl_avatar/girl_10.png"),
+];
+
+export { lotties, images, avatars };

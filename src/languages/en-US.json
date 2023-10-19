@@ -3,12 +3,12 @@
     "welcome": "Welcome to Imperium",
     "welcome_description": "Let's start making some settings, it's really quick.",
     "ooops": "Ooops!",
-    "success":"Success",
+    "success": "Success",
     "example": "Example",
     "congratulations": "Congratulations",
     "version": "Version",
     "attention": "Attention",
-    "something_went_wrong":"Something went wrong",
+    "something_went_wrong": "Something went wrong",
     "days": {
       "sunday": "Sunday",
       "monday": "Monday",
@@ -30,7 +30,7 @@
     "expense": "Expense",
     "value": "Amount"
   },
-  "login":{
+  "login": {
     "forgot_password": "Forgot password",
     "create_account": "New here? Create your account now."
   },
@@ -50,7 +50,7 @@
     "create_transaction": "Create transaction",
     "categories": "Categories",
     "month_select": "Select a month",
-    "consider_future_transactions":"Consider future transactions",
+    "consider_future_transactions": "Consider future transactions",
     "remove_future_transactions": "Do not consider future transactions",
     "available_version": "New available version"
   },
@@ -64,21 +64,21 @@
     "next_month": "It is the subtraction of (income - expenses). For example, if in June 2022 you are forecast to have a total income of %{income} and %{expense} of expenses, your forecast balance will be %{currentBalance}."
   },
   "transaction": {
-     "daily": "Daily",
-     "yearly": "Annually",
-     "monthly": "Daily",
-     "weekly": "Weekly",
-     "days": "days",
-     "years": "years",
-     "months": "months",
-     "weeks": "weeks",
-     "for": "For",
-     "repeat": "Replicate",
-     "today": "Today",
-     "tomorrow": "Tomorrow",
-     "yesterday": "Yesterday",
-     "another_day": "Another day"
-   },
+    "daily": "Daily",
+    "yearly": "Annually",
+    "monthly": "Monthly",
+    "weekly": "Weekly",
+    "days": "days",
+    "years": "years",
+    "months": "months",
+    "weeks": "weeks",
+    "for": "For",
+    "repeat": "Replicate",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "yesterday": "Yesterday",
+    "another_day": "Another day"
+  },
   "currency": {
     "select_or_search_currency": "Select or search a currency"
   },
@@ -88,6 +88,8 @@
     "categories_suggestions": "Categories Suggestions",
     "create_category": "Add category",
     "edit_category": "Edit Category",
+    "budget": "Budget",
+    "set_spending_limit_for_that_category": "Set a spending limit for this category",
     "suggestions": {
       "salary": "Salary",
       "bonus": "Bonus",
@@ -107,18 +109,22 @@
       "alimentation": "Alimentation"
     }
   },
+  "notifications": {
+    "daily_title": "Don't lose control of your spending. 😁",
+    "daily_message": "It is important that you make your entries so as not to lose control of your expenses. Set aside time in your day for this."
+  },
   "profile": {
     "change_currency": "Change currency",
     "instagram": "Follow us on Instagram",
     "reset_data": "Reset balance",
     "version": "Version",
-    "dialog_description_balance":"Are you sure you want to reset your balance? This action cannot be undone and you will lose all your entries and financial history.",
-    "dialog_description_data":"Are you sure you want to delete your account? This action cannot be undone and you will lose your access to the app permanently.",
+    "dialog_description_balance": "Are you sure you want to reset your balance? This action cannot be undone and you will lose all your entries and financial history.",
+    "dialog_description_data": "Are you sure you want to delete your account? This action cannot be undone and you will lose your access to the app permanently.",
     "logout": "Logout",
     "delete_account": "Delete account",
     "if_you_want_to_continue_type_erase_in_the_field_below": "If you want to continue type ERASE in the field below."
   },
- "deprecated_version": {
+  "deprecated_version": {
     "old_version": "This version is too old",
     "update_to_new_features": "Update to get new features and improvements.",
     "click_the_button_below_to_update_your_app": "Just click the button below to update your app.",
@@ -178,7 +184,7 @@
     "lets_go": "Let's go?",
     "next": "Next",
     "skip": "Skip",
-    "yes":"Yes",
+    "yes": "Yes",
     "no": "No",
     "save": "Save",
     "update": "Update",
@@ -188,7 +194,7 @@
     "create_new_category": "New category"
   },
   "months": {
-    "january":"January",
+    "january": "January",
     "february": "February",
     "march": "March",
     "april": "April",
@@ -367,7 +373,7 @@
     "yemeni_rial": "Yemeni Rial",
     "zambian_kwacha": "Kwacha from Zambia"
   },
-  "alerts":{
+  "alerts": {
     "remove_transaction_title": "Remove Transaction",
     "remove_transaction_description": "Are you sure you want to remove this transaction?",
     "remove_recurrence_title": "Remove this recurrence?",
@@ -391,5 +397,5 @@
     "ERROR_USER_0001": "Invalid verification code.",
     "ERROR_USER_0002": "Passwords are different.",
     "ERROR_USER_0003": "Account inactive."
-   }
+  }
 }

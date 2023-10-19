@@ -22,7 +22,7 @@ export type TLoginViewModel = {
 const useProfileViewModel = (repository: IProfileRepository) => {
   const { loading, profile } = useSelector((state: RootState) => state.profile);
 
-  const getData = useCallback(async () => {
+  const getProfile = useCallback(async () => {
     try {
       await getProfileUseCase({
         getProfile: repository.getProfile,
@@ -58,7 +58,7 @@ const useProfileViewModel = (repository: IProfileRepository) => {
     }
   }, [repository.deleteProfile]);
 
-  return { getData, resetBalance, deleteProfile, loading, profile };
+  return { getProfile, resetBalance, deleteProfile, loading, profile };
 };
 
 export { useProfileViewModel };

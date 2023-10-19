@@ -17,7 +17,7 @@ import es from "./es.json";
 
 const getLanguageByDevice = () => {
   return Platform.OS === "ios"
-    ? NativeModules.SettingsManager.settings.AppleLocale // get current language from device iOS
+    ? NativeModules.SettingsManager.settings.AppleLanguages[0] // get current language from device iOS
     : NativeModules.I18nManager.localeIdentifier; // get current language from device android
 };
 
@@ -29,7 +29,8 @@ I18n.translations = {
 
 // Função responsável por verificar se o idioma atual do divice está sendo suportado, caso não ele irá setar como 'pt_BR'
 const setLanguageToI18n = () => {
-  const language = getLanguageByDevice() as string;
+  const language = getLanguageByDevice();
+  console.log(language);
   let translateNormalize = "pt_BR";
 
   if (language.startsWith("en")) {

@@ -99,4 +99,4 @@ export const getShadow = (value: number) =>
   Platform.OS === "ios" ? shadowsiOS(value) : shadowsAndroid[value];
 
 export const SCREEN_WIDTH = Dimensions.get("screen").width;
-export const SCREEN_HEIGHT = Dimensions.get("window").height;
+export const SCREEN_HEIGHT = Dimensions.get("screen").height;

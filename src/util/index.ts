@@ -1,5 +1,6 @@
 import { Alert, Platform } from "react-native";
-import { getTrackingStatus } from "react-native-tracking-transparency";
+
+import { check, PERMISSIONS } from "react-native-permissions";
 
 export const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1).toLocaleLowerCase();
@@ -51,10 +52,10 @@ const getTimezoneOffset = () => {
 
 const shouldTrackUser = async (): Promise<boolean> => {
   let shouldTrack = true;
-  const trackingStatus = await getTrackingStatus();
+  const trackingStatus = await check(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
   if (
     Platform.OS === "ios" &&
-    trackingStatus !== "authorized" &&
+    trackingStatus !== "granted" &&
     trackingStatus !== "unavailable"
   ) {
     shouldTrack = false;

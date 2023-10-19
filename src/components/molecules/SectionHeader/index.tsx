@@ -19,10 +19,9 @@ const SectionHeader = ({ date, value }: SectionHeaderProps) => {
 
   const { profile } = useSelector((state: RootState) => state.profile);
 
-  const dateObj = new Date(date);
   return (
     <View style={styles(theme).container}>
-      <Caption color="grey">{new Date(dateObj).toLocaleDateString()}</Caption>
+      <Caption color="grey">{date}</Caption>
       <Caption color="grey">
         {Util.formatToMoney(value, profile?.currency)}
       </Caption>

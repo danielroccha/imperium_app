@@ -144,7 +144,10 @@ const ListCategory = () => {
       ) : (
         <View style={{ flex: 1, backgroundColor: theme.mode }}>
           <FlatList
-            contentContainerStyle={{ padding: dimens.small }}
+            contentContainerStyle={{
+              padding: dimens.small,
+              paddingBottom: 50,
+            }}
             data={listCategoriesData}
             renderItem={handleRenderItem}
             ListEmptyComponent={

@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "616860384083",
-    "project_id": "imperiumwallet-6fa8c",
-    "storage_bucket": "imperiumwallet-6fa8c.appspot.com"
+    "project_number": "835725495119",
+    "project_id": "imperiumwallet-91b11",
+    "storage_bucket": "imperiumwallet-91b11.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:616860384083:android:7c8b87649671a9a8817fa6",
+        "mobilesdk_app_id": "1:835725495119:android:3e1f13de5f407f8cae133a",
         "android_client_info": {
-          "package_name": "com.imperium_app"
+          "package_name": "com.imperiumwallet_app"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "616860384083-lfqrc90n5c1nf9i29nhem291om3k39ia.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB4ctR43zNNVilVqCCS3WliGjo7LEwRQx4"
+          "current_key": "AIzaSyByu2D9SQazpyGMsW3LvCJaAieyD_kFfKA"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "616860384083-lfqrc90n5c1nf9i29nhem291om3k39ia.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

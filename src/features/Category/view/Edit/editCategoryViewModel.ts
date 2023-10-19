@@ -15,6 +15,7 @@ export type EditCategoryViewModel = {
   type: TRANSACTION_TYPE;
   color: string;
   icon: string;
+  value?: number;
 };
 
 const useEditCategoryViewModel = (repository: ICategoryRepository) => {

@@ -8,7 +8,6 @@ import {
   Linking,
 } from "react-native";
 
-import { requestTrackingPermission } from "react-native-tracking-transparency";
 import I18n from "@app/languages/I18n";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import LottieViewComponent from "@app/components/molecules/LottieViewComponent";
@@ -16,18 +15,25 @@ import semver from "semver";
 import DeviceInfo from "react-native-device-info";
 import Icon from "react-native-vector-icons/Feather";
 
+import DatePicker from "react-native-date-picker";
+import {
+  requestNotifications,
+  request,
+  PERMISSIONS,
+} from "react-native-permissions";
+
 import {
   ITransactionModel,
   ITransactionSectionDateModel,
 } from "@app/features/Home/domain/models/IBalanceResumeModel";
 import { useHomeViewModel } from "@app/features/Home/view/homeViewModel";
 import { useProfileViewModel } from "@app/features/Profile/view/profileViewModel";
-
 import useTransactionRepository from "@app/features/Transaction/data/transactionRepository";
 import useProfileRepository from "@app/features/Profile/data/profileRepository";
 
 import userService from "@app/services/user";
 import transactionService from "@app/services/transaction";
+import localNotificationProvider from "@app/providers/localNotification";
 
 import HeaderInfo from "@app/components/organisms/HeaderInfo";
 import SectionHeader from "@app/components/molecules/SectionHeader";
@@ -36,18 +42,23 @@ import Loading from "@app/components/molecules/Loading";
 import ItemExpanses from "@app/components/molecules/ItemExpanses";
 import { Caption } from "@app/components/atoms/Text";
 
+import RootStackNavigation from "@app/types/RootStackParams";
+import Divide from "@app/components/atoms/Divide";
+import remoteConfigProvider from "@app/providers/remoteConfig";
+import useNotification from "@app/hooks/useNotification";
+import Util from "@app/util";
+
+import { TRANSACTION_TYPE } from "@app/constants";
 import { colors, dimens, getShadow, SCREEN_WIDTH } from "@app/configs/Theme";
 import { images, lotties } from "@app/assets";
-import RootStackNavigation from "@app/types/RootStackParams";
-import Util from "@app/util";
-import Divide from "@app/components/atoms/Divide";
-import { TRANSACTION_TYPE } from "@app/constants";
-import DatePicker from "react-native-date-picker";
-import remoteConfigProvider from "@app/providers/remoteConfig";
 
 const Home = () => {
   const theme = colors();
   const navigation = useNavigation<RootStackNavigation>();
+
+  const { scheduleAllNotification } = useNotification(
+    localNotificationProvider,
+  );
 
   const [stateDatePicker, setStateDatePicker] = useState(false);
   const [showAvailableVersion, setShowAvailableVersion] = useState(false);
@@ -63,8 +74,7 @@ const Home = () => {
     profileRepository,
   );
 
-  const { getData: getDataProfile, profile } =
-    useProfileViewModel(profileRepository);
+  const { getProfile, profile } = useProfileViewModel(profileRepository);
 
   const handleFilterDate = (date: Date) => {
     hideDatePicker();
@@ -155,6 +165,7 @@ const Home = () => {
     (transaction: ITransactionModel) => {
       if (transaction.isInstallment) {
         showDeleteTransactionInstallmentAlert(transaction);
+      } else if (transaction.isRecurrence && transaction.recurrence) {
       } else {
         showDeleteTransactionAlert(transaction.id);
       }
@@ -169,56 +180,49 @@ const Home = () => {
           recurrenceId: transaction.recurrence.id,
         });
       } else {
-        const currentDate = new Date();
-        const transactionDate = new Date(transaction.date);
-        if (currentDate < transactionDate) {
-          Alert.alert(
-            I18n.t("common.attention"),
-            I18n.t("alerts.recurrence_alert_description"),
-          );
-        } else {
-          navigation.navigate("EditTransaction", {
-            transactionId: transaction.id,
-          });
-        }
+        navigation.navigate("EditTransaction", {
+          transactionId: transaction.id,
+        });
       }
     },
     [navigation],
   );
 
   const renderItem = useCallback(
-    ({ item }: { item: ITransactionSectionDateModel }) => (
-      <>
-        <SectionHeader date={item.section.date} value={item.section.value} />
-        <View
-          style={{
-            ...getShadow(1),
-            margin: dimens.tiny,
-            borderRadius: 10,
-            backgroundColor: colors().mode,
-          }}>
-          {item.data.map((transaction, index, array) => (
-            <>
-              <ItemExpanses
-                key={transaction.id}
-                type={transaction.type}
-                title={transaction.name}
-                category={transaction.category.name}
-                color={transaction.category.color}
-                icon={transaction.category.icon}
-                value={transaction.value}
-                isRecurrence={transaction.isRecurrence}
-                onPress={() => handlePress(transaction)}
-                onLongPress={() => handleLongPress(transaction)}
-              />
-              {array.length - 1 !== index && (
-                <Divide color="contrastMode" stylesDivide={{ height: 1.5 }} />
-              )}
-            </>
-          ))}
-        </View>
-      </>
-    ),
+    ({ item }: { item: ITransactionSectionDateModel }) => {
+      return (
+        <>
+          <SectionHeader date={item.section.date} value={item.section.value} />
+          <View
+            style={{
+              ...getShadow(1),
+              margin: dimens.tiny,
+              borderRadius: 10,
+              backgroundColor: colors().mode,
+            }}>
+            {item.data.map((transaction, index, array) => (
+              <>
+                <ItemExpanses
+                  key={transaction.id}
+                  type={transaction.type}
+                  title={transaction.name}
+                  category={transaction.category.name}
+                  color={transaction.category.color}
+                  icon={transaction.category.icon}
+                  value={transaction.value}
+                  isRecurrence={transaction.isRecurrence}
+                  onPress={() => handlePress(transaction)}
+                  onLongPress={() => handleLongPress(transaction)}
+                />
+                {array.length - 1 !== index && (
+                  <Divide color="contrastMode" stylesDivide={{ height: 1.5 }} />
+                )}
+              </>
+            ))}
+          </View>
+        </>
+      );
+    },
     [handleLongPress, handlePress],
   );
 
@@ -276,8 +280,7 @@ const Home = () => {
     const value = await remoteConfigProvider.getRemoteConfig(
       "deprecated_version",
     );
-
-    if (semver.lte(DeviceInfo.getVersion(), value)) {
+    if (semver.lt(DeviceInfo.getVersion(), value)) {
       navigation.navigate("DeprecatedVersion");
     }
   }, [navigation]);
@@ -289,10 +292,16 @@ const Home = () => {
   }, []);
 
   const requestPermission = useCallback(async () => {
-    if (Platform.OS === "ios") {
-      await requestTrackingPermission();
+    const notificationPermission = await requestNotifications([]);
+
+    if (notificationPermission.status === "granted") {
+      await scheduleAllNotification();
     }
-  }, []);
+
+    if (Platform.OS === "ios") {
+      await request(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
+    }
+  }, [scheduleAllNotification]);
 
   const handleCloseAvailableVersion = () => {
     setShowAvailableVersion(false);
@@ -316,11 +325,9 @@ const Home = () => {
     }, [getResumeData]),
   );
 
-  useFocusEffect(
-    useCallback(() => {
-      getDataProfile();
-    }, [getDataProfile]),
-  );
+  useEffect(() => {
+    getProfile();
+  }, [getProfile]);
 
   useEffect(() => {
     if (profile?.isFirstLogin) {

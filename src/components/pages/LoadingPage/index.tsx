@@ -13,7 +13,7 @@ const LoadingPage = () => {
   return (
     <View style={styles(theme).container}>
       <View style={styles(theme).viewLoading}>
-        <LottieViewComponent animation={lotties.loading} />
+        <LottieViewComponent animation={lotties.loading} size={50} />
       </View>
     </View>
   );

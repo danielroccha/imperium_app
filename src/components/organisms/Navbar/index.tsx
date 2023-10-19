@@ -1,5 +1,11 @@
-import React from "react";
-import { View, Image, TouchableOpacity, Platform } from "react-native";
+import React, { useCallback, useState } from "react";
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  Platform,
+  ImageSourcePropType,
+} from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
 import { images } from "@app/assets";
@@ -7,11 +13,12 @@ import { Caption, Regular } from "@app/components/atoms/Text";
 import { colors } from "@app/configs/Theme";
 
 import styles from "./styles";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import RootStackNavigation from "@app/types/RootStackParams";
 import Util from "@app/util";
 import { useSelector } from "react-redux";
 import { RootState } from "@app/configs/store";
+import storage, { KEYS } from "@app/configs/storage";
 
 type NavBarProps = {
   iconRight?: string;
@@ -37,6 +44,7 @@ const NavBar = ({
   backAction,
 }: NavBarProps) => {
   const theme = colors();
+  const [avatar, setAvatar] = useState("");
 
   const { profile } = useSelector((state: RootState) => state.profile);
 
@@ -62,12 +70,23 @@ const NavBar = ({
     }
   };
 
+  const checkAvatar = useCallback(async () => {
+    const result = await storage.get(KEYS.AVATAR);
+    if (result) {
+      setAvatar(result);
+    }
+  }, []);
+
   const getIcon = () => {
     if (Platform.OS === "ios") {
       return "chevron-left";
     }
     return "arrow-left";
   };
+
+  useFocusEffect(() => {
+    checkAvatar();
+  });
 
   return (
     <View style={styles(theme).container}>
@@ -108,27 +127,27 @@ const NavBar = ({
           </TouchableOpacity>
         )}
         {showAvatarProfile && (
-          <TouchableOpacity
-            style={{
-              width: 40,
-              height: 40,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onPress={handleClickRightAction}>
-            <View
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 100,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: theme.primary,
-              }}>
-              <Caption color="white">
-                {profile && Util.getInitialLetters(profile.name)}
-              </Caption>
-            </View>
+          <TouchableOpacity onPress={handleClickRightAction}>
+            {avatar ? (
+              <Image
+                source={avatar as ImageSourcePropType}
+                style={{ width: 50, height: 50 }}
+              />
+            ) : (
+              <View
+                style={{
+                  borderRadius: 50,
+                  width: 40,
+                  height: 40,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: theme.primary,
+                }}>
+                <Caption color="white">
+                  {profile && Util.getInitialLetters(profile?.name ?? "")}
+                </Caption>
+              </View>
+            )}
           </TouchableOpacity>
         )}
       </View>

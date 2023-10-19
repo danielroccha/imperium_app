@@ -36,8 +36,7 @@ const EditCategory = () => {
   };
 
   const handleValidateSuccess = (data: TCategoryFullForm) => {
-    const { color, icon, name, type } = data;
-    editCategory({ color, icon, name, type, id: categoryId });
+    editCategory({ ...data, id: categoryId });
   };
 
   useEffect(() => {

@@ -1,11 +1,5 @@
 import React, { ReactNode, FC } from "react";
-import {
-  Text as RNText,
-  TextStyle,
-  StyleProp,
-  Platform,
-  PixelRatio,
-} from "react-native";
+import { Text as RNText, TextStyle, StyleProp } from "react-native";
 import {
   FontSizePropType,
   FontWeightPropType,
@@ -36,7 +30,7 @@ const Base: FC<BaseProps> = ({
   align = "auto",
   ...props
 }: BaseProps) => {
-  const text = capitalize ? textCapitalize(children) : children;
+  const text = capitalize ? textCapitalize(children as string) : children;
   const getFontFamily = (bold: FontWeightPropType): string => {
     switch (bold) {
       case "light":
@@ -53,10 +47,7 @@ const Base: FC<BaseProps> = ({
     }
   };
   const styleDefault: StyleProp<TextStyle> = {
-    fontSize:
-      Platform.OS === "ios"
-        ? fontSize[size]
-        : fontSize[size] * PixelRatio.getFontScale(),
+    fontSize: fontSize[size],
     color: colors()[color],
     fontFamily: getFontFamily(weight),
     textAlign: align,

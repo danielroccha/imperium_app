@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import NetInfo from "@react-native-community/netinfo";
 
@@ -41,116 +41,118 @@ const HomeStack = () => {
   }, [navigation]);
 
   return (
-    <Stack.Navigator
-      screenOptions={{
-        presentation: "card",
-      }}>
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="Home"
-        component={Home}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="CategoryStack"
-        component={CategoryStack}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="RecurrenceStack"
-        component={RecurrenceStack}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-          presentation: "modal",
-        }}
-        name="CreateTransaction"
-        component={CreateTransaction}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-          presentation: "modal",
-        }}
-        name="CreateCategory"
-        component={CreateCategory}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-          presentation: "modal",
-        }}
-        name="EditTransaction"
-        component={EditTransaction}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-          presentation: "modal",
-        }}
-        name="EditRecurrence"
-        component={EditRecurrence}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-          presentation: "modal",
-        }}
-        name="ProfileStack"
-        component={ProfileStack}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-          presentation: "modal",
-        }}
-        name="BalanceInfo"
-        component={BalanceInfo}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-          presentation: "containedTransparentModal",
-        }}
-        name="SelectCategory"
-        component={SelectCategory}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-          presentation: "modal",
-        }}
-        name="TransactionGroupByCategory"
-        component={TransactionGroupByCategory}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-          presentation: "fullScreenModal",
-        }}
-        name="NoConnection"
-        component={NoConnection}
-      />
-      <Stack.Screen
-        options={{
-          gestureEnabled: false,
-          headerShown: false,
-          presentation: "modal",
-        }}
-        name="OnboardingStack"
-        component={OnboardingStack}
-      />
-      <Stack.Screen
-        options={{
-          gestureEnabled: false,
-          headerShown: false,
-          presentation: "modal",
-        }}
-        name="DeprecatedVersion"
-        component={DeprecatedVersion}
-      />
-    </Stack.Navigator>
+    <>
+      <Stack.Navigator
+        screenOptions={{
+          presentation: "card",
+        }}>
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Home"
+          component={Home}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="CategoryStack"
+          component={CategoryStack}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="RecurrenceStack"
+          component={RecurrenceStack}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            presentation: "modal",
+          }}
+          name="CreateTransaction"
+          component={CreateTransaction}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            presentation: "modal",
+          }}
+          name="CreateCategory"
+          component={CreateCategory}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            presentation: "modal",
+          }}
+          name="EditTransaction"
+          component={EditTransaction}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            presentation: "modal",
+          }}
+          name="EditRecurrence"
+          component={EditRecurrence}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            presentation: "modal",
+          }}
+          name="ProfileStack"
+          component={ProfileStack}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            presentation: "modal",
+          }}
+          name="BalanceInfo"
+          component={BalanceInfo}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            presentation: "containedTransparentModal",
+          }}
+          name="SelectCategory"
+          component={SelectCategory}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            presentation: "modal",
+          }}
+          name="TransactionGroupByCategory"
+          component={TransactionGroupByCategory}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            presentation: "fullScreenModal",
+          }}
+          name="NoConnection"
+          component={NoConnection}
+        />
+        <Stack.Screen
+          options={{
+            gestureEnabled: false,
+            headerShown: false,
+            presentation: "modal",
+          }}
+          name="OnboardingStack"
+          component={OnboardingStack}
+        />
+        <Stack.Screen
+          options={{
+            gestureEnabled: false,
+            headerShown: false,
+            presentation: "modal",
+          }}
+          name="DeprecatedVersion"
+          component={DeprecatedVersion}
+        />
+      </Stack.Navigator>
+    </>
   );
 };
 

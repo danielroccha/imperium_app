@@ -1,4 +1,4 @@
-import Storage from "@app/configs/storage";
+import Storage, { KEYS } from "@app/configs/storage";
 import { IAuthService } from "@app/services/login";
 import { TAuthenticationDataRemote } from "@app/services/login/remoteTypes/TAuthenticationDataRemote";
 
@@ -11,8 +11,8 @@ const useLoginRepository = (service: IAuthService): IUseLoginRepository => {
     const response = await service.loginService(data);
     const { accessToken } = response;
     const { refreshToken } = response;
-    Storage.saveApiKey(accessToken);
-    Storage.saveRefreshToken(refreshToken);
+    Storage.save(KEYS.TOKEN, accessToken);
+    Storage.save(KEYS.REFRESH_TOKEN, refreshToken);
   };
 
   return {

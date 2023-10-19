@@ -1,44 +1,20 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ColorSchemeName } from "react-native";
 
-export const KEYS = {
-  TOKEN: "token",
-  REFRESH_TOKEN: "refresh_token",
-  APPEARANCE: "appearance",
-  CURRENCY: "currency",
+export enum KEYS {
+  TOKEN = "token",
+  REFRESH_TOKEN = "refresh_token",
+  CURRENCY = "currency",
+  AVATAR = "avatar",
+}
+
+const save = async (key: KEYS, value: string) => {
+  await AsyncStorage.setItem(key, value);
 };
 
-const saveApiKey = (apiKey: string) => {
-  AsyncStorage.setItem(KEYS.TOKEN, apiKey);
-};
+const get = async (key: KEYS): Promise<string | null> => {
+  const result = await AsyncStorage.getItem(key);
 
-const getApiKey = () => AsyncStorage.getItem(KEYS.TOKEN);
-
-const saveRefreshToken = (refreshToken: string) =>
-  AsyncStorage.setItem(KEYS.REFRESH_TOKEN, refreshToken);
-
-const getRefreshToken = () => AsyncStorage.getItem(KEYS.REFRESH_TOKEN);
-
-const getAppearance = async (): Promise<string | null> => {
-  const value = AsyncStorage.getItem(KEYS.APPEARANCE);
-  return value;
-};
-
-const saveAppearance = (value: ColorSchemeName): Promise<void> | void => {
-  if (value) {
-    AsyncStorage.setItem(KEYS.APPEARANCE, value);
-  }
-};
-
-const getCurrency = async (): Promise<string | null> => {
-  const value = AsyncStorage.getItem(KEYS.CURRENCY);
-  return value;
-};
-
-const saveCurrency = (value: string): Promise<void> | void => {
-  if (value) {
-    AsyncStorage.setItem(KEYS.APPEARANCE, value);
-  }
+  return result;
 };
 
 const removeAllKeys = () => {
@@ -50,13 +26,7 @@ const removeAllKeys = () => {
 };
 
 export default {
-  saveApiKey,
-  saveRefreshToken,
-  getApiKey,
-  getRefreshToken,
-  getAppearance,
-  saveAppearance,
-  getCurrency,
-  saveCurrency,
+  save,
   removeAllKeys,
+  get,
 };

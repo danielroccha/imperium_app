@@ -22,7 +22,10 @@ const useHomeViewModel = (
   profileRepository: IProfileRepository,
 ) => {
   const [isLoading, setLoading] = useState(false);
-  const [data, setData] = useState<IBalanceResumeModel>();
+  const [data, setData] = useState<IBalanceResumeModel>({
+    balanceResume: { currentBalance: 0, monthlyExpenses: 0, monthlyIncomes: 0 },
+    transactions: [],
+  });
 
   const getData = useCallback(
     async (monthId: number, year: number) => {

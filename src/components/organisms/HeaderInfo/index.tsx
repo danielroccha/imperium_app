@@ -38,6 +38,7 @@ const HeaderInfo = ({
   incomesBalance,
 }: HeaderInfoProps) => {
   const [monthPeriod, setMonthPeriod] = useState<MONTH_PERIOD>("CURRENT");
+  const [hideIncomes, setHideIncomes] = useState(false);
   const theme = colors();
   const navigation = useNavigation<RootStackNavigation>();
 
@@ -51,10 +52,6 @@ const HeaderInfo = ({
 
   const handleAddRecurrence = () => {
     navigation.navigate("RecurrenceStack");
-  };
-
-  const handlePressBalanceInfo = () => {
-    navigation.navigate("BalanceInfo");
   };
 
   const handlePressExpenses = () => {
@@ -75,18 +72,6 @@ const HeaderInfo = ({
       });
     }
   };
-
-  const getLabelBalance = useCallback(() => {
-    switch (monthPeriod) {
-      case "CURRENT":
-        return I18n.t("home.current_balance");
-      case "NEXT":
-        return I18n.t("home.balance_forecast");
-
-      default:
-        return I18n.t("home.month_balance");
-    }
-  }, [monthPeriod]);
 
   useEffect(() => {
     if (dateFilter) {
@@ -126,23 +111,10 @@ const HeaderInfo = ({
           width: SCREEN_WIDTH,
         }}>
         <View>
-          <TouchableOpacity
-            onPress={handlePressBalanceInfo}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-            }}>
-            <Regular color="white" align="center">
-              {getLabelBalance()}
-            </Regular>
-            <Icon
-              name="info"
-              size={20}
-              color={theme.mode}
-              style={{ marginLeft: dimens.xtiny }}
-            />
-          </TouchableOpacity>
+          <Regular color="white" align="center">
+            {I18n.t("home.month_balance")}
+          </Regular>
+
           <TextMoney
             size="bigTitle"
             align="center"
@@ -153,16 +125,7 @@ const HeaderInfo = ({
           />
         </View>
       </View>
-      {monthPeriod === "CURRENT" ? (
-        <Small
-          color="white"
-          style={{ textDecorationLine: "underline" }}
-          onPress={onConsiderFutureTransactions}>
-          {considerFutureTransactions
-            ? I18n.t("home.remove_future_transactions").toUpperCase()
-            : I18n.t("home.consider_future_transactions").toUpperCase()}
-        </Small>
-      ) : (
+      {monthPeriod !== "CURRENT" && (
         <Small
           color="white"
           style={{ textDecorationLine: "underline" }}

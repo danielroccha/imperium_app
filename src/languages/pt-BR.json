@@ -3,12 +3,12 @@
     "welcome": "Seja bem vindo ao imperium",
     "welcome_description": "Vamos começar fazendo algumas configurações, é bem rapidinho 🥰.",
     "ooops": "Ooops!",
-    "success":"Sucesso",
+    "success": "Sucesso",
     "example": "Exemplo",
     "congratulations": "Parabéns",
     "version": "Versão",
     "attention": "Atenção",
-    "something_went_wrong":"Alguma coisa deu errado",
+    "something_went_wrong": "Alguma coisa deu errado",
     "days": {
       "sunday": "Domingo",
       "monday": "Segunda-feira",
@@ -19,18 +19,18 @@
       "saturday": "Sabádo"
     },
     "come_back_later_or_contact_the_person_responsible_for_the_class": "Volte mais tarde ou entre em contato com o responsável pela turma.",
-    "learn":"Aprender",
-    "are_you_enjoying_our_app":"Está gostando do nosso app?",
-    "help_us_by_leaving_your_review":"Nos ajude deixando sua avaliação.",
-    "tell_us_about_your_experience":"Conte-nos sobre sua experiência",
-    "your_feedback_is_very_important_for_future_improvements":"Seu feedback é muito importante para próximas melhorias.",
+    "learn": "Aprender",
+    "are_you_enjoying_our_app": "Está gostando do nosso app?",
+    "help_us_by_leaving_your_review": "Nos ajude deixando sua avaliação.",
+    "tell_us_about_your_experience": "Conte-nos sobre sua experiência",
+    "your_feedback_is_very_important_for_future_improvements": "Seu feedback é muito importante para próximas melhorias.",
     "incomes": "Receitas",
     "expenses": "Despesas",
     "income": "Receita",
     "expense": "Despesa",
     "value": "Value"
   },
-  "login":{
+  "login": {
     "forgot_password": "Esqueci minha senha",
     "create_account": "É novo por aqui? Crie sua conta agora."
   },
@@ -88,6 +88,8 @@
     "categories_suggestions": "Sugestões de categorias",
     "create_category": "Cadastrar categoria",
     "edit_category": "Editar categoria",
+    "budget": "Orçamento",
+    "set_spending_limit_for_that_category": "Defina um limite de gasto para essa categoria",
     "suggestions": {
       "salary": "Salário",
       "bonus": "Bônus",
@@ -107,13 +109,17 @@
       "alimentation": "Alimentação"
     }
   },
+  "notifications": {
+    "daily_title": "Não perca o controle dos seus gastos.😁",
+    "daily_message": "É importante que você faça os seus lançamento para não perder o controle dos seus gastos. Reserve um tempo do seu dia para isso."
+  },
   "profile": {
     "change_currency": "Alterar moeda",
     "instagram": "Siga-nos  no Instagram",
     "reset_data": "Resetar saldo",
     "version": "Versão",
-    "dialog_description_balance":"Você tem certeza que quer resetar seu saldo? Essa ação não poderá ser desfeita e você perderá todo o seus lançamentos e histórico financeiro.",
-    "dialog_description_data":"Você tem certeza que quer apagar sua conta? Essa ação não poderá ser desfeita e você perderá seu acesso ao app permanentemente.",
+    "dialog_description_balance": "Você tem certeza que quer resetar seu saldo? Essa ação não poderá ser desfeita e você perderá todo o seus lançamentos e histórico financeiro.",
+    "dialog_description_data": "Você tem certeza que quer apagar sua conta? Essa ação não poderá ser desfeita e você perderá seu acesso ao app permanentemente.",
     "logout": "Sair",
     "delete_account": "Deletar conta",
     "if_you_want_to_continue_type_erase_in_the_field_below": "Se você deseja continuar digite APAGAR no campo abaixo."
@@ -188,7 +194,7 @@
     "create_new_category": "Cria nova categoria"
   },
   "months": {
-    "january":"Janeiro",
+    "january": "Janeiro",
     "february": "Fevereiro",
     "march": "Março",
     "april": "Abril",
@@ -204,8 +210,8 @@
   "currencies": {
     "afghan_afghani": "Afegão afegão",
     "albanian_lek": "Lek Albanês",
-    "algerian_dinar":  "Dinar argelino",
-    "angolan_kwanza":  "Kwanza angolano",
+    "algerian_dinar": "Dinar argelino",
+    "angolan_kwanza": "Kwanza angolano",
     "argentine_peso": "Peso argentino",
     "armenian_dram": "Dram Armênio",
     "aruban_florin": "Florim de Aruba",
@@ -367,7 +373,7 @@
     "yemeni_rial": "Rial iemenita",
     "zambian_kwacha": "Kwacha da Zâmbia"
   },
-  "alerts":{
+  "alerts": {
     "remove_transaction_title": "Remover lançamento",
     "remove_transaction_description": "Tem certeza que deseja remover esse lançamento ?",
     "remove_recurrence_title": "Remover essa recorrência?",

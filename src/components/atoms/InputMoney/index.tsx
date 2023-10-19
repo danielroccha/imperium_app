@@ -1,5 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { View, TextInput, TextInputProps } from "react-native";
+import {
+  View,
+  TextInput,
+  TextInputProps,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 
 import { colors } from "@app/configs/Theme";
 import styles from "./styles";
@@ -53,6 +59,10 @@ const InputMoney = ({
     return currencyList.find(i => i.code === profile?.currency)?.symbol;
   };
 
+  const dimissKeyboard = () => {
+    Keyboard.dismiss();
+  };
+
   useEffect(() => {
     if (defaultValue) {
       setValue(
@@ -71,29 +81,32 @@ const InputMoney = ({
           alignItems: "center",
           justifyContent: "center",
         }}>
-        {<HeadLine color="white">{getCurrency()}</HeadLine>}
+        {<HeadLine color={color}>{getCurrency()}</HeadLine>}
 
         <TextInput
           {...props}
           value={value}
           onChangeText={handleChange}
           placeholderTextColor={theme.grey}
-          underlineColorAndroid="transparent"
-          selectionColor={theme.white}
+          underlineColorAndroid={theme[color ?? "black"]}
+          selectionColor={theme[color ?? "black"]}
+          returnKeyType="done"
+          enablesReturnKeyAutomatically
           onBlur={handleBlur}
           onFocus={handleFocus}
           style={[
             styles(theme).input,
             {
-              color: color ? color : theme.black,
+              color: theme[color ?? "black"],
             },
           ]}
         />
       </View>
+
       <View
         style={{
           height: 1.5,
-          backgroundColor: color,
+          backgroundColor: theme[color ?? "black"],
         }}
       />
     </View>

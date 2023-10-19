@@ -6,4 +6,5 @@ export type TEditCategoryRemote = {
   icon: string;
   color: string;
   type: TRANSACTION_TYPE;
+  value?: number;
 };

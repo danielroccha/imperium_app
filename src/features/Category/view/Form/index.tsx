@@ -7,14 +7,17 @@ import { useForm } from "react-hook-form";
 import I18n from "@app/languages/I18n";
 
 import Input from "@app/components/atoms/Input";
-import { dimens } from "@app/configs/Theme";
 import CustomButton from "@app/components/atoms/Button";
 import SwitchTransactionType from "@app/components/molecules/SwitchTransactionType";
 import Divide from "@app/components/atoms/Divide";
 import ImagesSugestion from "@app/components/molecules/ImagesSugestion";
 import ColorsSugestion from "@app/components/molecules/ColorsSugestion";
+import InputMoney from "@app/components/atoms/InputMoney";
+import { Body } from "@app/components/atoms/Text";
+
 import { TRANSACTION_TYPE } from "@app/constants";
 import { ColorsPropType } from "@app/types/ThemeType";
+import { dimens } from "@app/configs/Theme";
 import Util from "@app/util";
 
 type TCategoryFormYup = {
@@ -25,6 +28,7 @@ type TCategoryForm = {
   type: TRANSACTION_TYPE;
   color: string;
   icon: string;
+  value?: number;
 };
 
 export type TCategoryFullForm = TCategoryFormYup & TCategoryForm;
@@ -45,6 +49,7 @@ const CategoryForm = ({
   const [transactionTypeSelected, setTransactionTypeSelected] = useState("");
   const [colorSelected, setColorSelected] = useState("");
   const [imageSelected, setImageSelected] = useState("");
+  const [categoryLimit, setCategoryLimit] = useState<string>();
 
   const {
     control,
@@ -66,6 +71,10 @@ const CategoryForm = ({
   const handlePickImage = useCallback((value: string) => {
     setImageSelected(value);
   }, []);
+
+  const handleChangeValue = (value: string) => {
+    setCategoryLimit(value);
+  };
 
   const handleChangeTransactionType = useCallback((value: string) => {
     setTransactionTypeSelected(
@@ -107,6 +116,7 @@ const CategoryForm = ({
           ...dataForm,
           color: colorSelected,
           icon: imageSelected,
+          value: Number(categoryLimit),
           type:
             transactionTypeSelected === TRANSACTION_TYPE.EXPENSE
               ? TRANSACTION_TYPE.EXPENSE
@@ -114,7 +124,13 @@ const CategoryForm = ({
         });
       }
     },
-    [onValidateSuccess, colorSelected, imageSelected, transactionTypeSelected],
+    [
+      onValidateSuccess,
+      colorSelected,
+      imageSelected,
+      transactionTypeSelected,
+      categoryLimit,
+    ],
   );
 
   useEffect(() => {
@@ -123,7 +139,9 @@ const CategoryForm = ({
       setColorSelected(data?.color);
       setImageSelected(data?.icon);
     }
-  }, [data?.icon, data?.color, data?.type]);
+
+    if (data?.value) setCategoryLimit(String(data.value));
+  }, [data?.icon, data?.color, data?.type, data?.value]);
 
   useEffect(() => {
     reset(data);
@@ -131,7 +149,10 @@ const CategoryForm = ({
 
   return (
     <>
-      <ScrollView contentContainerStyle={{ paddingBottom: dimens.xlarge }}>
+      <ScrollView
+        contentContainerStyle={{
+          paddingBottom: dimens.xlarge,
+        }}>
         <SwitchTransactionType
           showLabel
           value={data?.type}
@@ -151,6 +172,23 @@ const CategoryForm = ({
             errorMessage={errors.name?.message}
           />
         </View>
+        {transactionTypeSelected === TRANSACTION_TYPE.EXPENSE && (
+          <>
+            <Divide stylesDivide={{ marginVertical: dimens.base }} />
+            <View
+              style={{ paddingHorizontal: dimens.small, alignItems: "center" }}>
+              <Body align="center">
+                {I18n.t("categories.set_spending_limit_for_that_category")}
+              </Body>
+              <InputMoney
+                defaultValue={categoryLimit}
+                keyboardType="decimal-pad"
+                color="primary"
+                onChangeText={handleChangeValue}
+              />
+            </View>
+          </>
+        )}
 
         <Divide stylesDivide={{ marginTop: dimens.base }} />
         <ColorsSugestion value={data?.color} onChange={handlePickColor} />

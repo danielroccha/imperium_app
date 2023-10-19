@@ -2,7 +2,7 @@
   "common": {
     "welcome": "Bienvenido",
     "ooops": "¡Ups!",
-    "success":"Sucesso",
+    "success": "Sucesso",
     "example": "Ejemplo",
     "congratulations": "Felicidades",
     "version": "Versión",
@@ -29,7 +29,7 @@
     "expense": "Gastos",
     "value": "Valor"
   },
-  "login":{
+  "login": {
     "forgot_password": "Olvide mi contraseña",
     "create_account": "¿Eres nuevo por aquí? Crea tu cuenta ahora."
   },
@@ -44,7 +44,7 @@
     "current_balance": "Saldo actual",
     "month_balance": "Saldo del Mes",
     "balance_forecast": "Saldo de previsión",
-    "back_to_current_month":  "Volver al mes actual",
+    "back_to_current_month": "Volver al mes actual",
     "recurrences": "Recurrencias",
     "create_transaction": "Hacer liberación",
     "categories": "Categorías",
@@ -60,7 +60,7 @@
     "current_month_title": "Saldo actual:",
     "current_month": "Es la suma del último saldo del mes pasado %{lastBalance} más (ingresos - gastos) del mes actual. Por ejemplo, si en mayo de 2022 tuviste ingresos de %{income} y %{expense} de gastos, tu saldo del mes será %{currentBalance}.",
     "next_month_title": "Saldo de previsión:",
-    "next_month":  "Es la resta de (ingresos - gastos). Por ejemplo, si en junio de 2022 se pronostica que tendrá un ingreso total de %{income} y %{expense} de gastos, su saldo previsto será %{currentBalance}."
+    "next_month": "Es la resta de (ingresos - gastos). Por ejemplo, si en junio de 2022 se pronostica que tendrá un ingreso total de %{income} y %{expense} de gastos, su saldo previsto será %{currentBalance}."
   },
   "categories": {
     "categories": "Categorías",
@@ -68,6 +68,8 @@
     "categories_suggestions": "Sugerencias de categoría",
     "create_category": "Registrar Categoría",
     "edit_category": "Editar categoria",
+    "budget": "Presupuesto",
+    "set_spending_limit_for_that_category": "Establezca un límite de gasto para esa categoría",
     "suggestions": {
       "salary": "Salario",
       "bonus": "Prima",
@@ -87,6 +89,10 @@
       "alimentation": "Alimentación"
     }
   },
+  "notifications": {
+    "daily_title": "No pierdas el control de tus gastos.😁",
+    "daily_message": "Es importante que realices tus anotaciones para no perder el control de tus gastos. Reserva tiempo en tu día para esto."
+  },
   "profile": {
     "change_currency": "Cambiar moneda",
     "instagram": "Síguenos en Instagram",
@@ -98,14 +104,14 @@
     "delete_account": "Borrar cuenta",
     "si_desea_continuar_escriba_eliminar_en_el_campo_de_abajo": "Si desea continuar escriba BORRAR en el campo de abajo."
   },
- "deprecated_version": {
+  "deprecated_version": {
     "old_version": "Esta versión es demasiado antigua.",
     "update_to_new_features": "Actualice para obtener nuevas características y mejoras.",
     "click_the_button_below_to_update_your_app": "Simplemente haga clic en el botón de abajo para actualizar su aplicación.",
     "update_version": "Versión actualizada"
   },
   "connection": {
-   "no_connection": "Sin conexión a Internet",
+    "no_connection": "Sin conexión a Internet",
     "check_your_connection": "¡Verifique su conexión!"
   },
   "fields": {
@@ -158,7 +164,7 @@
     "lets_go": "¿Vamos?",
     "next": "Próximo",
     "skip": "Saltar",
-    "yes":"Yes",
+    "yes": "Yes",
     "no": "No",
     "save": "Ahorrar",
     "update": "Actualizar",
@@ -347,7 +353,7 @@
     "yemeni_rial": "Rial yemení",
     "zambian_kwacha": "Kwacha de Zambia"
   },
-  "alerts":{
+  "alerts": {
     "remove_transaction_title": "Remove Transaction",
     "remove_transaction_description": "Are you sure you want to remove this transaction?",
     "remove_recurrence_title": "Remove this recurrence?",
@@ -371,5 +377,5 @@
     "ERROR_USER_0001": "Invalid verification code.",
     "ERROR_USER_0002": "Passwords are different.",
     "ERROR_USER_0003": "Account inactive."
-   }
+  }
 }

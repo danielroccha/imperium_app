@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import Storage from "@app/configs/storage";
+import Storage, { KEYS } from "@app/configs/storage";
 import enviroments from "@app/configs/enviroment";
 
 import { logOut } from "@app/features/Login/data/loginActions";
@@ -18,7 +18,8 @@ export class Axios {
   static get request() {
     return api.interceptors.request.use(
       async config => {
-        const accessToken = await Storage.getApiKey();
+        const accessToken = await Storage.get(KEYS.TOKEN);
+        console.log(accessToken);
         const headers = {
           ...config.headers,
           Authorization: `Bearer ${accessToken}`,
@@ -44,8 +45,8 @@ export class Axios {
 
           if (err?.response?.status === 401) {
             try {
-              const accessToken = Storage.getApiKey();
-              const refreshToken = Storage.getRefreshToken();
+              const accessToken = Storage.get(KEYS.TOKEN);
+              const refreshToken = Storage.get(KEYS.REFRESH_TOKEN);
               const body = { accessToken, refreshToken };
               const response = await axios.post(
                 `${enviroments().api}/authentication/refresh-token`,
@@ -53,8 +54,8 @@ export class Axios {
               );
               if (response.status === 200) {
                 const { data } = response;
-                Storage.saveApiKey(data.accessToken);
-                Storage.saveRefreshToken(data.refreshToken);
+                Storage.save(KEYS.TOKEN, data.accessToken);
+                Storage.save(KEYS.REFRESH_TOKEN, data.refreshToken);
 
                 const configRetryRequest = {
                   ...err.response.config,

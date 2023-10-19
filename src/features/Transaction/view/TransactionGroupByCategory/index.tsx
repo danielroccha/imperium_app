@@ -22,6 +22,8 @@ import { lotties } from "@app/assets";
 import Util from "@app/util";
 import { RootState } from "@app/configs/store";
 import { useSelector } from "react-redux";
+import Divide from "@app/components/atoms/Divide";
+import styles from "./styles";
 
 type Chart = {
   id: string;
@@ -60,37 +62,56 @@ const TransactionsGroupByCategory = () => {
   };
 
   const renderItem = ({ item }: { item: ITransactionByCategoryModel }) => {
+    let percentageExpense = 0;
+    if (item.categoryLimit) {
+      percentageExpense = Math.round(
+        (item.value * 100) / (item.categoryLimit ?? 0),
+      );
+    }
+
     return (
-      <Card
-        style={{
-          flexDirection: "row",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
-          padding: dimens.small,
-          marginBottom: dimens.small,
-        }}>
-        <View style={{ flexDirection: "row" }}>
-          <View
-            style={{
-              width: 18,
-              height: 18,
-              backgroundColor: item.color,
-              borderRadius: 9,
-              marginRight: dimens.small,
-            }}
-          />
-          <Body>{item.name}</Body>
+      <Card style={styles().cardItem}>
+        <View style={styles().topContainer}>
+          <View style={{ flexDirection: "row", flex: 1 }}>
+            <View
+              style={[styles().circleColor, { backgroundColor: item.color }]}
+            />
+            <Body>{item.name}</Body>
+          </View>
+          <Body>{`${Util.formatToMoney(item.value, profile?.currency)}`}</Body>
         </View>
-        <Body>{`${Util.formatToMoney(item.value, profile?.currency)}`}</Body>
+        {item.categoryLimit && (
+          <>
+            <Divide stylesDivide={styles().divide} />
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}>
+              <View style={styles(theme).placeholderBar}>
+                <View
+                  style={[
+                    styles(theme).bar,
+                    {
+                      backgroundColor: item.color,
+                      width: `${percentageExpense}%`,
+                    },
+                  ]}
+                />
+              </View>
+              <Caption>{`${percentageExpense}%`}</Caption>
+            </View>
+            <Caption>{`${I18n.t("categories.budget")}: ${Util.formatToMoney(
+              item.categoryLimit,
+              profile?.currency,
+            )}`}</Caption>
+          </>
+        )}
       </Card>
     );
   };
-
-  // const renderCenterText = () => (
-  //   <View>
-  //     <TextMoney size="regular" animation value={totalValue} />
-  //   </View>
-  // );
 
   useEffect(() => {
     if (data) {
@@ -139,7 +160,6 @@ const TransactionsGroupByCategory = () => {
                 fontWeight="bold"
                 textColor={theme.white}
                 innerRadius={60}
-                donut
                 showText
                 textBackgroundRadius={20}
                 backgroundColor={theme.mode}

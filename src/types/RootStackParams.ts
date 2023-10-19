@@ -46,6 +46,7 @@ type RootStackParamList = {
 
   ProfileStack: undefined;
   CurrencyList: undefined;
+  Avatars: undefined;
 };
 
 type RootStackNavigation = NativeStackNavigationProp<RootStackParamList>;

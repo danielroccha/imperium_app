@@ -11,7 +11,7 @@ export default (theme: AvailableColors) =>
       paddingHorizontal: dimens.small,
       height: 50,
       ...getShadow(4),
-      backgroundColor: theme.contrastMode,
+      backgroundColor: theme.mode,
       zIndex: 999,
     },
   });

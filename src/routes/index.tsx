@@ -8,7 +8,7 @@ import HomeStack from "@app/routes/stacks/HomeStack";
 import { RootState } from "@app/configs/store";
 import { changeAuthenticationFlow } from "@app/features/Login/data/loginActions";
 
-import storage from "@app/configs/storage";
+import storage, { KEYS } from "@app/configs/storage";
 import LoadingPage from "@app/components/pages/LoadingPage";
 
 const Stack = createNativeStackNavigator();
@@ -36,7 +36,7 @@ const RootStack = () => {
   const dispatch = useDispatch();
 
   const checkTokenExists = useCallback(async () => {
-    const apiKey = await storage.getApiKey();
+    const apiKey = await storage.get(KEYS.TOKEN);
     if (apiKey) {
       setToken(apiKey);
       dispatch<any>(changeAuthenticationFlow("AUTHENTICATED"));
